@@ -21,11 +21,13 @@
       };
 
       MyRouter.prototype.index = function() {
-        return console.log("Index route has been called...");
+        console.log("show index..");
+        return $("#contentbar").html("Home page.");
       };
 
       MyRouter.prototype.showSteps = function() {
         var element;
+        $("#contentbar").html("<div id=\"step_display\" data-role=\"content\">\n\n		    </div>");
         console.log("show steps");
         this.list = new StepList;
         this.list.add(new Step({
@@ -46,7 +48,8 @@
         element = this.listview.render().el;
         $('#step_display').html(element);
         $('#step_display > div').collapsibleset();
-        return $('input').textinput();
+        $('.textinput').textinput();
+        return $('[type="submit"]').button();
       };
 
       return MyRouter;
@@ -120,7 +123,7 @@
       StepView.prototype.initialize = function() {
         var temp;
         _.bindAll(this);
-        temp = "\n<h3>\n<%= title %> \n</h3>\n\n<div> <i> <%= description %> </i> </div>\n\n\n<!-- add new strategy -->\n\n	<input name=\"\" class=\"textinput\" placeholder=\"Add New\" value=\"\" type=\"text\" data-mini=\"true\">\n	<input type=\"submit\" value=\"Submit\">\n\n\n<!--display old strategies -->\n<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n\n";
+        temp = "\n<h3>\n<%= title %> \n</h3>\n\n<div> <i> <%= description %> </i> </div>\n\n\n<!-- add new strategy -->\n\n	<input name=\"\" class=\"textinput\" placeholder=\"Add New\" value=\"\" type=\"text\" data-mini=\"true\" />\n	<input type=\"submit\" value=\"Submit Button\" />\n<!--display old strategies -->\n<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n\n";
         return this.template = _.template(temp);
       };
 

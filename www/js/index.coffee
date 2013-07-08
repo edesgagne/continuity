@@ -7,10 +7,18 @@ $ ->
 			"steps": "showSteps"
 	
 		index: ->
-			console.log "Index route has been called..."
+			console.log "show index.."
+			$("#contentbar").html """
+				Home page.
+			"""
 	
 		showSteps: ->
-			
+			$("#contentbar").html """
+			<div id="step_display" data-role="content">
+
+		    </div>
+			"""
+						
 			console.log "show steps"
 			@list = new StepList
 			@list.add new Step 
@@ -34,11 +42,12 @@ $ ->
 			#initialize it
 			$('#step_display > div').collapsibleset()
 
-			#refresh it
-			#$('#step_display > div').collapsibleset("refresh")
-			
 			#display text input
-			$('input').textinput();
+			$('.textinput').textinput();
+			
+			#display button
+			$('[type="submit"]').button();
+			
 
 	
 	class window.StepListView extends Backbone.View
@@ -82,10 +91,8 @@ $ ->
 
 			<!-- add new strategy -->
 
-				<input name="" class="textinput" placeholder="Add New" value="" type="text" data-mini="true">
-				<input type="submit" value="Submit">
-
-
+				<input name="" class="textinput" placeholder="Add New" value="" type="text" data-mini="true" />
+				<input type="submit" value="Submit Button" />
 			<!--display old strategies -->
 			<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>
 
