@@ -22,12 +22,12 @@
 
       MyRouter.prototype.index = function() {
         console.log("show index..");
-        return $("#contentbar").html("Home page.");
+        return $('[data-role="content"]').html("Home page.");
       };
 
       MyRouter.prototype.showSteps = function() {
         var element;
-        $("#contentbar").html("<div id=\"step_display\" data-role=\"content\">\n\n		    </div>");
+        $('[data-role="content"]').html("");
         console.log("show steps");
         this.list = new StepList;
         this.list.add(new Step({
@@ -46,8 +46,8 @@
           collection: this.list
         });
         element = this.listview.render().el;
-        $('#step_display').html(element);
-        $('#step_display > div').collapsibleset();
+        $('[data-role="content"]').html(element);
+        $('[data-role="content"] > div').collapsibleset();
         $('.textinput').textinput();
         return $('[type="submit"]').button();
       };
@@ -117,7 +117,8 @@
 
       StepView.prototype.attributes = {
         'data-role': 'collapsible',
-        'data-collapsed': 'true'
+        'data-collapsed': 'true',
+        'data-theme': 'c'
       };
 
       StepView.prototype.initialize = function() {

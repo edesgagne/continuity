@@ -8,15 +8,12 @@ $ ->
 	
 		index: ->
 			console.log "show index.."
-			$("#contentbar").html """
+			$('[data-role="content"]').html """
 				Home page.
 			"""
 	
 		showSteps: ->
-			$("#contentbar").html """
-			<div id="step_display" data-role="content">
-
-		    </div>
+			$('[data-role="content"]').html """
 			"""
 						
 			console.log "show steps"
@@ -37,10 +34,10 @@ $ ->
 			element = @listview.render().el
 			
 			
-			$('#step_display').html element
+			$('[data-role="content"]').html element
 
 			#initialize it
-			$('#step_display > div').collapsibleset()
+			$('[data-role="content"] > div').collapsibleset()
 
 			#display text input
 			$('.textinput').textinput();
@@ -78,6 +75,7 @@ $ ->
 		attributes:
 			'data-role': 'collapsible'
 			'data-collapsed': 'true'
+			'data-theme': 'c'
 		initialize: ->
 			_.bindAll @
 			temp = """
