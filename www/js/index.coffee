@@ -120,5 +120,8 @@ $ ->
 		if href.prop and href.prop.slice(0, root.length) is root
 			evt.preventDefault()
 			Backbone.history.navigate href.attr, true
+		
+		#close the panel
+		$('#myPanel').panel("close")
 
 	

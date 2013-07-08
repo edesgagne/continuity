@@ -165,8 +165,9 @@
       root = location.protocol + "//" + location.host + "/";
       if (href.prop && href.prop.slice(0, root.length) === root) {
         evt.preventDefault();
-        return Backbone.history.navigate(href.attr, true);
+        Backbone.history.navigate(href.attr, true);
       }
+      return $('#myPanel').panel("close");
     });
   });
 
