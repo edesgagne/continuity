@@ -8,9 +8,13 @@ $ ->
 	
 		index: ->
 			console.log "show index.."
+<<<<<<< HEAD
 			
 			#clear everything
 			$('[data-role="content"]').html """
+=======
+			$("#contentbar").html """
+>>>>>>> parent of 45cfffa... added jquery menu (and side bonus: somehow the 15 errors went away...)
 				Home page.
 			"""
 			
@@ -18,10 +22,17 @@ $ ->
 			$('[data-role="header"] > h3').html "Home"
 	
 		showSteps: ->
+<<<<<<< HEAD
 			console.log "show steps"
 			
 			#clear everything
 			$('[data-role="content"]').html """
+=======
+			$("#contentbar").html """
+			<div id="step_display" data-role="content">
+
+		    </div>
+>>>>>>> parent of 45cfffa... added jquery menu (and side bonus: somehow the 15 errors went away...)
 			"""
 				
 			#change header
@@ -52,10 +63,10 @@ $ ->
 			element = @listview.render().el
 			
 			
-			$('[data-role="content"]').html element
+			$('#step_display').html element
 
 			#initialize it
-			$('[data-role="content"] > div').collapsibleset()
+			$('#step_display > div').collapsibleset()
 
 			#display text input
 			$('.textinput').textinput()

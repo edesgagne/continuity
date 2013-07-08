@@ -22,12 +22,20 @@
 
       MyRouter.prototype.index = function() {
         console.log("show index..");
+<<<<<<< HEAD
         $('[data-role="content"]').html("Home page.");
         return $('[data-role="header"] > h3').html("Home");
+=======
+        return $("#contentbar").html("Home page.");
+>>>>>>> parent of 45cfffa... added jquery menu (and side bonus: somehow the 15 errors went away...)
       };
 
       MyRouter.prototype.showSteps = function() {
         var element;
+<<<<<<< HEAD
+=======
+        $("#contentbar").html("<div id=\"step_display\" data-role=\"content\">\n\n		    </div>");
+>>>>>>> parent of 45cfffa... added jquery menu (and side bonus: somehow the 15 errors went away...)
         console.log("show steps");
         $('[data-role="content"]').html("");
         $('[data-role="header"] > h3').html("Steps");
@@ -56,8 +64,8 @@
           collection: this.list
         });
         element = this.listview.render().el;
-        $('[data-role="content"]').html(element);
-        $('[data-role="content"] > div').collapsibleset();
+        $('#step_display').html(element);
+        $('#step_display > div').collapsibleset();
         $('.textinput').textinput();
         return $('[type="submit"]').button();
       };
