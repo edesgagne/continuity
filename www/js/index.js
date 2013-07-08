@@ -22,50 +22,32 @@
 
       MyRouter.prototype.index = function() {
         console.log("show index..");
-<<<<<<< HEAD
-        $('[data-role="content"]').html("Home page.");
-        return $('[data-role="header"] > h3').html("Home");
-=======
-        return $("#contentbar").html("Home page.");
->>>>>>> parent of 45cfffa... added jquery menu (and side bonus: somehow the 15 errors went away...)
+        return $('[data-role="content"]').html("Home page.");
       };
 
       MyRouter.prototype.showSteps = function() {
         var element;
-<<<<<<< HEAD
-=======
-        $("#contentbar").html("<div id=\"step_display\" data-role=\"content\">\n\n		    </div>");
->>>>>>> parent of 45cfffa... added jquery menu (and side bonus: somehow the 15 errors went away...)
-        console.log("show steps");
         $('[data-role="content"]').html("");
-        $('[data-role="header"] > h3').html("Steps");
+        console.log("show steps");
         this.list = new StepList;
         this.list.add(new Step({
           title: 'Step 1: Warning Signs',
-          description: 'Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:',
-          fields: ['warning sign']
+          description: 'Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:'
         }));
         this.list.add(new Step({
           title: 'Step 2: Coping Strategies',
-          description: 'Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):',
-          fields: ['coping strategy']
+          description: 'Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):'
         }));
         this.list.add(new Step({
-          title: 'Step 3: People',
-          description: 'People that provide distraction:',
-          fields: ['name', 'phone number']
-        }));
-        this.list.add(new Step({
-          title: 'Step 4: Settings',
-          description: 'Social settings that provide distraction:',
-          fields: ['place']
+          title: 'Step 3: People & Settings',
+          description: 'People and social settings that provide distraction:'
         }));
         this.listview = new StepListView({
           collection: this.list
         });
         element = this.listview.render().el;
-        $('#step_display').html(element);
-        $('#step_display > div').collapsibleset();
+        $('[data-role="content"]').html(element);
+        $('[data-role="content"] > div').collapsibleset();
         $('.textinput').textinput();
         return $('[type="submit"]').button();
       };
@@ -135,13 +117,14 @@
 
       StepView.prototype.attributes = {
         'data-role': 'collapsible',
-        'data-collapsed': 'true'
+        'data-collapsed': 'true',
+        'data-theme': 'c'
       };
 
       StepView.prototype.initialize = function() {
         var temp;
         _.bindAll(this);
-        temp = "\n<h3>\n<%= title %> \n</h3>\n\n<div style=\"font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px\"> \n<%= description %>\n</div>\n\n\n<!-- add new strategy -->\n<% _.each(fields, function(field) { %> \n	<input name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n<% }); %>\n	\n<input type=\"submit\" value=\"Submit\" />\n\n\n\n\n<!--display old strategies -->\n<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n\n";
+        temp = "\n<h3>\n<%= title %> \n</h3>\n\n<div> <i> <%= description %> </i> </div>\n\n\n<!-- add new strategy -->\n\n	<input name=\"\" class=\"textinput\" placeholder=\"Add New\" value=\"\" type=\"text\" data-mini=\"true\" />\n	<input type=\"submit\" value=\"Submit Button\" />\n<!--display old strategies -->\n<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n\n";
         return this.template = _.template(temp);
       };
 
@@ -166,7 +149,6 @@
       Step.prototype.defaults = {
         title: 'Step 0',
         description: 'Write some strategies.',
-        fields: [],
         strategies: []
       };
 
