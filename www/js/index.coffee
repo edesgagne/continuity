@@ -3,10 +3,10 @@ $ ->
 	
 	class window.MyRouter extends Backbone.Router
 		routes:
-			"": "index"
-			"steps": "showSteps"
+			"": "showHome"
+			"safety": "showSafety"
 	
-		index: ->
+		showHome: ->
 			#log
 			console.log "show index.."
 			
@@ -18,7 +18,7 @@ $ ->
 			#change header
 			$('[data-role="header"] > h3').html "Home"	
 	
-		showSteps: ->
+		showSafety: ->
 			#log
 			console.log "show steps"
 			
@@ -27,24 +27,28 @@ $ ->
 			"""
 					
 			#change header
-			$('[data-role="header"] > h3').html "Steps"	
+			$('[data-role="header"] > h3').html "Safety Planning"	
 			
 			#change content
 			@list = new StepList
 			@list.add new Step 
-				title: 'Step 1: Warning Signs'
+				step_num: 1
+				title: 'Warning Signs'
 				description: 'Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:'
 				fields: ['warning sign']
 			@list.add new Step 
-				title: 'Step 2: Coping Strategies'
+				step_num: 2
+				title: 'Coping Strategies'
 				description: 'Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):'
 				fields: ['coping strategy']
 			@list.add new Step 
-				title: 'Step 3: People'
+				step_num: 3
+				title: 'People'
 				description: 'People that provide distraction:'
 				fields: ['name', 'phone number']
 			@list.add new Step 
-				title: 'Step 4: Settings'
+				step_num: 4
+				title: 'Settings'
 				description: 'Social settings that provide distraction:'
 				fields: ['place']
 			@listview = new StepListView {collection: @list}
@@ -90,16 +94,19 @@ $ ->
 
 
 	class window.StepView extends Backbone.View
+		
 		tagName: 'div'
 		attributes:
 			'data-role': 'collapsible'
 			'data-collapsed': 'true'
+		events:
+			"click .submit": "clicked"
 		initialize: ->
 			_.bindAll @
 			temp = """
 
 			<h3>
-			<%= title %> 
+			<%= step_num %> : <%= title %>
 			</h3>
 
 			<div style="font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px"> 
@@ -112,7 +119,7 @@ $ ->
 				<input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
 			<% }); %>
 
-			<input type="submit" value="Submit" />
+			<input id="<%= step_num %>" class="submit" type="submit" value="Submit" />
 
 
 
@@ -129,27 +136,46 @@ $ ->
 			content = @template(@model.toJSON())
 			$(@el).html content
 			@ #return itself
+		
+		clicked: (e) =>
+			e.preventDefault()
+			output = []
+			$(@el).find('.textinput').each ->
+				output.push $(this).val()
+			#@model.addStrategy output
+			#console.log @model.get('strategies').toString()
 
 	class window.Step extends Backbone.Model
 		defaults:
-			title: 'Step 0'
+			step_num: 0
+			title: ''
 			description: 'Write some strategies.'
 			fields: []
 			strategies: []
+		# addStrategy: (output_array) ->
+		# 	@save
+		# 		strategies: @get('strategies').push output_array
 
-	new MyRouter
-	Backbone.history.start()
-	$(document).on "click", "a:not([data-bypass])", (evt) ->
-		href =
-			prop: $(this).prop("href")
-			attr: $(this).attr("href")
+	class window.App extends Backbone.Model
+		initialize: ->	
+			new MyRouter
+			Backbone.history.start()
+			@initMenu()
+			
+		initMenu: ->
+			#whenever a link in the menu is clicked
+			#it tells the backbone router to navigate there
+			$(document).on "click", "a:not([data-bypass])", (evt) ->
+				href =
+					prop: $(this).prop("href")
+					attr: $(this).attr("href")
 
-		root = location.protocol + "//" + location.host + "/"
-		if href.prop and href.prop.slice(0, root.length) is root
-			evt.preventDefault()
-			Backbone.history.navigate href.attr, true
+				root = location.protocol + "//" + location.host + "/"
+				if href.prop and href.prop.slice(0, root.length) is root
+					evt.preventDefault()
+					Backbone.history.navigate href.attr, true
 		
-		#close the panel
-		$('#myPanel').panel("close")
+				#close the panel
+				$('#myPanel').panel("close")
 
-	
+	app = new App
