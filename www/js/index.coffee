@@ -7,29 +7,48 @@ $ ->
 			"steps": "showSteps"
 	
 		index: ->
+			#log
 			console.log "show index.."
+			
+			#clear everything
 			$('[data-role="content"]').html """
 				Home page.
 			"""
+			
+			#change header
+			$('[data-role="header"] > h3').html "Home"	
 	
 		showSteps: ->
+			#log
+			console.log "show steps"
+			
+			#clear everything
 			$('[data-role="content"]').html """
 			"""
-						
-			console.log "show steps"
+					
+			#change header
+			$('[data-role="header"] > h3').html "Steps"	
+			
+			#change content
 			@list = new StepList
 			@list.add new Step 
 				title: 'Step 1: Warning Signs'
 				description: 'Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:'
+				fields: ['warning sign']
 			@list.add new Step 
 				title: 'Step 2: Coping Strategies'
 				description: 'Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):'
+				fields: ['coping strategy']
 			@list.add new Step 
-				title: 'Step 3: People & Settings'
-				description: 'People and social settings that provide distraction:'
+				title: 'Step 3: People'
+				description: 'People that provide distraction:'
+				fields: ['name', 'phone number']
+			@list.add new Step 
+				title: 'Step 4: Settings'
+				description: 'Social settings that provide distraction:'
+				fields: ['place']
 			@listview = new StepListView {collection: @list}
-			
-			
+
 
 			element = @listview.render().el
 			
@@ -83,13 +102,21 @@ $ ->
 			<%= title %> 
 			</h3>
 
-			<div> <i> <%= description %> </i> </div>
+			<div style="font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px"> 
+			<%= description %>
+			</div>
 
 
 			<!-- add new strategy -->
+			<% _.each(fields, function(field) { %> 
+				<input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
+			<% }); %>
 
-				<input name="" class="textinput" placeholder="Add New" value="" type="text" data-mini="true" />
-				<input type="submit" value="Submit Button" />
+			<input type="submit" value="Submit" />
+
+
+
+
 			<!--display old strategies -->
 			<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>
 
@@ -107,6 +134,7 @@ $ ->
 		defaults:
 			title: 'Step 0'
 			description: 'Write some strategies.'
+			fields: []
 			strategies: []
 
 	new MyRouter
