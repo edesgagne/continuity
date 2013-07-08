@@ -5,7 +5,7 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   $(function() {
-    var app, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
+    var _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
     console.log("ready");
     window.MyRouter = (function(_super) {
       __extends(MyRouter, _super);
@@ -184,7 +184,7 @@
       return Step;
 
     })(Backbone.Model);
-    window.App = (function(_super) {
+    return window.App = (function(_super) {
       __extends(App, _super);
 
       function App() {
@@ -217,7 +217,6 @@
       return App;
 
     })(Backbone.Model);
-    return app = new App;
   });
 
 }).call(this);

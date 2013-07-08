@@ -178,4 +178,4 @@ $ ->
 				#close the panel
 				$('#myPanel').panel("close")
 
-	app = new App
+	#app = new App
