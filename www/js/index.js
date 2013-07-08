@@ -117,8 +117,7 @@
 
       StepView.prototype.attributes = {
         'data-role': 'collapsible',
-        'data-collapsed': 'true',
-        'data-theme': 'c'
+        'data-collapsed': 'true'
       };
 
       StepView.prototype.initialize = function() {

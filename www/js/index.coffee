@@ -75,7 +75,6 @@ $ ->
 		attributes:
 			'data-role': 'collapsible'
 			'data-collapsed': 'true'
-			'data-theme': 'c'
 		initialize: ->
 			_.bindAll @
 			temp = """

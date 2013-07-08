@@ -33,9 +33,9 @@
 		<div data-role="page">
 			
 			<!--panel -->
-		    <div data-role="panel" id="myPanel" data-display="push" data-theme="c">
+		    <div data-role="panel" id="myPanel" data-display="push">
 			
-				<ul data-role="listview" data-theme="c" class="nav-search">
+				<ul data-role="listview" class="nav-search">
 				            <li><a href="#">Home</a></li>
 				            <li><a href="#steps">Steps</a></li>
 				</ul>
@@ -46,9 +46,9 @@
 		
 		
 			<!--header -->
-		    <div data-role="header" class="header" data-position="fixed" role="banner" data-theme="c">
+		    <div data-role="header" class="header" data-position="fixed" role="banner">
 		        <h3>Every Day</h3>
-		        <a href="#myPanel">Menu</a>
+		        <a href="#myPanel" data-icon="bars" data-iconpos="notext"></a>
 		    </div>
 		
 		<!--content -->
@@ -80,3 +80,4 @@
 <!--fixed router using backbone.navigate-->
 <!--added buttons in menu bar and separated into menu and content-->
 <!--added jquery menu (and side bonus: somehow the 15 errors went away...)-->
+<!--shortened width of menu-->
