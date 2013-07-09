@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['lib/backbone', 'jquery', 'models/step', 'collections/steplist', 'views/stepview'], function(Backbone, $, Step, StepList, StepView) {
+  define(['underscore', 'lib/backbone'], function(_, Backbone) {
     var _ref;
     return window.MyRouter = (function(_super) {
       __extends(MyRouter, _super);
@@ -18,49 +18,11 @@
       };
 
       MyRouter.prototype.routes = {
-        "": "showHome",
-        "safety": "showSafety"
+        "": "showHome"
       };
 
       MyRouter.prototype.showHome = function() {
-        console.log("show home..");
-        $('[data-role="content"]').html("Home page.");
-        return $('[data-role="header"] > h3').html("Home");
-      };
-
-      MyRouter.prototype.showSafety = function() {
-        console.log("show safety..");
-        $('[data-role="content"]').html("Safety page.");
-        $('[data-role="header"] > h3').html("Safety");
-        this.list = new StepList;
-        this.list.add(new Step({
-          step_num: 1,
-          title: 'Warning Signs',
-          description: 'Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:',
-          fields: ['warning sign']
-        }));
-        this.list.add(new Step({
-          step_num: 2,
-          title: 'Coping Strategies',
-          description: 'Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):',
-          fields: ['coping strategy']
-        }));
-        this.list.add(new Step({
-          step_num: 3,
-          title: 'People',
-          description: 'People that provide distraction:',
-          fields: ['name', 'phone number']
-        }));
-        this.list.add(new Step({
-          step_num: 4,
-          title: 'Settings',
-          description: 'Social settings that provide distraction:',
-          fields: ['place']
-        }));
-        this.stepview = new StepView({
-          model: new Step
-        });
-        return console.log(this.stepview.render().el);
+        return console.log("show home..");
       };
 
       return MyRouter;

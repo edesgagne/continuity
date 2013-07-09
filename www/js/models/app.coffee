@@ -1,10 +1,10 @@
 #define ['lib/backbone', 'jquery', 'routers/myrouter'], (Backbone, $, MyRouter) ->
-define ['underscore', 'lib/backbone', 'jquerymobile'], (_, Backbone, Mobile) ->
+define ['jquery', 'underscore', 'lib/backbone', 'jquerymobile', 'routers/myrouter'], ($, _, Backbone, Mobile, MyRouter) ->
 	class window.App extends Backbone.Model
 		initialize: ->	
 			console.log "app"
-		#	router = new MyRouter
-	 		#Backbone.history.start()
+			router = new MyRouter
+			Backbone.history.start()
 		# 	@initMenu()
 		# 
 		# initMenu: ->

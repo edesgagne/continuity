@@ -18,7 +18,7 @@
     }
   });
 
-  require(['models/app', "underscore"], function() {
+  require(['models/app'], function() {
     var app;
     return app = new App;
   });

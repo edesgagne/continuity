@@ -11,5 +11,5 @@ require.config
 		"lib/backbone":
 			exports: "Backbone"
 			
-require ['models/app', "underscore"], ->
+require ['models/app'], ->
 	app = new App
