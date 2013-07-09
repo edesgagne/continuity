@@ -22,10 +22,19 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Back
 		
 		
 			<!-- add new strategy -->
+				
 			<% _.each(fields, function(field) { %> 
-				<input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
-			<% }); %>
+			
+			
+				<% if (field == "phone number") { %>
+				    <input type="tel" name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
+			    
+				<% } else { %>
+				    <input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
+				
+				<% } %>
 		
+			<% }); %>
 			<input id="<%= step_num %>" class="submit" type="submit" value="Submit" />
 		
 		
