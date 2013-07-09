@@ -5,7 +5,7 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   $(function() {
-    var _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
+    var _ref, _ref1, _ref2;
     console.log("ready");
     window.MyRouter = (function(_super) {
       __extends(MyRouter, _super);
@@ -105,27 +105,14 @@
       return StepListView;
 
     })(Backbone.View);
-    window.StepList = (function(_super) {
-      __extends(StepList, _super);
-
-      function StepList() {
-        _ref2 = StepList.__super__.constructor.apply(this, arguments);
-        return _ref2;
-      }
-
-      StepList.prototype.model = window.Step;
-
-      return StepList;
-
-    })(Backbone.Collection);
-    window.StepView = (function(_super) {
+    return window.StepView = (function(_super) {
       __extends(StepView, _super);
 
       function StepView() {
         this.clicked = __bind(this.clicked, this);
         this.render = __bind(this.render, this);
-        _ref3 = StepView.__super__.constructor.apply(this, arguments);
-        return _ref3;
+        _ref2 = StepView.__super__.constructor.apply(this, arguments);
+        return _ref2;
       }
 
       StepView.prototype.tagName = 'div';
@@ -165,58 +152,6 @@
       return StepView;
 
     })(Backbone.View);
-    window.Step = (function(_super) {
-      __extends(Step, _super);
-
-      function Step() {
-        _ref4 = Step.__super__.constructor.apply(this, arguments);
-        return _ref4;
-      }
-
-      Step.prototype.defaults = {
-        step_num: 0,
-        title: '',
-        description: 'Write some strategies.',
-        fields: [],
-        strategies: []
-      };
-
-      return Step;
-
-    })(Backbone.Model);
-    return window.App = (function(_super) {
-      __extends(App, _super);
-
-      function App() {
-        _ref5 = App.__super__.constructor.apply(this, arguments);
-        return _ref5;
-      }
-
-      App.prototype.initialize = function() {
-        new MyRouter;
-        Backbone.history.start();
-        return this.initMenu();
-      };
-
-      App.prototype.initMenu = function() {
-        return $(document).on("click", "a:not([data-bypass])", function(evt) {
-          var href, root;
-          href = {
-            prop: $(this).prop("href"),
-            attr: $(this).attr("href")
-          };
-          root = location.protocol + "//" + location.host + "/";
-          if (href.prop && href.prop.slice(0, root.length) === root) {
-            evt.preventDefault();
-            Backbone.history.navigate(href.attr, true);
-          }
-          return $('#myPanel').panel("close");
-        });
-      };
-
-      return App;
-
-    })(Backbone.Model);
   });
 
 }).call(this);

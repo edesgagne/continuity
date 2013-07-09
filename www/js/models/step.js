@@ -3,21 +3,25 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'lib/backbone', 'jquerymobile'], function(_, Backbone, Mobile) {
+  define(['lib/backbone'], function(Backbone) {
     var _ref;
-    return window.App = (function(_super) {
-      __extends(App, _super);
+    return window.Step = (function(_super) {
+      __extends(Step, _super);
 
-      function App() {
-        _ref = App.__super__.constructor.apply(this, arguments);
+      function Step() {
+        _ref = Step.__super__.constructor.apply(this, arguments);
         return _ref;
       }
 
-      App.prototype.initialize = function() {
-        return console.log("app");
+      Step.prototype.defaults = {
+        step_num: 0,
+        title: '',
+        description: 'Write some strategies.',
+        fields: [],
+        strategies: []
       };
 
-      return App;
+      return Step;
 
     })(Backbone.Model);
   });

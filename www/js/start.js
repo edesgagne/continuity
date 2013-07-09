@@ -3,6 +3,7 @@
   require.config({
     paths: {
       'jquery': 'lib/jquery-1.8.3',
+      'jquerymobile': 'lib/jquery-mobile/jquery.mobile-1.3.1',
       'underscore': 'lib/underscore',
       'backbone': 'lib/backbone',
       'parse': 'lib/parse-1.2.8'
@@ -17,7 +18,7 @@
     }
   });
 
-  require(['models/app'], function() {
+  require(['models/app', "underscore"], function() {
     var app;
     return app = new App;
   });

@@ -87,10 +87,10 @@ $ ->
 			#console.log "render", element
 			$(@el).append element
 			#console.log "el", $(@el).html()
-
-	class window.StepList extends Backbone.Collection
-		model: window.Step
-		#parse: ->
+	# 
+	# class window.StepList extends Backbone.Collection
+	# 	model: window.Step
+	# 	#parse: ->
 
 
 	class window.StepView extends Backbone.View
@@ -145,37 +145,37 @@ $ ->
 			#@model.addStrategy output
 			#console.log @model.get('strategies').toString()
 
-	class window.Step extends Backbone.Model
-		defaults:
-			step_num: 0
-			title: ''
-			description: 'Write some strategies.'
-			fields: []
-			strategies: []
+	# class window.Step extends Backbone.Model
+	# 	defaults:
+	# 		step_num: 0
+	# 		title: ''
+	# 		description: 'Write some strategies.'
+	# 		fields: []
+	# 		strategies: []
 		# addStrategy: (output_array) ->
 		# 	@save
 		# 		strategies: @get('strategies').push output_array
 
-	class window.App extends Backbone.Model
-		initialize: ->	
-			new MyRouter
-			Backbone.history.start()
-			@initMenu()
-			
-		initMenu: ->
-			#whenever a link in the menu is clicked
-			#it tells the backbone router to navigate there
-			$(document).on "click", "a:not([data-bypass])", (evt) ->
-				href =
-					prop: $(this).prop("href")
-					attr: $(this).attr("href")
-
-				root = location.protocol + "//" + location.host + "/"
-				if href.prop and href.prop.slice(0, root.length) is root
-					evt.preventDefault()
-					Backbone.history.navigate href.attr, true
-		
-				#close the panel
-				$('#myPanel').panel("close")
+	# class window.App extends Backbone.Model
+	# 	initialize: ->	
+	# 		new MyRouter
+	# 		Backbone.history.start()
+	# 		@initMenu()
+	# 		
+	# 	initMenu: ->
+	# 		#whenever a link in the menu is clicked
+	# 		#it tells the backbone router to navigate there
+	# 		$(document).on "click", "a:not([data-bypass])", (evt) ->
+	# 			href =
+	# 				prop: $(this).prop("href")
+	# 				attr: $(this).attr("href")
+	# 
+	# 			root = location.protocol + "//" + location.host + "/"
+	# 			if href.prop and href.prop.slice(0, root.length) is root
+	# 				evt.preventDefault()
+	# 				Backbone.history.navigate href.attr, true
+	# 	
+	# 			#close the panel
+	# 			$('#myPanel').panel("close")
 
 	#app = new App
