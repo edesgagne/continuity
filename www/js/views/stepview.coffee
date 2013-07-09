@@ -37,7 +37,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Back
 		
 			"""
 			@template = _.template temp
-		
+			
+			@render()
 		
 		render: =>
 			content = @template(@model.toJSON())

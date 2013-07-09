@@ -16,7 +16,7 @@
       Step.prototype.defaults = {
         step_num: 0,
         title: '',
-        description: 'Write some strategies.',
+        description: '',
         fields: [],
         strategies: []
       };

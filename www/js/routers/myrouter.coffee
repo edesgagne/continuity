@@ -8,30 +8,32 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone', 'models/step', 'coll
 			"": "showHome"
 			"safety": "showSafety"
 		showHome: ->
+			title = "Home"
+			
 			#log
-			console.log "show home.."
+			console.log "show " + title
 			
 			#clear everything
-			$('[data-role="content"]').html """
-				Home page.
-			"""
+			$('[data-role="content"]').html title + " page"
 			
 			#change header
-			$('[data-role="header"] > h3').html "Home"
+			$('[data-role="header"] > h3').html title
 		showSafety: ->
+			title = "Safety Planning"
+			
 			#log
-			console.log "show safety.."
+			console.log "show " + title
 			
 			#clear everything
 			$('[data-role="content"]').html """
-				Safety page.
 			"""
 			
 			#change header
-			$('[data-role="header"] > h3').html "Safety"
+			$('[data-role="header"] > h3').html title
 			
 			#change content
 			@list = new StepList
+			
 			@list.add new Step 
 				step_num: 1
 				title: 'Warning Signs'
@@ -55,16 +57,11 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone', 'models/step', 'coll
 						
 			@listview = new StepListView {collection: @list}
 						
-			element = @listview.render().el
-			
+			element = @listview.el
 			
 			$('[data-role="content"]').html element
 
-			#initialize it
+			#initialize everything to make it styled with jquery mobile
 			$('[data-role="content"] > div').collapsibleset()
-
-			#display text input
 			$('.textinput').textinput();
-			
-			#display button
 			$('[type="submit"]').button();

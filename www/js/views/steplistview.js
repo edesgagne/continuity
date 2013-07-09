@@ -21,7 +21,7 @@
 
       StepListView.prototype.initialize = function() {
         _.bindAll(this);
-        return this.render;
+        return this.render();
       };
 
       StepListView.prototype.render = function() {
@@ -34,7 +34,7 @@
         stepView = new window.StepView({
           model: step
         });
-        element = stepView.render().el;
+        element = stepView.el;
         return $(this.el).append(element);
       };
 

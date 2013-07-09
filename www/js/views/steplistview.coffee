@@ -5,14 +5,14 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Back
 			'data-role': 'collapsible-set'
 		initialize: ->
 			_.bindAll @
-			@render
+			@render()
 		render: ->
 			#console.log @collection
 			@collection.each @renderEach, @
-			@
+			@ #returns itself
 		renderEach: (step) ->
 			stepView = new window.StepView {model: step}
-			element = stepView.render().el
+			element = stepView.el
 			#console.log "render", element
 			$(@el).append element
 			#console.log "el", $(@el).html()

@@ -3,6 +3,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Back
 		defaults:
 			step_num: 0
 			title: ''
-			description: 'Write some strategies.'
+			description: ''
 			fields: []
 			strategies: []

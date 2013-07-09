@@ -13,7 +13,7 @@
         return _ref;
       }
 
-      StepList.prototype.model = window.Step;
+      StepList.prototype.model = Step;
 
       return StepList;
 

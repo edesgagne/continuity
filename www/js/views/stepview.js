@@ -31,7 +31,8 @@
         var temp;
         _.bindAll(this);
         temp = "\n	<h3>\n	<%= step_num %> : <%= title %>\n	</h3>\n\n	<div style=\"font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px\"> \n	<%= description %>\n	</div>\n\n\n	<!-- add new strategy -->\n	<% _.each(fields, function(field) { %> \n		<input name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n	<% }); %>\n\n	<input id=\"<%= step_num %>\" class=\"submit\" type=\"submit\" value=\"Submit\" />\n\n\n\n\n	<!--display old strategies -->\n	<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n\n";
-        return this.template = _.template(temp);
+        this.template = _.template(temp);
+        return this.render();
       };
 
       StepView.prototype.render = function() {

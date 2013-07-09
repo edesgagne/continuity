@@ -23,16 +23,19 @@
       };
 
       MyRouter.prototype.showHome = function() {
-        console.log("show home..");
-        $('[data-role="content"]').html("Home page.");
-        return $('[data-role="header"] > h3').html("Home");
+        var title;
+        title = "Home";
+        console.log("show " + title);
+        $('[data-role="content"]').html(title + " page");
+        return $('[data-role="header"] > h3').html(title);
       };
 
       MyRouter.prototype.showSafety = function() {
-        var element;
-        console.log("show safety..");
-        $('[data-role="content"]').html("Safety page.");
-        $('[data-role="header"] > h3').html("Safety");
+        var element, title;
+        title = "Safety Planning";
+        console.log("show " + title);
+        $('[data-role="content"]').html("");
+        $('[data-role="header"] > h3').html(title);
         this.list = new StepList;
         this.list.add(new Step({
           step_num: 1,
@@ -61,7 +64,7 @@
         this.listview = new StepListView({
           collection: this.list
         });
-        element = this.listview.render().el;
+        element = this.listview.el;
         $('[data-role="content"]').html(element);
         $('[data-role="content"] > div').collapsibleset();
         $('.textinput').textinput();
