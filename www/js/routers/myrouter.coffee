@@ -1,5 +1,5 @@
 #define ['lib/underscore', 'lib/backbone', 'jquery', 'models/step', 'collections/steplist', 'views/stepview'], (_, Backbone, $, Step, StepList, StepView) ->
-define ['jquery', 'underscore', 'lib/backbone', 'models/step', 'collections/steplist', 'views/stepview'], ($, _, Backbone, Step, StepList, StepView) ->
+define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Backbone) ->
 	class window.MyRouter extends Backbone.Router
 		initialize: ->
 			console.log "router"
@@ -29,10 +29,10 @@ define ['jquery', 'underscore', 'lib/backbone', 'models/step', 'collections/step
 			#change header
 			$('[data-role="header"] > h3').html "Safety"
 			
-			step = new Step
-			list = new StepList
-			stepview = new StepView model: step
-			console.log stepview.render().el
+			# step = new Step
+			# list = new StepList
+			# stepview = new StepView model: step
+			# console.log stepview.render().el
 		# 	#change content
 		# 	@list = new StepList
 		# 	@list.add new Step 

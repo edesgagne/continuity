@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'backbone'], function($, Mobile, _, Backbone) {
+  define(['jquery', 'jquerymobile', 'underscore', 'backbone', 'routers/myrouter'], function($, Mobile, _, Backbone, MyRouter) {
     var _ref;
     return window.App = (function(_super) {
       __extends(App, _super);
@@ -14,7 +14,26 @@
       }
 
       App.prototype.initialize = function() {
-        return console.log("app");
+        var router;
+        console.log("app");
+        router = new MyRouter;
+        Backbone.history.start();
+        return this.initMenu();
+      };
+
+      App.prototype.initMenu = function() {
+        return $(document).on("click", "a:not([data-bypass])", function(evt) {
+          var href, root;
+          href = {
+            prop: $(this).prop("href"),
+            attr: $(this).attr("href")
+          };
+          root = location.protocol + "//" + location.host + "/";
+          if (href.prop && href.prop.slice(0, root.length) === root) {
+            evt.preventDefault();
+            return Backbone.history.navigate(href.attr, true);
+          }
+        });
       };
 
       return App;
