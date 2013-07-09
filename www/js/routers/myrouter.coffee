@@ -1,7 +1,6 @@
-#define ['lib/underscore', 'lib/backbone', 'jquery', 'models/step', 'collections/steplist', 'views/stepview'], (_, Backbone, $, Step, StepList, StepView) ->
-define ['jquery', 'jquerymobile', 'underscore', 'backbone', 'models/step', 'collections/steplist', 'views/stepview', 'views/steplistview'], 
-($, Mobile, _, Backbone, Step, StepList, StepView, StepListView) ->
-	class window.MyRouter extends Backbone.Router
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist', 'views/stepview', 'views/steplistview'], 
+($, Mobile, _, Parse, Step, StepList, StepView, StepListView) ->
+	class window.MyRouter extends Parse.Router
 		initialize: ->
 			console.log "router"
 		routes:

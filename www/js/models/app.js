@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'backbone', 'routers/myrouter'], function($, Mobile, _, Backbone, MyRouter) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'routers/myrouter'], function($, Mobile, _, Parse, MyRouter) {
     var _ref;
     return window.App = (function(_super) {
       __extends(App, _super);
@@ -22,7 +22,7 @@
       App.prototype.initRouter = function() {
         var router;
         router = new MyRouter;
-        return Backbone.history.start();
+        return Parse.history.start();
       };
 
       App.prototype.initMenu = function() {
@@ -35,7 +35,7 @@
           root = location.protocol + "//" + location.host + "/";
           if (href.prop && href.prop.slice(0, root.length) === root) {
             evt.preventDefault();
-            Backbone.history.navigate(href.attr, true);
+            Parse.history.navigate(href.attr, true);
           }
           return $('#myPanel').panel("close");
         });
@@ -43,7 +43,7 @@
 
       return App;
 
-    })(Backbone.Model);
+    })(Parse.Object);
   });
 
 }).call(this);

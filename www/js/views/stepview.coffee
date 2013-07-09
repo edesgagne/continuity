@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Backbone) ->
-	class window.StepView extends Backbone.View
+define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
+	class window.StepView extends Parse.View
 	
 		tagName: 'div'
 		attributes:
@@ -55,9 +55,30 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Back
 			@ #return itself
 			
 		clicked: (e) =>
+			console.log 'id', @model.get('step_num')
+			console.log 'strat', @model.get('strategies')
+			#get an array of the values
 			e.preventDefault()
 			output = []
 			$(@el).find('.textinput').each ->
 				output.push $(this).val()
-			#@model.addStrategy output
-			#console.log @model.get('strategies').toString()
+			# #add it to the model
+			# dic = {}
+			# #length of output and field should be same
+			# #in the dictionary
+			# #field will be the key
+			# #and output will be the key value
+			# i = 0
+			# while i < output.length
+			# 	key = @model.get('fields')[i]
+			# 	val = output[i]
+			# 	dic[key] = val
+			# 	i++
+			# console.log dic
+			# @model.set
+			# 	strategies: @model.get('strategies').push dic
+			# console.log @model.get('strategies')
+			
+			
+			
+			

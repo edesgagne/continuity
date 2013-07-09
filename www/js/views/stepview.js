@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'backbone'], function($, Mobile, _, Backbone) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
     var _ref;
     return window.StepView = (function(_super) {
       __extends(StepView, _super);
@@ -44,6 +44,8 @@
 
       StepView.prototype.clicked = function(e) {
         var output;
+        console.log('id', this.model.get('step_num'));
+        console.log('strat', this.model.get('strategies'));
         e.preventDefault();
         output = [];
         return $(this.el).find('.textinput').each(function() {
@@ -53,7 +55,7 @@
 
       return StepView;
 
-    })(Backbone.View);
+    })(Parse.View);
   });
 
 }).call(this);

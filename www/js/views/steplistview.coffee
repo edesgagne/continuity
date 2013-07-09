@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Backbone) ->
-	class window.StepListView extends Backbone.View
+define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
+	class window.StepListView extends Parse.View
 		tagName: 'div'
 		attributes: 
 			'data-role': 'collapsible-set'
