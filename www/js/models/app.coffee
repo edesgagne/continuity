@@ -3,10 +3,11 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone', 'routers/myrouter'],
 	class window.App extends Backbone.Model
 		initialize: ->	
 			console.log "app"
+			@initRouter()
+			@initMenu()
+		initRouter: ->
 			router = new MyRouter
 			Backbone.history.start()
-			@initMenu()
-		
 		initMenu: ->
 			#whenever a link in the menu is clicked
 			#it tells the backbone router to navigate there
@@ -21,4 +22,4 @@ define ['jquery', 'jquerymobile', 'underscore', 'backbone', 'routers/myrouter'],
 					Backbone.history.navigate href.attr, true
 		
 				#close the panel
-				#$('#myPanel').panel("close")
+				$('#myPanel').panel("close")

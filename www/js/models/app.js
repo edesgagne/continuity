@@ -14,11 +14,15 @@
       }
 
       App.prototype.initialize = function() {
-        var router;
         console.log("app");
-        router = new MyRouter;
-        Backbone.history.start();
+        this.initRouter();
         return this.initMenu();
+      };
+
+      App.prototype.initRouter = function() {
+        var router;
+        router = new MyRouter;
+        return Backbone.history.start();
       };
 
       App.prototype.initMenu = function() {
@@ -31,8 +35,9 @@
           root = location.protocol + "//" + location.host + "/";
           if (href.prop && href.prop.slice(0, root.length) === root) {
             evt.preventDefault();
-            return Backbone.history.navigate(href.attr, true);
+            Backbone.history.navigate(href.attr, true);
           }
+          return $('#myPanel').panel("close");
         });
       };
 
