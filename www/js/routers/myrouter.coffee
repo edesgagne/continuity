@@ -1,34 +1,38 @@
 #define ['lib/underscore', 'lib/backbone', 'jquery', 'models/step', 'collections/steplist', 'views/stepview'], (_, Backbone, $, Step, StepList, StepView) ->
-define ['underscore', 'lib/backbone'], (_, Backbone) ->
+define ['jquery', 'underscore', 'lib/backbone', 'models/step', 'collections/steplist', 'views/stepview'], ($, _, Backbone, Step, StepList, StepView) ->
 	class window.MyRouter extends Backbone.Router
 		initialize: ->
 			console.log "router"
 		routes:
 			"": "showHome"
-		# 	"safety": "showSafety"
+			"safety": "showSafety"
 		showHome: ->
 			#log
 			console.log "show home.."
-		# 	
-		# 	#clear everything
-		# 	$('[data-role="content"]').html """
-		# 		Home page.
-		# 	"""
-		# 	
-		# 	#change header
-		# 	$('[data-role="header"] > h3').html "Home"
-		# showSafety: ->
-		# 	#log
-		# 	console.log "show safety.."
-		# 	
-		# 	#clear everything
-		# 	$('[data-role="content"]').html """
-		# 		Safety page.
-		# 	"""
-		# 	
-		# 	#change header
-		# 	$('[data-role="header"] > h3').html "Safety"
-		# 	
+			
+			#clear everything
+			$('[data-role="content"]').html """
+				Home page.
+			"""
+			
+			#change header
+			$('[data-role="header"] > h3').html "Home"
+		showSafety: ->
+			#log
+			console.log "show safety.."
+			
+			#clear everything
+			$('[data-role="content"]').html """
+				Safety page.
+			"""
+			
+			#change header
+			$('[data-role="header"] > h3').html "Safety"
+			
+			step = new Step
+			list = new StepList
+			stepview = new StepView model: step
+			console.log stepview.render().el
 		# 	#change content
 		# 	@list = new StepList
 		# 	@list.add new Step 

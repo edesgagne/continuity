@@ -1,4 +1,4 @@
-define ['lib/backbone', 'lib/underscore', 'jquery', 'models/step'], (Backbone, _, $, Step) ->
+define ['jquery', 'lib/underscore', 'lib/backbone', 'jquerymobile'], ($, _, Backbone, Mobile) ->
 	class window.StepView extends Backbone.View
 	
 		tagName: 'div'
@@ -7,42 +7,43 @@ define ['lib/backbone', 'lib/underscore', 'jquery', 'models/step'], (Backbone, _
 			'data-collapsed': 'true'
 		events:
 			"click .submit": "clicked"
+			
 		initialize: ->
 			_.bindAll @
 			temp = """
-
+		
 			<h3>
 			<%= step_num %> : <%= title %>
 			</h3>
-
+		
 			<div style="font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px"> 
 			<%= description %>
 			</div>
-
-
+		
+		
 			<!-- add new strategy -->
 			<% _.each(fields, function(field) { %> 
 				<input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
 			<% }); %>
-
+		
 			<input id="<%= step_num %>" class="submit" type="submit" value="Submit" />
-
-
-
-
+		
+		
+		
+		
 			<!--display old strategies -->
 			<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>
-
-
+		
+		
 			"""
 			@template = _.template temp
-
-
+		
+		
 		render: =>
 			content = @template(@model.toJSON())
 			$(@el).html content
 			@ #return itself
-	
+			
 		clicked: (e) =>
 			e.preventDefault()
 			output = []

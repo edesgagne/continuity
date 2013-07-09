@@ -6,9 +6,10 @@ require.config
 		'backbone': 'lib/backbone'
 		'parse': 'lib/parse-1.2.8'
 	shim:
-		"lib/underscore":
+		"underscore":
 			exports: "_"
-		"lib/backbone":
+		"backbone":
+			deps: ['underscore', 'jquery']
 			exports: "Backbone"
 			
 require ['models/app'], ->

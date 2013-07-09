@@ -1,4 +1,4 @@
-define ['lib/backbone'], (Backbone) ->
+define ['lib/underscore', 'lib/backbone'], (_, Backbone) ->
 	class window.Step extends Backbone.Model
 		defaults:
 			step_num: 0

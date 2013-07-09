@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['lib/backbone', 'lib/underscore', 'jquery', 'models/step'], function(Backbone, _, $, Step) {
+  define(['jquery', 'lib/underscore', 'lib/backbone', 'jquerymobile'], function($, _, Backbone, Mobile) {
     var _ref;
     return window.StepView = (function(_super) {
       __extends(StepView, _super);
@@ -30,7 +30,7 @@
       StepView.prototype.initialize = function() {
         var temp;
         _.bindAll(this);
-        temp = "\n<h3>\n<%= step_num %> : <%= title %>\n</h3>\n\n<div style=\"font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px\"> \n<%= description %>\n</div>\n\n\n<!-- add new strategy -->\n<% _.each(fields, function(field) { %> \n	<input name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n<% }); %>\n\n<input id=\"<%= step_num %>\" class=\"submit\" type=\"submit\" value=\"Submit\" />\n\n\n\n\n<!--display old strategies -->\n<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n\n";
+        temp = "\n	<h3>\n	<%= step_num %> : <%= title %>\n	</h3>\n\n	<div style=\"font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px\"> \n	<%= description %>\n	</div>\n\n\n	<!-- add new strategy -->\n	<% _.each(fields, function(field) { %> \n		<input name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n	<% }); %>\n\n	<input id=\"<%= step_num %>\" class=\"submit\" type=\"submit\" value=\"Submit\" />\n\n\n\n\n	<!--display old strategies -->\n	<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n\n";
         return this.template = _.template(temp);
       };
 

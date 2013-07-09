@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'lib/backbone'], function(_, Backbone) {
+  define(['jquery', 'underscore', 'lib/backbone', 'models/step', 'collections/steplist', 'views/stepview'], function($, _, Backbone, Step, StepList, StepView) {
     var _ref;
     return window.MyRouter = (function(_super) {
       __extends(MyRouter, _super);
@@ -18,11 +18,27 @@
       };
 
       MyRouter.prototype.routes = {
-        "": "showHome"
+        "": "showHome",
+        "safety": "showSafety"
       };
 
       MyRouter.prototype.showHome = function() {
-        return console.log("show home..");
+        console.log("show home..");
+        $('[data-role="content"]').html("Home page.");
+        return $('[data-role="header"] > h3').html("Home");
+      };
+
+      MyRouter.prototype.showSafety = function() {
+        var list, step, stepview;
+        console.log("show safety..");
+        $('[data-role="content"]').html("Safety page.");
+        $('[data-role="header"] > h3').html("Safety");
+        step = new Step;
+        list = new StepList;
+        stepview = new StepView({
+          model: step
+        });
+        return console.log(stepview.render().el);
       };
 
       return MyRouter;
