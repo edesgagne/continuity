@@ -1,4 +1,4 @@
-define ['lib/underscore', 'lib/backbone'], (_, Backbone) ->
+define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Backbone) ->
 	class window.Step extends Backbone.Model
 		defaults:
 			step_num: 0

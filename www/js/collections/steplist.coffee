@@ -1,3 +1,3 @@
-define ['lib/underscore', 'lib/backbone', 'models/step'], (_, Backbone, Step) ->
+define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Backbone) ->
 	class window.StepList extends Backbone.Collection
 		model: window.Step

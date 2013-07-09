@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['lib/underscore', 'lib/backbone', 'models/step'], function(_, Backbone, Step) {
+  define(['jquery', 'jquerymobile', 'underscore', 'backbone'], function($, Mobile, _, Backbone) {
     var _ref;
     return window.StepList = (function(_super) {
       __extends(StepList, _super);

@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'backbone'], function($, Mobile, _, Backbone) {
+  define(['jquery', 'jquerymobile', 'underscore', 'backbone', 'models/step', 'collections/steplist', 'views/stepview', 'views/steplistview'], function($, Mobile, _, Backbone, Step, StepList, StepView, StepListView) {
     var _ref;
     return window.MyRouter = (function(_super) {
       __extends(MyRouter, _super);
@@ -29,9 +29,43 @@
       };
 
       MyRouter.prototype.showSafety = function() {
+        var element;
         console.log("show safety..");
         $('[data-role="content"]').html("Safety page.");
-        return $('[data-role="header"] > h3').html("Safety");
+        $('[data-role="header"] > h3').html("Safety");
+        this.list = new StepList;
+        this.list.add(new Step({
+          step_num: 1,
+          title: 'Warning Signs',
+          description: 'Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:',
+          fields: ['warning sign']
+        }));
+        this.list.add(new Step({
+          step_num: 2,
+          title: 'Coping Strategies',
+          description: 'Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):',
+          fields: ['coping strategy']
+        }));
+        this.list.add(new Step({
+          step_num: 3,
+          title: 'People',
+          description: 'People that provide distraction:',
+          fields: ['name', 'phone number']
+        }));
+        this.list.add(new Step({
+          step_num: 4,
+          title: 'Settings',
+          description: 'Social settings that provide distraction:',
+          fields: ['place']
+        }));
+        this.listview = new StepListView({
+          collection: this.list
+        });
+        element = this.listview.render().el;
+        $('[data-role="content"]').html(element);
+        $('[data-role="content"] > div').collapsibleset();
+        $('.textinput').textinput();
+        return $('[type="submit"]').button();
       };
 
       return MyRouter;

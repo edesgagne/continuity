@@ -1,4 +1,4 @@
-define ['jquery', 'lib/underscore', 'lib/backbone', 'jquerymobile'], ($, _, Backbone, Mobile) ->
+define ['jquery', 'jquerymobile', 'underscore', 'backbone'], ($, Mobile, _, Backbone) ->
 	class window.StepView extends Backbone.View
 	
 		tagName: 'div'
