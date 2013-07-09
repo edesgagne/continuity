@@ -13,31 +13,39 @@
         return _ref;
       }
 
+      App.prototype.className = "App";
+
       App.prototype.initialize = function() {
         console.log("app");
-        this.initRouter();
-        return this.initMenu();
+        return this.initParse();
       };
 
-      App.prototype.initRouter = function() {
-        var router;
-        router = new MyRouter;
-        return Parse.history.start();
-      };
-
-      App.prototype.initMenu = function() {
-        return $(document).on("click", "a:not([data-bypass])", function(evt) {
-          var href, root;
-          href = {
-            prop: $(this).prop("href"),
-            attr: $(this).attr("href")
-          };
-          root = location.protocol + "//" + location.host + "/";
-          if (href.prop && href.prop.slice(0, root.length) === root) {
-            evt.preventDefault();
-            Parse.history.navigate(href.attr, true);
+      App.prototype.initParse = function() {
+        Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
+        return Parse.User.logIn("johnny", "1234", {
+          success: function(user) {
+            var router;
+            console.log('success logging in');
+            router = new MyRouter;
+            Parse.history.start();
+            return $(document).on("click", "a:not([data-bypass])", function(evt) {
+              var href, root;
+              href = {
+                prop: $(this).prop("href"),
+                attr: $(this).attr("href")
+              };
+              root = location.protocol + "//" + location.host + "/";
+              if (href.prop && href.prop.slice(0, root.length) === root) {
+                evt.preventDefault();
+                Parse.history.navigate(href.attr, true);
+              }
+              return $('#myPanel').panel("close");
+            });
+          },
+          error: function(user, error) {
+            console.error('error logging in', error);
+            return alert('wrong username or password');
           }
-          return $('#myPanel').panel("close");
         });
       };
 

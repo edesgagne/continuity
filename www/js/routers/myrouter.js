@@ -31,40 +31,45 @@
       };
 
       MyRouter.prototype.showSafety = function() {
-        var element, title;
+        var element, list, listview, st, stepJSON, title, _i, _len, _ref1;
         title = "Safety Planning";
         console.log("show " + title);
         $('[data-role="content"]').html("");
         $('[data-role="header"] > h3').html(title);
-        this.list = new StepList;
-        this.list.add(new Step({
-          step_num: 1,
-          title: 'Warning Signs',
-          description: 'Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:',
-          fields: ['warning sign']
-        }));
-        this.list.add(new Step({
-          step_num: 2,
-          title: 'Coping Strategies',
-          description: 'Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):',
-          fields: ['coping strategy']
-        }));
-        this.list.add(new Step({
-          step_num: 3,
-          title: 'People',
-          description: 'People that provide distraction:',
-          fields: ['name', 'phone number']
-        }));
-        this.list.add(new Step({
-          step_num: 4,
-          title: 'Settings',
-          description: 'Social settings that provide distraction:',
-          fields: ['place']
-        }));
-        this.listview = new StepListView({
-          collection: this.list
+        list = new StepList;
+        stepJSON = [
+          {
+            "step_num": 1,
+            "title": "Warning Signs",
+            "description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
+            "fields": ["warning sign"]
+          }, {
+            "step_num": 2,
+            "title": "Coping Strategies",
+            "description": "Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
+            "fields": ["coping strategy"]
+          }, {
+            "step_num": 3,
+            "title": "People",
+            "description": "People that provide distraction:",
+            "fields": ["name", "phone number"]
+          }, {
+            "step_num": 4,
+            "title": "Settings",
+            "description": "Social settings that provide distraction:",
+            "fields": ["place"]
+          }
+        ];
+        list.add(stepJSON);
+        _ref1 = list.models;
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          st = _ref1[_i];
+          st.save();
+        }
+        listview = new StepListView({
+          collection: list
         });
-        element = this.listview.el;
+        element = listview.el;
         $('[data-role="content"]').html(element);
         $('[data-role="content"] > div').collapsibleset();
         $('.textinput').textinput();

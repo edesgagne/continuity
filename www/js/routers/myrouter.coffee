@@ -8,7 +8,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			"safety": "showSafety"
 		showHome: ->
 			title = "Home"
-			
+
 			#log
 			console.log "show " + title
 			
@@ -31,32 +31,59 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			$('[data-role="header"] > h3').html title
 			
 			#change content
-			@list = new StepList
+			list = new StepList
 			
-			@list.add new Step 
-				step_num: 1
-				title: 'Warning Signs'
-				description: 'Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:'
-				fields: ['warning sign']
-			@list.add new Step 
-				step_num: 2
-				title: 'Coping Strategies'
-				description: 'Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):'
-				fields: ['coping strategy']
-			@list.add new Step 
-				step_num: 3
-				title: 'People'
-				description: 'People that provide distraction:'
-				fields: ['name', 'phone number']
-			@list.add new Step 
-				step_num: 4
-				title: 'Settings'
-				description: 'Social settings that provide distraction:'
-				fields: ['place']
+			stepJSON = [
+			    {
+			        "step_num": 1,
+			        "title": "Warning Signs",
+			        "description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
+			        "fields": [
+			            "warning sign"
+			        ]
+			    },
+			    {
+			        "step_num": 2,
+			        "title": "Coping Strategies",
+			        "description": "Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
+			        "fields": [
+			            "coping strategy"
+			        ]
+			    },
+			    {
+			        "step_num": 3,
+			        "title": "People",
+			        "description": "People that provide distraction:",
+			        "fields": [
+			            "name",
+			            "phone number"
+			        ]
+			    },
+			    {
+			        "step_num": 4,
+			        "title": "Settings",
+			        "description": "Social settings that provide distraction:",
+			        "fields": [
+			            "place"
+			        ]
+			    }
+			]
+			
+			#$.getJSON "js/json/steps.json", (data) ->
+			#	console.log 'json', data
+			
+			list.add stepJSON
+	
+			#loop through each model
+			for st in list.models
+				#set it to the current user
+				
+				#save it
+				st.save()
+			
+			listview = new StepListView {collection: list}
 						
-			@listview = new StepListView {collection: @list}
-						
-			element = @listview.el
+			element = listview.el
 			
 			$('[data-role="content"]').html element
 

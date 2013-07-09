@@ -13,6 +13,8 @@
         return _ref;
       }
 
+      Step.prototype.className = "Step";
+
       Step.prototype.defaults = {
         step_num: 0,
         title: '',
