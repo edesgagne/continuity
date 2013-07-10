@@ -1,10 +1,12 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview'], ($, Mobile, _, Parse, StepList, StepListView) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview', 'models/step'], ($, Mobile, _, Parse, StepList, StepListView, Step) ->
 	class Uploader extends Parse.Object
 		className: "Uploader"
 		initialize: ->	
 			console.log "uploader"
 			#console.log "localstorage", window.localStorage["steplist"]
 			@mode = "online" #change back to 'default' in production
+		getMode: ->
+			return @mode
 		updateMode: (newmode) ->
 			oldmode = @mode
 			@mode = newmode
@@ -14,7 +16,12 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 			#upload all local storage to parse
 			
 			#IMPLEMENT THIS NEXT
-			# if oldmode == "offline" and newmode =="online"
+			if oldmode == "offline" and newmode =="online"
+				#get what's in local storage
+				coll = JSON.parse window.localStorage["steplist"]
+				#upload to parse
+				#everything has already been put in localstorage
+				@updateCollectionOnline()
 			# 	#upload everything to parse
 			# 	
 			# 	
@@ -41,38 +48,60 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 			console.log 'updating collection'
 			console.log coll
 			window.localStorage["steplist"] = JSON.stringify coll
+			
 			#upload to parse if mode is online
 			#it won't work to reply on updateMode
 			#because if you're always online
 			#nothing gets refreshed and uploaded
+			if @mode == "online"
+				console.log 'gonna update online...'
+				#uses the version in local storage
+				@updateCollectionOnline()
 			
+		updateCollectionOnline: ->	
 			#upload everything to parse
-			# if @mode == "online"
-			# 	query = new Parse.Query Step
-			# 	#get all of the steps that are linked to the current user
-			# 	currentUser = Parse.User.current()
-			# 	query.equalTo "user", currentUser
-			# 	query.find
-			# 		success: (results) ->
-			# 			console.log 'undefined list', list
-			# 			list = new StepList
-			# 			console.log 'old list', list
-			# 			#fill up the step list
-			# 			# for r in results
-			# 			# 						list.add r
-			# 			steps = JSON.parse window.localStorage["steplist"]
-			# 			list.reset(steps)
-			# 			console.log 'reset', list
-			# 			for l in list
-			# 				l.save()
-			
+			query = new Parse.Query Step
+			#get all of the steps that are linked to the current user
+			currentUser = Parse.User.current()
+			query.equalTo "user", currentUser
+			query.ascending('step_num')
+			query.find
+				success: (results) ->
+					steps = JSON.parse window.localStorage["steplist"]
+					
+					i = 0
+					#loop through results and steps
+					#should be same length
+					while i < results.length
+						
+						obj = results[i]
+						#console.log 'obj', obj
+						#updated = steps[i] #returns a json object
+						updated = null
+						#make sure step num matches
+						$.each steps, (index, element) ->
+							if element.step_num == obj.get('step_num')
+								updated = element
+								return
+						#console.log 'steps', updated["strategies"]
+						
+						if obj.get('step_num') != updated["step_num"]
+							console.error "steps are out of order"
+							
+						obj.set
+							strategies: updated["strategies"]
+						obj.save()
+						
+						i = i + 1
+					console.log 'synced online'
+				error: (e) ->
+					console.error 'error', e
 			#IMPLEMENT THIS NEXT
 			
 		displaySteps: ->
 			if @mode == "offline" or @mode == "online"
 				console.log 'displaying offline'
 				list = new StepList
-				console.log 'display', list
 				steps_array = JSON.parse window.localStorage["steplist"]
 				for step in steps_array
 					list.add step

@@ -1,5 +1,5 @@
 #define ['lib/backbone', 'jquery', 'routers/myrouter'], (Backbone, $, MyRouter) ->
-define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist'], ($, Mobile, _, Parse, Step, StepList) ->
 	class App extends Parse.Object
 		className: "App"
 		initialize: ->	
@@ -27,7 +27,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			window.uploader.updateMode "online"
 
 		setUpUser: ->
-			if window.uploader.mode != "online"
+			if window.uploader.getMode() != "online"
 				console.log "sorry, you must be online to set up the user"
 				return
 				
@@ -66,11 +66,21 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 				st.save()
 			
 		setUpDevice: ->
+			#user MUST be online if they've never used the device before
+			if window.uploader.getMode() != "online"
+				console.log "sorry, you must be online to set up the device"
+				return
+				
 			#window.localStorage["init"] = 'false' #temporary
 			
 			#console.log JSON.parse window.localStorage["steplist"]
 			#console.log 'init?', window.localStorage["init"]
-			if window.localStorage["init"] == 'true'
+			
+			#can't just set it to true
+			#must to true for the user
+			#in case you have diff users on same device
+			
+			else if window.localStorage["init"] == Parse.User.current().get('username')
 				console.log 'device already set up'
 				return
 			#otherwise there isn't the necessary stuff in localstorage
@@ -79,10 +89,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			#and when it can, it is also uploaded to parse
 			#but not deleted from local storage
 
-			#user MUST be online if they've never used the device before
-			else if window.uploader.mode != "online"
-				console.log "sorry, you must be online to set up the device"
-				return
+
 			
 			else
 				#get everything from parse and put it in localstorage
@@ -110,7 +117,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			
 				console.log 'steplist in locstor', JSON.parse window.localStorage["steplist"]
 
-				window.localStorage["init"] = true
+				window.localStorage["init"] = Parse.User.current().get('username')
 				
 				
 				

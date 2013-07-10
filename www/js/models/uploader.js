@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview'], function($, Mobile, _, Parse, StepList, StepListView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview', 'models/step'], function($, Mobile, _, Parse, StepList, StepListView, Step) {
     var Uploader, _ref;
     return Uploader = (function(_super) {
       __extends(Uploader, _super);
@@ -20,17 +20,65 @@
         return this.mode = "online";
       };
 
+      Uploader.prototype.getMode = function() {
+        return this.mode;
+      };
+
       Uploader.prototype.updateMode = function(newmode) {
-        var oldmode;
+        var coll, oldmode;
         oldmode = this.mode;
         this.mode = newmode;
-        return console.log('newmode', this.mode);
+        console.log('newmode', this.mode);
+        if (oldmode === "offline" && newmode === "online") {
+          coll = JSON.parse(window.localStorage["steplist"]);
+          return this.updateCollectionOnline();
+        }
       };
 
       Uploader.prototype.updateCollection = function(coll) {
         console.log('updating collection');
         console.log(coll);
-        return window.localStorage["steplist"] = JSON.stringify(coll);
+        window.localStorage["steplist"] = JSON.stringify(coll);
+        if (this.mode === "online") {
+          console.log('gonna update online...');
+          return this.updateCollectionOnline();
+        }
+      };
+
+      Uploader.prototype.updateCollectionOnline = function() {
+        var currentUser, query;
+        query = new Parse.Query(Step);
+        currentUser = Parse.User.current();
+        query.equalTo("user", currentUser);
+        query.ascending('step_num');
+        return query.find({
+          success: function(results) {
+            var i, obj, steps, updated;
+            steps = JSON.parse(window.localStorage["steplist"]);
+            i = 0;
+            while (i < results.length) {
+              obj = results[i];
+              updated = null;
+              $.each(steps, function(index, element) {
+                if (element.step_num === obj.get('step_num')) {
+                  updated = element;
+                }
+              });
+              if (obj.get('step_num') !== updated["step_num"]) {
+                console.error("steps are out of order");
+              }
+              obj.set({
+                strategies: updated["strategies"]
+              });
+              obj.save();
+              i = i + 1;
+            }
+            return console.log('synced online');
+          },
+          error: function(e) {
+            return console.error('error', e);
+          }
+        });
       };
 
       Uploader.prototype.displaySteps = function() {
@@ -38,7 +86,6 @@
         if (this.mode === "offline" || this.mode === "online") {
           console.log('displaying offline');
           list = new StepList;
-          console.log('display', list);
           steps_array = JSON.parse(window.localStorage["steplist"]);
           for (_i = 0, _len = steps_array.length; _i < _len; _i++) {
             step = steps_array[_i];

@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist'], function($, Mobile, _, Parse, Step, StepList) {
     var App, _ref;
     return App = (function(_super) {
       __extends(App, _super);
@@ -44,7 +44,7 @@
 
       App.prototype.setUpUser = function() {
         var currentUser;
-        if (window.uploader.mode !== "online") {
+        if (window.uploader.getMode() !== "online") {
           console.log("sorry, you must be online to set up the user");
           return;
         }
@@ -105,10 +105,10 @@
 
       App.prototype.setUpDevice = function() {
         var currentUser, query;
-        if (window.localStorage["init"] === 'true') {
-          console.log('device already set up');
-        } else if (window.uploader.mode !== "online") {
+        if (window.uploader.getMode() !== "online") {
           console.log("sorry, you must be online to set up the device");
+        } else if (window.localStorage["init"] === Parse.User.current().get('username')) {
+          console.log('device already set up');
         } else {
           currentUser = Parse.User.current();
           console.log('about to query');
@@ -131,7 +131,7 @@
             }
           });
           console.log('steplist in locstor', JSON.parse(window.localStorage["steplist"]));
-          return window.localStorage["init"] = true;
+          return window.localStorage["init"] = Parse.User.current().get('username');
         }
       };
 
