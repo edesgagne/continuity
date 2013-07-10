@@ -61,6 +61,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 					listview = new StepListView {collection: list}
 					
 					#display it
-					element = listview.el
+					element = listview.render().el
 					$('[data-role="content"]').html element
 					listview.jqdisplay()

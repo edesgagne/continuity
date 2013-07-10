@@ -21,7 +21,7 @@
 
       StepListView.prototype.initialize = function() {
         _.bindAll(this);
-        return this.render();
+        return this.collection.bind("change", this.rerender, this);
       };
 
       StepListView.prototype.render = function() {
@@ -31,22 +31,18 @@
 
       StepListView.prototype.jqdisplay = function() {
         console.log('jq display');
-        $('[data-role="content"] > div').collapsibleset();
+        $('[data-role="collapsible-set"]').collapsibleset();
         $('.textinput').textinput();
         return $('[type="submit"]').button();
       };
 
-      StepListView.prototype.rerender = function() {
+      StepListView.prototype.rerender = function(changedmodel) {
+        $(this.el).html("");
+        this.render();
         console.log('rerendering collection');
-        $('[data-role="content"] > div').collapsibleset('refresh');
-        $('[data-role="content"] > div').find('div[data-role=collapsible]').each(function(i) {
-          $(this).collapsible({
-            refresh: true
-          });
-          return console.log($(this));
-        });
-        $('[data-role="content"] > div').trigger("create");
-        return this.jqdisplay();
+        this.jqdisplay();
+        console.log(changedmodel);
+        return changedmodel.trigger('openCollapsible');
       };
 
       StepListView.prototype.renderEach = function(step) {
@@ -54,7 +50,7 @@
         stepView = new window.StepView({
           model: step
         });
-        element = stepView.el;
+        element = stepView.render().el;
         return $(this.el).append(element);
       };
 

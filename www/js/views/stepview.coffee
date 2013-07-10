@@ -14,6 +14,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			#whenever the model changes, the view should re-render
 			
 			#@model.bind('change', @rerender)
+			@model.on('openCollapsible', @open)
 			
 			temp = """
 		
@@ -52,16 +53,21 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 		
 			"""
 			@template = _.template temp
+		open: =>
+			#this is being triggered twice?
+			console.log 'triggered open'
+			console.log $(@el).attr('data-collapsed')
 			
-			@render()
-		
+			$(@el).attr('data-collapsed', 'false')
+			console.log $(@el).attr('data-collapsed')
+			$('[data-role="collapsible"]').collapsible({refresh: true})
 		render: =>
 			content = @template(@model.toJSON())
 			$(@el).html content
 			@ #return itself
-		rerender: =>
-			console.log 'rerendering view'
-			@render()
+		#rerender: =>
+		#	console.log 'rerendering view'
+		#	@render()
 		clicked: (e) =>
 			e.preventDefault()
 			

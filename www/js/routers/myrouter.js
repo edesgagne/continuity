@@ -66,7 +66,7 @@
             listview = new StepListView({
               collection: list
             });
-            element = listview.el;
+            element = listview.render().el;
             $('[data-role="content"]').html(element);
             return listview.jqdisplay();
           }
