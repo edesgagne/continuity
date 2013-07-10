@@ -22,22 +22,21 @@ require ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/app', 'routers
 		window.uploader = new Uploader
 		#initialize the app
 		app = new App
-		#initialize the router
-		router = new MyRouter
-		Parse.history.start()
-	
-	Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
 
-	#see if user is already logged in
-	if Parse.User.current()
-		console.log 'no need to sign in, user already logged'
-		getStarted()
-	#otherwise, log them in
-	else
-		Parse.User.logIn "johnny", "1234",
-			success: (user) ->
-				console.log 'success logging in'
-				getStarted()
-			error: (user, error) ->
-				console.error 'error logging in', error
-	
+	$(
+		
+		Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
+
+		#see if user is already logged in
+		if Parse.User.current()
+			console.log 'no need to sign in, user already logged'
+			getStarted()
+		#otherwise, log them in
+		else
+			Parse.User.logIn "jane", "4321",
+				success: (user) ->
+					console.log 'success logging in'
+					getStarted()
+				error: (user, error) ->
+					console.error 'error logging in', error
+	)

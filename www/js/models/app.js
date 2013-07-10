@@ -16,10 +16,10 @@
       App.prototype.className = "App";
 
       App.prototype.initialize = function() {
+        this.bindEvents();
         console.log("app");
         this.setUpUser();
-        this.setUpDevice();
-        return this.bindEvents();
+        return this.setUpDevice();
       };
 
       App.prototype.bindEvents = function() {
@@ -104,35 +104,11 @@
       };
 
       App.prototype.setUpDevice = function() {
-        var currentUser, query;
         if (window.uploader.getMode() !== "online") {
-          console.log("sorry, you must be online to set up the device");
-        } else if (window.localStorage["init"] === Parse.User.current().get('username')) {
-          console.log('device already set up');
-        } else {
-          currentUser = Parse.User.current();
-          console.log('about to query');
-          query = new Parse.Query(Step);
-          query.equalTo("user", currentUser);
-          query.find({
-            success: function(results) {
-              var list, r, _i, _len;
-              console.log('success in query');
-              list = new StepList;
-              for (_i = 0, _len = results.length; _i < _len; _i++) {
-                r = results[_i];
-                list.add(r);
-              }
-              window.localStorage["steplist"] = JSON.stringify(list);
-              return console.log(window.localStorage["steplist"]);
-            },
-            error: function(e) {
-              return console.log('error', e);
-            }
-          });
-          console.log('steplist in locstor', JSON.parse(window.localStorage["steplist"]));
-          return window.localStorage["init"] = Parse.User.current().get('username');
+          console.error("sorry, you must be online to set up the device");
+          return;
         }
+        return uploader.syncParseWithLocalStorage();
       };
 
       return App;

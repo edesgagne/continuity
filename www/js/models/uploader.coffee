@@ -1,12 +1,17 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview', 'models/step'], ($, Mobile, _, Parse, StepList, StepListView, Step) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview', 'models/step', 'routers/myrouter'], ($, Mobile, _, Parse, StepList, StepListView, Step, MyRouter) ->
 	class Uploader extends Parse.Object
 		className: "Uploader"
 		initialize: ->	
 			console.log "uploader"
 			#console.log "localstorage", window.localStorage["steplist"]
-			@mode = "online" #change back to 'default' in production
+			@mode = "online" #temporary, change to "default" later
+			@blocker = false
 		getMode: ->
 			return @mode
+		# getBlocker: ->
+		# 		return @blocker
+		# 	updateBlocker: (newval)->
+		# 		@blocker = newval
 		updateMode: (newmode) ->
 			oldmode = @mode
 			@mode = newmode
@@ -22,27 +27,60 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 				#upload to parse
 				#everything has already been put in localstorage
 				@updateCollectionOnline()
-			# 	#upload everything to parse
-			# 	
-			# 	
-			# 	
-			# 	query = new Parse.Query Step
-			# 	#get all of the steps that are linked to the current user
-			# 	query.equalTo "user", currentUser
-			# 	query.find
-			# 		success: (results) ->
-			# 			list = new StepList
-			# 			#fill up the step list
-			# 			for r in results
-			# 				list.add r
-			# 			steps = JSON.parse window.localStorage["steplist"]
-			# 			list.reset(steps)
-			
+
 			#but, why do i need to upload to parse if it's displaying from localstorage?
 			#because in app.coffee > setUpDevice
 			#if the user goes to a new device, all their data is lsot
 			#unless..everything is uploaded to parse
+		
+		syncParseWithLocalStorage: ->
+		
+			if window.localStorage["init"] == Parse.User.current().get('username')
+				console.log 'device already set up'
+				
+				router = new MyRouter
+				Parse.history.start()
+				
+				return
+
+			currentUser = Parse.User.current()
+				
+	
+			query = new Parse.Query Step
+			#get all of the steps that are linked to the current user
+			query.equalTo "user", currentUser
+			console.log 'setting up device...about to query'
+		
+			query.find
+				success: (results) ->
+					#this is the callback
+					#this takes a couple seconds
+					#so we can only continue with the program
+					#if this "success" callback is called
+				
+				
+					console.log 'success in query'
+					list = new StepList
+					#fill up the step list
+					for r in results
+						list.add r
+					console.log list
+					window.localStorage["steplist"] = JSON.stringify(list)
+					console.log 'locstor', window.localStorage["steplist"]
+				
+					#can let the rest of the program continue
+					#@updateBlocker false
+				
+					router = new MyRouter
+					Parse.history.start()
+				
+				error: (e) ->
+					console.error 'error', e
+					
+			window.localStorage["init"] = Parse.User.current().get('username')
 			
+			console.log 'done in sync parse with local storage'
+	
 		updateCollection: (coll) ->
 			#update in local storage
 			console.log 'updating collection'
@@ -96,10 +134,13 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 					console.log 'synced online'
 				error: (e) ->
 					console.error 'error', e
+				
 			#IMPLEMENT THIS NEXT
 			
 		displaySteps: ->
 			if @mode == "offline" or @mode == "online"
+				#always displays from localstorage
+				#because its the most up to date
 				console.log 'displaying offline'
 				list = new StepList
 				steps_array = JSON.parse window.localStorage["steplist"]
@@ -111,34 +152,5 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 				element = listview.render().el
 				$('[data-role="content"]').html element
 				listview.jqdisplay()
-			# else if @mode == "online"
-			# 	#do i ever need to load from parse?
-			# 	#if i store everything in parse here anyways
-			# 	#then loading from parse is the same as loading from locstor
-			# 	#parse is just a backup of all my data
-			# 	console.log 'displaying online'
-			# 	#duplicate code....
-			# 	currentUser = Parse.User.current()
-			# 
-			# 	query = new Parse.Query Step
-			# 	#get all of the steps that are linked to the current user
-			# 	query.equalTo "user", currentUser
-			# 	query.find
-			# 		success: (results) ->
-			# 			list = new StepList
-			# 			#fill up the step list
-			# 			for r in results
-			# 				list.add r
-			# 			#end of duplicate code...
-			# 		
-			# 			#sort the step list using "comparator" method in steplist
-			# 			list.sort()
-			# 			#create a view for the steplist
-			# 			listview = new StepListView {collection: list}
-			# 		
-			# 			#display it
-			# 			element = listview.render().el
-			# 			$('[data-role="content"]').html element
-			# 			listview.jqdisplay()
 			else
 				console.error 'must be either online or offline'

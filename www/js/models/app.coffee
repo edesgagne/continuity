@@ -3,6 +3,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 	class App extends Parse.Object
 		className: "App"
 		initialize: ->	
+			#window.localStorage.clear() #temporary
+			@bindEvents()
+			
 			console.log "app"
 			#one time, only when user signs up
 			#uploads all the steps to parse.com
@@ -10,8 +13,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			#each time user is on new device
 			#re-set up local storate
 			#puts all the steps from parse.com in localstorage
-			@setUpDevice() 
-			@bindEvents()
+			@setUpDevice() #has the query in it
 			
 		bindEvents: ->
 			document.addEventListener "deviceready", @onDeviceReady, false
@@ -68,56 +70,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 		setUpDevice: ->
 			#user MUST be online if they've never used the device before
 			if window.uploader.getMode() != "online"
-				console.log "sorry, you must be online to set up the device"
+				console.error "sorry, you must be online to set up the device"
 				return
 				
-			#window.localStorage["init"] = 'false' #temporary
-			
-			#console.log JSON.parse window.localStorage["steplist"]
-			#console.log 'init?', window.localStorage["init"]
-			
-			#can't just set it to true
-			#must to true for the user
-			#in case you have diff users on same device
-			
-			else if window.localStorage["init"] == Parse.User.current().get('username')
-				console.log 'device already set up'
-				return
-			#otherwise there isn't the necessary stuff in localstorage
-			#EVERYTHING in parse (even the stuff that has been uploaded)
-			#should still be in localstorage
-			#and when it can, it is also uploaded to parse
-			#but not deleted from local storage
-
-
-			
-			else
-				#get everything from parse and put it in localstorage
-				#meaning, the step variables
-
-				#duplicate code....
-				currentUser = Parse.User.current()
-				
-				console.log 'about to query'
-				query = new Parse.Query Step
-				#get all of the steps that are linked to the current user
-				query.equalTo "user", currentUser
-				query.find
-					success: (results) ->
-						console.log 'success in query'
-						list = new StepList
-						#fill up the step list
-						for r in results
-							list.add r
-						#end of duplicate code...
-						window.localStorage["steplist"] = JSON.stringify(list)
-						console.log window.localStorage["steplist"]
-					error: (e) ->
-						console.log 'error', e
-			
-				console.log 'steplist in locstor', JSON.parse window.localStorage["steplist"]
-
-				window.localStorage["init"] = Parse.User.current().get('username')
-				
-				
+			uploader.syncParseWithLocalStorage()
 				

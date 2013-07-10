@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview', 'models/step'], function($, Mobile, _, Parse, StepList, StepListView, Step) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview', 'models/step', 'routers/myrouter'], function($, Mobile, _, Parse, StepList, StepListView, Step, MyRouter) {
     var Uploader, _ref;
     return Uploader = (function(_super) {
       __extends(Uploader, _super);
@@ -17,7 +17,8 @@
 
       Uploader.prototype.initialize = function() {
         console.log("uploader");
-        return this.mode = "online";
+        this.mode = "online";
+        return this.blocker = false;
       };
 
       Uploader.prototype.getMode = function() {
@@ -33,6 +34,41 @@
           coll = JSON.parse(window.localStorage["steplist"]);
           return this.updateCollectionOnline();
         }
+      };
+
+      Uploader.prototype.syncParseWithLocalStorage = function() {
+        var currentUser, query, router;
+        if (window.localStorage["init"] === Parse.User.current().get('username')) {
+          console.log('device already set up');
+          router = new MyRouter;
+          Parse.history.start();
+          return;
+        }
+        currentUser = Parse.User.current();
+        query = new Parse.Query(Step);
+        query.equalTo("user", currentUser);
+        console.log('setting up device...about to query');
+        query.find({
+          success: function(results) {
+            var list, r, _i, _len;
+            console.log('success in query');
+            list = new StepList;
+            for (_i = 0, _len = results.length; _i < _len; _i++) {
+              r = results[_i];
+              list.add(r);
+            }
+            console.log(list);
+            window.localStorage["steplist"] = JSON.stringify(list);
+            console.log('locstor', window.localStorage["steplist"]);
+            router = new MyRouter;
+            return Parse.history.start();
+          },
+          error: function(e) {
+            return console.error('error', e);
+          }
+        });
+        window.localStorage["init"] = Parse.User.current().get('username');
+        return console.log('done in sync parse with local storage');
       };
 
       Uploader.prototype.updateCollection = function(coll) {

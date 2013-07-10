@@ -21,27 +21,19 @@
   require(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/app', 'routers/myrouter', 'models/uploader'], function($, Mobile, _, Parse, App, MyRouter, Uploader) {
     var getStarted;
     getStarted = function() {
-      var app, router;
+      var app;
       window.uploader = new Uploader;
-      app = new App;
-      router = new MyRouter;
-      return Parse.history.start();
+      return app = new App;
     };
-    Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
-    if (Parse.User.current()) {
-      console.log('no need to sign in, user already logged');
-      return getStarted();
-    } else {
-      return Parse.User.logIn("johnny", "1234", {
-        success: function(user) {
-          console.log('success logging in');
-          return getStarted();
-        },
-        error: function(user, error) {
-          return console.error('error logging in', error);
-        }
-      });
-    }
+    return $(Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"), Parse.User.current() ? (console.log('no need to sign in, user already logged'), getStarted()) : Parse.User.logIn("jane", "4321", {
+      success: function(user) {
+        console.log('success logging in');
+        return getStarted();
+      },
+      error: function(user, error) {
+        return console.error('error logging in', error);
+      }
+    }));
   });
 
 }).call(this);
