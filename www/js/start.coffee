@@ -14,7 +14,8 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['models/app', 'routers/myrouter', 'models/uploader','parse'], ->
+require ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/app', 'routers/myrouter', 'models/uploader'], 
+($, Mobile, _, Parse, App, MyRouter, Uploader) ->
 	getStarted = ->
 		#initialize the uploader
 		#should be accessible globally

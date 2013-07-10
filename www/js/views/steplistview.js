@@ -3,9 +3,9 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
-    var _ref;
-    return window.StepListView = (function(_super) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], function($, Mobile, _, Parse, StepView) {
+    var StepListView, _ref;
+    return StepListView = (function(_super) {
       __extends(StepListView, _super);
 
       function StepListView() {
@@ -46,7 +46,7 @@
 
       StepListView.prototype.renderEach = function(step) {
         var element, stepView;
-        stepView = new window.StepView({
+        stepView = new StepView({
           model: step
         });
         element = stepView.render().el;

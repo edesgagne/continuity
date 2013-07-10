@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
-	class window.StepListView extends Parse.View
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], ($, Mobile, _, Parse, StepView) ->
+	class StepListView extends Parse.View
 		tagName: 'div'
 		attributes: 
 			'data-role': 'collapsible-set'
@@ -34,6 +34,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			
 			
 		renderEach: (step) ->
-			stepView = new window.StepView {model: step}
+			stepView = new StepView {model: step}
 			element = stepView.render().el
 			$(@el).append element

@@ -1,6 +1,6 @@
 #define ['lib/backbone', 'jquery', 'routers/myrouter'], (Backbone, $, MyRouter) ->
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
-	class window.App extends Parse.Object
+	class App extends Parse.Object
 		className: "App"
 		initialize: ->	
 			console.log "app"

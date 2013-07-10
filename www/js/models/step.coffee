@@ -1,5 +1,5 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
-	class window.Step extends Parse.Object
+	class Step extends Parse.Object
 		className: "Step"
 		defaults:
 			step_num: 0

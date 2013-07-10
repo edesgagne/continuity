@@ -4,8 +4,8 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist', 'views/stepview', 'views/steplistview'], function($, Mobile, _, Parse, Step, StepList, StepView, StepListView) {
-    var _ref;
-    return window.MyRouter = (function(_super) {
+    var MyRouter, _ref;
+    return MyRouter = (function(_super) {
       __extends(MyRouter, _super);
 
       function MyRouter() {

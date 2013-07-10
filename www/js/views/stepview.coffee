@@ -1,5 +1,5 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
-	class window.StepView extends Parse.View
+	class StepView extends Parse.View
 	
 		tagName: 'div'
 		attributes:

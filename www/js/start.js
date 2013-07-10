@@ -18,7 +18,7 @@
     }
   });
 
-  require(['models/app', 'routers/myrouter', 'models/uploader', 'parse'], function() {
+  require(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/app', 'routers/myrouter', 'models/uploader'], function($, Mobile, _, Parse, App, MyRouter, Uploader) {
     var getStarted;
     getStarted = function() {
       var app, router;

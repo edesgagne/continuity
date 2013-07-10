@@ -3,9 +3,9 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
-    var _ref;
-    return window.Uploader = (function(_super) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview'], function($, Mobile, _, Parse, StepList, StepListView) {
+    var Uploader, _ref;
+    return Uploader = (function(_super) {
       __extends(Uploader, _super);
 
       function Uploader() {
@@ -21,6 +21,8 @@
       };
 
       Uploader.prototype.updateMode = function(newmode) {
+        var oldmode;
+        oldmode = this.mode;
         this.mode = newmode;
         return console.log('newmode', this.mode);
       };
@@ -36,6 +38,7 @@
         if (this.mode === "offline" || this.mode === "online") {
           console.log('displaying offline');
           list = new StepList;
+          console.log('display', list);
           steps_array = JSON.parse(window.localStorage["steplist"]);
           for (_i = 0, _len = steps_array.length; _i < _len; _i++) {
             step = steps_array[_i];
