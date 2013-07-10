@@ -22,34 +22,51 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			<%= step_num %> : <%= title %>
 			</h3>
 		
-			<div style="font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px"> 
-			<%= description %>
-			</div>
+
+		<div style="opacity:0.5; text-shadow: none; font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px"> 
+		<%= description %>
+		</div>
 		
+
 		
-			<!-- add new strategy -->
-				
-			<% _.each(fields, function(field) { %> 
+		<!-- add new strategy -->
 			
+		<% _.each(fields, function(field) { %> 
+		
+		
+			<% if (field == "phone number") { %>
+			    <input type="tel" name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
+		    
+			<% } else { %>
+			    <input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
 			
-				<% if (field == "phone number") { %>
-				    <input type="tel" name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
-			    
-				<% } else { %>
-				    <input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
-				
-				<% } %>
+			<% } %>
+	
+		<% }); %>
+		<input id="<%= step_num %>" class="submit" type="submit" value="Submit" />
 		
-			<% }); %>
-			<input id="<%= step_num %>" class="submit" type="submit" value="Submit" />
 		
+
+			
+		
+		
+			
 		
 		
 		
 			<!--display old strategies -->
-			<ul>
-			<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>
-			</ul>
+				<% if (strategies.length != 0) { %>
+				
+			<ol style="text-shadow: none; background-color: turquoise; padding: 10px; padding-left: 40px; border-radius: 10px">
+			<% _.each(strategies, function(strat) { %> 
+				<li style="font-size: 16px; padding: 5px">
+					<%= strat %>
+				</li> 
+			
+			<% }); %>
+			</ol>
+			
+			<% } %>
 		
 			"""
 			@template = _.template temp
@@ -78,6 +95,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 				#clear it
 				$(this).val("")
 			str_output = output.toString()
+			
+			str_output = str_output.replace(","," ")
 			
 			#add them to the array
 			before = @model.get('strategies')

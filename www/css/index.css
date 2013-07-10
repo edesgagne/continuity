@@ -41,10 +41,7 @@ body {
     }
 }
 
-[data-role="collapsible"] > ul > li : {
-	font-size: 10px;
-	color: gray;
-}
+
 
 
 /* Adjust the width of the left push menu.
@@ -77,17 +74,6 @@ Narrow the scope of the selectors to prevent other panels being affected by the 
 .ui-panel-animate.ui-panel-content-fixed-toolbar-position-left.ui-panel-content-fixed-toolbar-open.ui-panel-content-fixed-toolbar-display-push, .ui-panel-animate.ui-panel-content-fixed-toolbar-position-left.ui-panel-content-fixed-toolbar-open.ui-panel-content-fixed-toolbar-display-push, .ui-panel-animate.ui-panel-content-wrap-position-left.ui-panel-content-wrap-open.ui-panel-content-wrap-display-push, .ui-panel-animate.ui-panel-content-wrap-position-left.ui-panel-content-wrap-open.ui-panel-content-wrap-display-push {
 	-webkit-transform: translate3d(12em,0,0);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
