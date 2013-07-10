@@ -14,7 +14,20 @@
       }
 
       MyRouter.prototype.initialize = function() {
-        return console.log("router");
+        console.log("router");
+        return $(document).on("click", "a:not([data-bypass])", function(evt) {
+          var href, root;
+          href = {
+            prop: $(this).prop("href"),
+            attr: $(this).attr("href")
+          };
+          root = location.protocol + "//" + location.host + "/";
+          if (href.prop && href.prop.slice(0, root.length) === root) {
+            evt.preventDefault();
+            Parse.history.navigate(href.attr, true);
+          }
+          return $('#myPanel').panel("close");
+        });
       };
 
       MyRouter.prototype.routes = {
@@ -22,58 +35,42 @@
         "safety": "showSafety"
       };
 
-      MyRouter.prototype.showHome = function() {
-        var title;
-        title = "Home";
+      MyRouter.prototype.basics = function(title) {
         console.log("show " + title);
         $('[data-role="content"]').html(title + " page");
         return $('[data-role="header"] > h3').html(title);
       };
 
+      MyRouter.prototype.showHome = function() {
+        var title;
+        title = "Home";
+        return this.basics(title);
+      };
+
       MyRouter.prototype.showSafety = function() {
-        var element, list, listview, st, stepJSON, title, _i, _len, _ref1;
+        var currentUser, query, title;
         title = "Safety Planning";
-        console.log("show " + title);
-        $('[data-role="content"]').html("");
-        $('[data-role="header"] > h3').html(title);
-        list = new StepList;
-        stepJSON = [
-          {
-            "step_num": 1,
-            "title": "Warning Signs",
-            "description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
-            "fields": ["warning sign"]
-          }, {
-            "step_num": 2,
-            "title": "Coping Strategies",
-            "description": "Internal coping strategies – things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
-            "fields": ["coping strategy"]
-          }, {
-            "step_num": 3,
-            "title": "People",
-            "description": "People that provide distraction:",
-            "fields": ["name", "phone number"]
-          }, {
-            "step_num": 4,
-            "title": "Settings",
-            "description": "Social settings that provide distraction:",
-            "fields": ["place"]
+        this.basics(title);
+        currentUser = Parse.User.current();
+        query = new Parse.Query(Step);
+        query.equalTo("user", currentUser);
+        return query.find({
+          success: function(results) {
+            var element, list, listview, r, _i, _len;
+            list = new StepList;
+            for (_i = 0, _len = results.length; _i < _len; _i++) {
+              r = results[_i];
+              list.add(r);
+            }
+            list.sort();
+            listview = new StepListView({
+              collection: list
+            });
+            element = listview.el;
+            $('[data-role="content"]').html(element);
+            return listview.jqdisplay();
           }
-        ];
-        list.add(stepJSON);
-        _ref1 = list.models;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          st = _ref1[_i];
-          st.save();
-        }
-        listview = new StepListView({
-          collection: list
         });
-        element = listview.el;
-        $('[data-role="content"]').html(element);
-        $('[data-role="content"] > div').collapsibleset();
-        $('.textinput').textinput();
-        return $('[type="submit"]').button();
       };
 
       return MyRouter;

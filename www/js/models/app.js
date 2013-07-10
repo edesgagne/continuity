@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'routers/myrouter'], function($, Mobile, _, Parse, MyRouter) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
     var _ref;
     return window.App = (function(_super) {
       __extends(App, _super);
@@ -17,36 +17,63 @@
 
       App.prototype.initialize = function() {
         console.log("app");
-        return this.initParse();
+        return this.setUpUser();
       };
 
-      App.prototype.initParse = function() {
-        Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
-        return Parse.User.logIn("johnny", "1234", {
-          success: function(user) {
-            var router;
-            console.log('success logging in');
-            router = new MyRouter;
-            Parse.history.start();
-            return $(document).on("click", "a:not([data-bypass])", function(evt) {
-              var href, root;
-              href = {
-                prop: $(this).prop("href"),
-                attr: $(this).attr("href")
-              };
-              root = location.protocol + "//" + location.host + "/";
-              if (href.prop && href.prop.slice(0, root.length) === root) {
-                evt.preventDefault();
-                Parse.history.navigate(href.attr, true);
-              }
-              return $('#myPanel').panel("close");
-            });
-          },
-          error: function(user, error) {
-            console.error('error logging in', error);
-            return alert('wrong username or password');
-          }
+      App.prototype.setUpUser = function() {
+        var currentUser;
+        currentUser = Parse.User.current();
+        if (currentUser.get('isSetUp') === true) {
+          return;
+        }
+        console.log('still here');
+        this.setUpSafety();
+        currentUser.set({
+          isSetUp: true
         });
+        return currentUser.save();
+      };
+
+      App.prototype.setUpSafety = function() {
+        var currentUser, list, st, stepJSON, _i, _len, _ref1, _results;
+        console.log('setting up safety');
+        list = new StepList;
+        stepJSON = [
+          {
+            "step_num": 1,
+            "title": "Warning Signs",
+            "description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
+            "fields": ["warning sign"]
+          }, {
+            "step_num": 2,
+            "title": "Coping Strategies",
+            "description": "Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
+            "fields": ["coping strategy"]
+          }, {
+            "step_num": 3,
+            "title": "People",
+            "description": "People that provide distraction:",
+            "fields": ["name", "phone number"]
+          }, {
+            "step_num": 4,
+            "title": "Settings",
+            "description": "Social settings that provide distraction:",
+            "fields": ["place"]
+          }
+        ];
+        list.add(stepJSON);
+        currentUser = Parse.User.current();
+        _ref1 = list.models;
+        _results = [];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          st = _ref1[_i];
+          st.set({
+            user: currentUser
+          });
+          st.setACL(new Parse.ACL(currentUser));
+          _results.push(st.save());
+        }
+        return _results;
       };
 
       return App;

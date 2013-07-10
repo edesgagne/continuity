@@ -14,5 +14,26 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['models/app'], ->
-	app = new App
+require ['models/app', 'routers/myrouter', 'parse'], ->
+	getStarted = ->
+		#initialize the app
+		app = new App
+		#initialize the router
+		router = new MyRouter
+		Parse.history.start()
+	
+	Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
+
+	#see if user is already logged in
+	if Parse.User.current()
+		console.log 'no need to sign in, user already logged'
+		getStarted()
+	#otherwise, log them in
+	else
+		Parse.User.logIn "johnny", "1234",
+			success: (user) ->
+				console.log 'success logging in'
+				getStarted()
+			error: (user, error) ->
+				console.error 'error logging in', error
+	

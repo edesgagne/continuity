@@ -41,6 +41,11 @@ body {
     }
 }
 
+[data-role="collapsible"] > ul > li : {
+	font-size: 10px;
+	color: gray;
+}
+
 
 /* Adjust the width of the left push menu.
 Copy all CSS from jquery.mobile.panel.css and delete the properties other than width, left, right and transform.

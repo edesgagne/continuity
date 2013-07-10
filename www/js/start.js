@@ -18,9 +18,29 @@
     }
   });
 
-  require(['models/app'], function() {
-    var app;
-    return app = new App;
+  require(['models/app', 'routers/myrouter', 'parse'], function() {
+    var getStarted;
+    getStarted = function() {
+      var app, router;
+      app = new App;
+      router = new MyRouter;
+      return Parse.history.start();
+    };
+    Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
+    if (Parse.User.current()) {
+      console.log('no need to sign in, user already logged');
+      return getStarted();
+    } else {
+      return Parse.User.logIn("johnny", "1234", {
+        success: function(user) {
+          console.log('success logging in');
+          return getStarted();
+        },
+        error: function(user, error) {
+          return console.error('error logging in', error);
+        }
+      });
+    }
   });
 
 }).call(this);

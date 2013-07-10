@@ -15,6 +15,10 @@
 
       StepList.prototype.model = Step;
 
+      StepList.prototype.comparator = function(object) {
+        return object.get('step_num');
+      };
+
       return StepList;
 
     })(Parse.Collection);

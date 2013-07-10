@@ -1,56 +1,43 @@
 #define ['lib/backbone', 'jquery', 'routers/myrouter'], (Backbone, $, MyRouter) ->
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'routers/myrouter'], ($, Mobile, _, Parse, MyRouter) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
 	class window.App extends Parse.Object
 		className: "App"
 		initialize: ->	
 			console.log "app"
-			#console.log 'true or false', @initParse()
-			@initParse()
-			#@initRouter()
-			#@initMenu()
-		initParse: ->
-			Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
-			Parse.User.logIn "johnny", "1234",
-				success: (user) ->
-					console.log 'success logging in'
-					#initialize the router
-					router = new MyRouter
-					Parse.history.start()
-					#initialize the menu
-					#whenever a link in the menu is clicked
-					#it tells the backbone router to navigate there
-					$(document).on "click", "a:not([data-bypass])", (evt) ->
-						href =
-							prop: $(this).prop("href")
-							attr: $(this).attr("href")
-
-						root = location.protocol + "//" + location.host + "/"
-						if href.prop and href.prop.slice(0, root.length) is root
-							evt.preventDefault()
-							Parse.history.navigate href.attr, true
-
-						#close the panel
-						$('#myPanel').panel("close")
-		 			# Do stuff after successful login.
-				error: (user, error) ->
-					console.error 'error logging in', error
-					alert 'wrong username or password'
-					# The login failed. Check error to see why.
-		# initRouter: ->
-		# 	router = new MyRouter
-		# 	Parse.history.start()
-		# initMenu: ->
-		# 	#whenever a link in the menu is clicked
-		# 	#it tells the backbone router to navigate there
-		# 	$(document).on "click", "a:not([data-bypass])", (evt) ->
-		# 		href =
-		# 			prop: $(this).prop("href")
-		# 			attr: $(this).attr("href")
-		# 
-		# 		root = location.protocol + "//" + location.host + "/"
-		# 		if href.prop and href.prop.slice(0, root.length) is root
-		# 			evt.preventDefault()
-		# 			Parse.history.navigate href.attr, true
-		# 
-		# 		#close the panel
-		# 		$('#myPanel').panel("close")
+			@setUpUser()
+		
+		setUpUser: ->
+			currentUser = Parse.User.current()
+			if currentUser.get('isSetUp') == true
+				#nothing needs to happen
+				return
+			#set up the user
+			console.log 'still here'
+			@setUpSafety()
+			#set it to true so the set up doesn't happen again
+			currentUser.set
+				isSetUp: true
+			currentUser.save()
+		
+		setUpSafety: ->
+			console.log 'setting up safety'
+			
+			list = new StepList
+			
+			#add all the steps to the list
+			stepJSON = [{"step_num":1,"title":"Warning Signs","description":"Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:","fields":["warning sign"]},{"step_num":2,"title":"Coping Strategies","description":"Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):","fields":["coping strategy"]},{"step_num":3,"title":"People","description":"People that provide distraction:","fields":["name","phone number"]},{"step_num":4,"title":"Settings","description":"Social settings that provide distraction:","fields":["place"]}]
+			list.add stepJSON
+	
+			currentUser = Parse.User.current();
+			
+			#loop through each step
+			for st in list.models
+				#make it query-able by that user
+				st.set
+					user: currentUser
+				#make sure only cur user can get it
+				st.setACL(new Parse.ACL(currentUser))
+				#save it
+				st.save()
+			
+			

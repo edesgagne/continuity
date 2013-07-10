@@ -9,7 +9,12 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			"click .submit": "clicked"
 			
 		initialize: ->
-			_.bindAll @
+			_.bindAll @, 'clicked'
+			
+			#whenever the model changes, the view should re-render
+			
+			#@model.bind('change', @rerender)
+			
 			temp = """
 		
 			<h3>
@@ -41,8 +46,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 		
 		
 			<!--display old strategies -->
+			<ul>
 			<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>
-		
+			</ul>
 		
 			"""
 			@template = _.template temp
@@ -53,32 +59,26 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			content = @template(@model.toJSON())
 			$(@el).html content
 			@ #return itself
-			
+		rerender: =>
+			console.log 'rerendering view'
+			@render()
 		clicked: (e) =>
-			console.log 'id', @model.get('step_num')
-			console.log 'strat', @model.get('strategies')
-			#get an array of the values
 			e.preventDefault()
-			output = []
+			
+			#get values of input fields
+			output = Array()
 			$(@el).find('.textinput').each ->
 				output.push $(this).val()
-			# #add it to the model
-			# dic = {}
-			# #length of output and field should be same
-			# #in the dictionary
-			# #field will be the key
-			# #and output will be the key value
-			# i = 0
-			# while i < output.length
-			# 	key = @model.get('fields')[i]
-			# 	val = output[i]
-			# 	dic[key] = val
-			# 	i++
-			# console.log dic
-			# @model.set
-			# 	strategies: @model.get('strategies').push dic
-			# console.log @model.get('strategies')
+				#clear it
+				$(this).val("")
+			str_output = output.toString()
 			
+			#add them to the array
+			before = @model.get('strategies')
+			before.push str_output
 			
-			
-			
+			#update the model
+			@model.set
+				strategies: before
+							
+			console.log 'updated strategies', @model.get('strategies')

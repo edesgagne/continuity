@@ -29,6 +29,26 @@
         return this;
       };
 
+      StepListView.prototype.jqdisplay = function() {
+        console.log('jq display');
+        $('[data-role="content"] > div').collapsibleset();
+        $('.textinput').textinput();
+        return $('[type="submit"]').button();
+      };
+
+      StepListView.prototype.rerender = function() {
+        console.log('rerendering collection');
+        $('[data-role="content"] > div').collapsibleset('refresh');
+        $('[data-role="content"] > div').find('div[data-role=collapsible]').each(function(i) {
+          $(this).collapsible({
+            refresh: true
+          });
+          return console.log($(this));
+        });
+        $('[data-role="content"] > div').trigger("create");
+        return this.jqdisplay();
+      };
+
       StepListView.prototype.renderEach = function(step) {
         var element, stepView;
         stepView = new window.StepView({

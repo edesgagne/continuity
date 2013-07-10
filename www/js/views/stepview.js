@@ -11,6 +11,7 @@
 
       function StepView() {
         this.clicked = __bind(this.clicked, this);
+        this.rerender = __bind(this.rerender, this);
         this.render = __bind(this.render, this);
         _ref = StepView.__super__.constructor.apply(this, arguments);
         return _ref;
@@ -29,8 +30,8 @@
 
       StepView.prototype.initialize = function() {
         var temp;
-        _.bindAll(this);
-        temp = "\n	<h3>\n	<%= step_num %> : <%= title %>\n	</h3>\n\n	<div style=\"font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px\"> \n	<%= description %>\n	</div>\n\n\n	<!-- add new strategy -->\n		\n	<% _.each(fields, function(field) { %> \n	\n	\n		<% if (field == \"phone number\") { %>\n		    <input type=\"tel\" name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n	    \n		<% } else { %>\n		    <input name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n		\n		<% } %>\n\n	<% }); %>\n	<input id=\"<%= step_num %>\" class=\"submit\" type=\"submit\" value=\"Submit\" />\n\n\n\n\n	<!--display old strategies -->\n	<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n\n";
+        _.bindAll(this, 'clicked');
+        temp = "\n	<h3>\n	<%= step_num %> : <%= title %>\n	</h3>\n\n	<div style=\"font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px\"> \n	<%= description %>\n	</div>\n\n\n	<!-- add new strategy -->\n		\n	<% _.each(fields, function(field) { %> \n	\n	\n		<% if (field == \"phone number\") { %>\n		    <input type=\"tel\" name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n	    \n		<% } else { %>\n		    <input name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n		\n		<% } %>\n\n	<% }); %>\n	<input id=\"<%= step_num %>\" class=\"submit\" type=\"submit\" value=\"Submit\" />\n\n\n\n\n	<!--display old strategies -->\n	<ul>\n	<% _.each(strategies, function(strat) { %> <li><%= strat %></li> <% }); %>\n	</ul>\n";
         this.template = _.template(temp);
         return this.render();
       };
@@ -42,15 +43,26 @@
         return this;
       };
 
+      StepView.prototype.rerender = function() {
+        console.log('rerendering view');
+        return this.render();
+      };
+
       StepView.prototype.clicked = function(e) {
-        var output;
-        console.log('id', this.model.get('step_num'));
-        console.log('strat', this.model.get('strategies'));
+        var before, output, str_output;
         e.preventDefault();
-        output = [];
-        return $(this.el).find('.textinput').each(function() {
-          return output.push($(this).val());
+        output = Array();
+        $(this.el).find('.textinput').each(function() {
+          output.push($(this).val());
+          return $(this).val("");
         });
+        str_output = output.toString();
+        before = this.model.get('strategies');
+        before.push(str_output);
+        this.model.set({
+          strategies: before
+        });
+        return console.log('updated strategies', this.model.get('strategies'));
       };
 
       return StepView;
