@@ -18,10 +18,11 @@
     }
   });
 
-  require(['models/app', 'routers/myrouter', 'parse'], function() {
+  require(['models/app', 'routers/myrouter', 'models/uploader', 'parse'], function() {
     var getStarted;
     getStarted = function() {
       var app, router;
+      window.uploader = new Uploader;
       app = new App;
       router = new MyRouter;
       return Parse.history.start();

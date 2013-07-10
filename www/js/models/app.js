@@ -17,13 +17,40 @@
 
       App.prototype.initialize = function() {
         console.log("app");
-        return this.setUpUser();
+        this.setUpUser();
+        this.setUpDevice();
+        return this.bindEvents();
+      };
+
+      App.prototype.bindEvents = function() {
+        document.addEventListener("deviceready", this.onDeviceReady, false);
+        document.addEventListener("offline", this.onOffline, false);
+        return document.addEventListener("online", this.onOnline, false);
+      };
+
+      App.prototype.onDeviceReady = function() {
+        return console.log("deviceready");
+      };
+
+      App.prototype.onOffline = function() {
+        console.log("offline");
+        return window.uploader.updateMode("offline");
+      };
+
+      App.prototype.onOnline = function() {
+        console.log("online");
+        return window.uploader.updateMode("online");
       };
 
       App.prototype.setUpUser = function() {
         var currentUser;
+        if (window.uploader.mode !== "online") {
+          console.log("sorry, you must be online to set up the user");
+          return;
+        }
         currentUser = Parse.User.current();
         if (currentUser.get('isSetUp') === true) {
+          console.log('user already set up');
           return;
         }
         console.log('still here');
@@ -74,6 +101,38 @@
           _results.push(st.save());
         }
         return _results;
+      };
+
+      App.prototype.setUpDevice = function() {
+        var currentUser, query;
+        if (window.localStorage["init"] === 'true') {
+          console.log('device already set up');
+        } else if (window.uploader.mode !== "online") {
+          console.log("sorry, you must be online to set up the device");
+        } else {
+          currentUser = Parse.User.current();
+          console.log('about to query');
+          query = new Parse.Query(Step);
+          query.equalTo("user", currentUser);
+          query.find({
+            success: function(results) {
+              var list, r, _i, _len;
+              console.log('success in query');
+              list = new StepList;
+              for (_i = 0, _len = results.length; _i < _len; _i++) {
+                r = results[_i];
+                list.add(r);
+              }
+              window.localStorage["steplist"] = JSON.stringify(list);
+              return console.log(window.localStorage["steplist"]);
+            },
+            error: function(e) {
+              return console.log('error', e);
+            }
+          });
+          console.log('steplist in locstor', JSON.parse(window.localStorage["steplist"]));
+          return window.localStorage["init"] = true;
+        }
       };
 
       return App;

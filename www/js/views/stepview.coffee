@@ -11,6 +11,10 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 		initialize: ->
 			_.bindAll @, 'clicked'
 			
+			id = @model.get('step_num')
+			console.log id
+			$(@el).attr('id', id)
+			
 			#whenever the model changes, the view should re-render
 			
 			#@model.bind('change', @rerender)
@@ -70,6 +74,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 		
 			"""
 			@template = _.template temp
+
 		open: =>
 			#this is being triggered twice?
 			console.log 'triggered open'
@@ -77,7 +82,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			
 			$(@el).attr('data-collapsed', 'false')
 			console.log $(@el).attr('data-collapsed')
-			$('[data-role="collapsible"]').collapsible({refresh: true})
+			$('[data-role="collapsible-set"]').collapsibleset("refresh")
 		render: =>
 			content = @template(@model.toJSON())
 			$(@el).html content

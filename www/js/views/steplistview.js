@@ -40,7 +40,8 @@
         $(this.el).html("");
         this.render();
         console.log('rerendering collection');
-        return this.jqdisplay();
+        this.jqdisplay();
+        return window.uploader.updateCollection(this.collection);
       };
 
       StepListView.prototype.renderEach = function(step) {

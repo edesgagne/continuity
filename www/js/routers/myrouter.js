@@ -48,29 +48,10 @@
       };
 
       MyRouter.prototype.showSafety = function() {
-        var currentUser, query, title;
+        var title;
         title = "Safety Planning";
         this.basics(title);
-        currentUser = Parse.User.current();
-        query = new Parse.Query(Step);
-        query.equalTo("user", currentUser);
-        return query.find({
-          success: function(results) {
-            var element, list, listview, r, _i, _len;
-            list = new StepList;
-            for (_i = 0, _len = results.length; _i < _len; _i++) {
-              r = results[_i];
-              list.add(r);
-            }
-            list.sort();
-            listview = new StepListView({
-              collection: list
-            });
-            element = listview.render().el;
-            $('[data-role="content"]').html(element);
-            return listview.jqdisplay();
-          }
-        });
+        return window.uploader.displaySteps();
       };
 
       return MyRouter;

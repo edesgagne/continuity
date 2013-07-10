@@ -29,6 +29,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			
 			#changedmodel.trigger('openCollapsible')
 			
+			#update local storage
+			window.uploader.updateCollection @collection
+			
 			
 		renderEach: (step) ->
 			stepView = new window.StepView {model: step}

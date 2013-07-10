@@ -43,24 +43,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			#change content
 			#list must be gotten in a query
 			
-			currentUser = Parse.User.current()
+			window.uploader.displaySteps()
 			
-			query = new Parse.Query Step
-			#get all of the steps that are linked to the current user
-			query.equalTo "user", currentUser
-			query.find
-				success: (results) ->
-					list = new StepList
-					#fill up the step list
-					for r in results
-						list.add r
-					
-					#sort the step list using "comparator" method in steplist
-					list.sort()
-					#create a view for the steplist
-					listview = new StepListView {collection: list}
-					
-					#display it
-					element = listview.render().el
-					$('[data-role="content"]').html element
-					listview.jqdisplay()
+			

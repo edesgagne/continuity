@@ -17,26 +17,39 @@
 
       Uploader.prototype.initialize = function() {
         console.log("uploader");
-        this.bindEvents();
-        return console.log("localstorage", window.localStorage["items"]);
+        return this.mode = "online";
       };
 
-      Uploader.prototype.bindEvents = function() {
-        document.addEventListener("deviceready", this.onDeviceReady, false);
-        document.addEventListener("offline", this.onOffline, false);
-        return document.addEventListener("online", this.onOnline, false);
+      Uploader.prototype.updateMode = function(newmode) {
+        this.mode = newmode;
+        return console.log('newmode', this.mode);
       };
 
-      Uploader.prototype.onDeviceReady = function() {
-        return console.log("deviceready");
+      Uploader.prototype.updateCollection = function(coll) {
+        console.log('updating collection');
+        console.log(coll);
+        return window.localStorage["steplist"] = JSON.stringify(coll);
       };
 
-      Uploader.prototype.onOffline = function() {
-        return console.log("offline");
-      };
-
-      Uploader.prototype.onOnline = function() {
-        return console.log("online");
+      Uploader.prototype.displaySteps = function() {
+        var element, list, listview, step, steps_array, _i, _len;
+        if (this.mode === "offline" || this.mode === "online") {
+          console.log('displaying offline');
+          list = new StepList;
+          steps_array = JSON.parse(window.localStorage["steplist"]);
+          for (_i = 0, _len = steps_array.length; _i < _len; _i++) {
+            step = steps_array[_i];
+            list.add(step);
+          }
+          listview = new StepListView({
+            collection: list
+          });
+          element = listview.render().el;
+          $('[data-role="content"]').html(element);
+          return listview.jqdisplay();
+        } else {
+          return console.error('must be either online or offline');
+        }
       };
 
       return Uploader;
