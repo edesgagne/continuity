@@ -40,9 +40,7 @@
         $(this.el).html("");
         this.render();
         console.log('rerendering collection');
-        this.jqdisplay();
-        console.log(changedmodel);
-        return changedmodel.trigger('openCollapsible');
+        return this.jqdisplay();
       };
 
       StepListView.prototype.renderEach = function(step) {

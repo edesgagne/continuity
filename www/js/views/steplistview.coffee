@@ -25,9 +25,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			
 			@jqdisplay()
 			
-			console.log changedmodel
+			#console.log changedmodel
 			
-			changedmodel.trigger('openCollapsible')
+			#changedmodel.trigger('openCollapsible')
 			
 			
 		renderEach: (step) ->
