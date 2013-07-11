@@ -14,29 +14,15 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/app', 'routers/myrouter', 'models/uploader'], 
-($, Mobile, _, Parse, App, MyRouter, Uploader) ->
-	getStarted = ->
-		#initialize the uploader
-		#should be accessible globally
-		window.uploader = new Uploader
-		#initialize the app
-		app = new App
 
-	$(
-		
+require ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/app', 'routers/myrouter', 'models/uploader', 'views/startview'], 
+($, Mobile, _, Parse, App, MyRouter, Uploader, StartView) ->
+	
+	$(#temporary, to be replaced with 'device ready'
+	
 		Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
 
-		#see if user is already logged in
-		if Parse.User.current()
-			console.log 'no need to sign in, user already logged'
-			getStarted()
-		#otherwise, log them in
-		else
-			Parse.User.logIn "johnny", "1234",
-				success: (user) ->
-					console.log 'success logging in'
-					getStarted()
-				error: (user, error) ->
-					console.error 'error logging in', error
+		window.uploader = new Uploader
+		
+		new StartView
 	)
