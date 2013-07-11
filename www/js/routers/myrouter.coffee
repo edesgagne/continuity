@@ -22,6 +22,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			"": "showHome"
 			"safety": "showSafety"
 			"help": "showHelp"
+			"activities": "showActivities"
 		
 		basics: (title) ->
 			#log
@@ -38,7 +39,11 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			@basics title
 			
 			$('[data-role="content"]').html "You are logged in as <b>" + Parse.User.current().get("username") + "</b>"
-			
+		
+		showActivities: ->
+			title = "Activities"
+			@basics title
+		
 		showSafety: ->
 			title = "Safety Planning"
 			@basics title

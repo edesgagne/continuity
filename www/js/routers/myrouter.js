@@ -33,7 +33,8 @@
       MyRouter.prototype.routes = {
         "": "showHome",
         "safety": "showSafety",
-        "help": "showHelp"
+        "help": "showHelp",
+        "activities": "showActivities"
       };
 
       MyRouter.prototype.basics = function(title) {
@@ -47,6 +48,12 @@
         title = "Home";
         this.basics(title);
         return $('[data-role="content"]').html("You are logged in as <b>" + Parse.User.current().get("username") + "</b>");
+      };
+
+      MyRouter.prototype.showActivities = function() {
+        var title;
+        title = "Activities";
+        return this.basics(title);
       };
 
       MyRouter.prototype.showSafety = function() {
