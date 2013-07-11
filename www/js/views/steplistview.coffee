@@ -19,35 +19,29 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], ($, 
 			$('[type="submit"]').button();
 			$('[data-role="button"]').button();
 		rerender: (changedmodel)->
-			console.log 'rerendering'
-			$(@el).html("")
+			console.log 'rerendering collection'
 			
-
+			$(@el).html("")
 						
 			#get the index of the model that was changed
 			@collection.sort()
 			@changed = null
 			i = 1
 			for model in @collection.models
-				console.log model
 				if model == changedmodel
-					console.log 'SAME'
 					@changed = i
 					break
 				i = i + 1
-			
-			console.log @changed
 			
 			#update local storage
 			window.uploader.updateCollection @collection
 			
 			@render()
-			console.log 'rerendering collection'
+			
 			
 			@jqdisplay()
 			
 		renderEach: (step) ->
-			console.log @changed, step.get('step_num')
 			stepView = new StepView {model: step}
 			element = stepView.render().el
 			

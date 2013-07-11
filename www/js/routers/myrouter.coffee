@@ -21,6 +21,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 		routes:
 			"": "showHome"
 			"safety": "showSafety"
+			"help": "showHelp"
 		
 		basics: (title) ->
 			#log
@@ -36,13 +37,47 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			title = "Home"
 			@basics title
 			
+			$('[data-role="content"]').html "You are logged in as <b>" + Parse.User.current().get("username") + "</b>"
+			
 		showSafety: ->
 			title = "Safety Planning"
 			@basics title
 			
 			#change content
 			#list must be gotten in a query
-			
 			window.uploader.displaySteps()
+			
+		showHelp: ->
+			title = "Get Help"
+			@basics title
+			
+			
+
+			
+			
+			$('[data-role="content"]').html """
+			
+			<a data-icon="grid" data-role="button" href="tel:8002738255">
+			Call the Lifeline
+			</a>
+			
+			<button
+			onclick="window.open('http://suicidepreventionlifeline.org/GetHelp/LifelineChat.aspx', '_blank', 'location=yes');"
+			target="_blank" data-icon="grid" data-role="button" href="">
+			Lifeline Crisis Chat
+			</button>
+			
+			
+			<button
+			onclick="window.open('http://findtreatment.samhsa.gov/MHTreatmentLocator/faces/quickSearch.jspx', '_blank', 'location=yes');"
+			target="_blank" data-icon="search" data-role="button" href="">
+			Treatment Locator
+			</button>
+			
+			
+			
+			"""
+			
+			$('[data-role="button"]').button();
 			
 			

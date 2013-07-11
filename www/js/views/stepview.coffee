@@ -67,7 +67,22 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			<% _.each(strategies, function(strat) { %> 
 				<li id="<%= i %>" style="font-size: 16px; padding: 10px">
 					<a class="delete" style="margin-right: 10px;" href="#" data-bypass="true" data-iconpos="notext" data-role="button" data-icon="delete" data-mini="true" data-inline="true">Delete</a>
-					<%= strat %>
+					
+					<% if(strat.indexOf("|") == -1) { %>
+						<%= strat %>
+					<% } else { %>
+						<% arr = strat.split(" | ");
+						str = arr[0];
+						phone = arr[1];
+						%>
+						<%= str %>
+						
+						<a data-inline="true" data-mini="true" data-role="button" href="tel:<%= phone %>">
+						Call Phone: <%= phone %>
+						</a>
+						
+						
+					<% } %>
 				</li> 
 				<% i = i + 1 %>
 			
@@ -127,7 +142,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 				$(this).val("")
 			str_output = output.toString()
 			
-			str_output = str_output.replace(","," ")
+			str_output = str_output.replace(","," | ")
 			
 			#add them to the array
 			before = @model.get('strategies')

@@ -32,7 +32,8 @@
 
       MyRouter.prototype.routes = {
         "": "showHome",
-        "safety": "showSafety"
+        "safety": "showSafety",
+        "help": "showHelp"
       };
 
       MyRouter.prototype.basics = function(title) {
@@ -44,7 +45,8 @@
       MyRouter.prototype.showHome = function() {
         var title;
         title = "Home";
-        return this.basics(title);
+        this.basics(title);
+        return $('[data-role="content"]').html("You are logged in as <b>" + Parse.User.current().get("username") + "</b>");
       };
 
       MyRouter.prototype.showSafety = function() {
@@ -52,6 +54,14 @@
         title = "Safety Planning";
         this.basics(title);
         return window.uploader.displaySteps();
+      };
+
+      MyRouter.prototype.showHelp = function() {
+        var title;
+        title = "Get Help";
+        this.basics(title);
+        $('[data-role="content"]').html("\n<a data-icon=\"grid\" data-role=\"button\" href=\"tel:8002738255\">\nCall the Lifeline\n</a>\n\n<button\nonclick=\"window.open('http://suicidepreventionlifeline.org/GetHelp/LifelineChat.aspx', '_blank', 'location=yes');\"\ntarget=\"_blank\" data-icon=\"grid\" data-role=\"button\" href=\"\">\nLifeline Crisis Chat\n</button>\n\n\n<button\nonclick=\"window.open('http://findtreatment.samhsa.gov/MHTreatmentLocator/faces/quickSearch.jspx', '_blank', 'location=yes');\"\ntarget=\"_blank\" data-icon=\"search\" data-role=\"button\" href=\"\">\nTreatment Locator\n</button>\n\n\n");
+        return $('[data-role="button"]').button();
       };
 
       return MyRouter;
