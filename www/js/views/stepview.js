@@ -25,17 +25,17 @@
       };
 
       StepView.prototype.events = {
-        "click .submit": "clicked"
+        "click .submit": "clicked",
+        "click .delete": "remove"
       };
 
       StepView.prototype.initialize = function() {
         var id, temp;
         _.bindAll(this, 'clicked');
         id = this.model.get('step_num');
-        console.log(id);
         $(this.el).attr('id', id);
         this.model.on('openCollapsible', this.open);
-        temp = "	\n		<h3>\n		<%= step_num %> : <%= title %>\n		</h3>\n	\n\n	<div style=\"opacity:0.5; text-shadow: none; font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px\"> \n	<%= description %>\n	</div>\n	\n\n	\n	<!-- add new strategy -->\n		\n	<% _.each(fields, function(field) { %> \n	\n	\n		<% if (field == \"phone number\") { %>\n		    <input type=\"tel\" name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n	    \n		<% } else { %>\n		    <input name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n		\n		<% } %>\n\n	<% }); %>\n	<input id=\"<%= step_num %>\" class=\"submit\" type=\"submit\" value=\"Submit\" />\n	\n	\n\n		\n	\n	\n		\n	\n	\n	\n		<!--display old strategies -->\n			<% if (strategies.length != 0) { %>\n			\n		<ol style=\"text-shadow: none; background-color: turquoise; padding: 10px; padding-left: 40px; border-radius: 10px\">\n		<% _.each(strategies, function(strat) { %> \n			<li style=\"font-size: 16px; padding: 5px\">\n				<%= strat %>\n			</li> \n		\n		<% }); %>\n		</ol>\n		\n		<% } %>\n	";
+        temp = "	\n		<h3>\n		<%= step_num %> : <%= title %>\n		</h3>\n	\n\n	<div style=\"opacity:0.5; text-shadow: none; font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px\"> \n	<%= description %>\n	</div>\n	\n\n	\n	<!-- add new strategy -->\n		\n	<% _.each(fields, function(field) { %> \n	\n	\n		<% if (field == \"phone number\") { %>\n		    <input type=\"tel\" name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n	    \n		<% } else { %>\n		    <input name=\"\" class=\"textinput\" placeholder=\"Add <%= field %>\" value=\"\" type=\"text\" data-mini=\"false\" />\n		\n		<% } %>\n\n	<% }); %>\n	<input id=\"<%= step_num %>\" class=\"submit\" type=\"submit\" value=\"Submit\" />\n	\n	\n\n		\n	\n	\n		\n	\n	\n	\n		<!--display old strategies -->\n			<% if (strategies.length != 0) { %>\n			\n		<ol style=\"list-style-type: none; text-shadow: none; border:5px solid gray; padding: 10px; padding-left: 30px; border-radius: 10px\">\n		<% i = 0 %>\n		<% _.each(strategies, function(strat) { %> \n			<li id=\"<%= i %>\" style=\"font-size: 16px; padding: 10px\">\n				<a class=\"delete\" style=\"margin-right: 10px;\" href=\"#\" data-bypass=\"true\" data-iconpos=\"notext\" data-role=\"button\" data-icon=\"delete\" data-mini=\"true\" data-inline=\"true\">Delete</a>\n				<%= strat %>\n			</li> \n			<% i = i + 1 %>\n		\n		<% }); %>\n		</ol>\n		\n		<% } %>\n	";
         return this.template = _.template(temp);
       };
 
@@ -52,6 +52,20 @@
         content = this.template(this.model.toJSON());
         $(this.el).html(content);
         return this;
+      };
+
+      StepView.prototype.remove = function(e) {
+        var arr, id, num, todelete;
+        e.preventDefault();
+        todelete = $(e.currentTarget).parent();
+        id = todelete.attr('id');
+        num = parseInt(id);
+        arr = this.model.get('strategies');
+        arr.splice(num, 1);
+        this.model.set({
+          strategies: arr
+        });
+        return console.log('updated strategies', this.model.get('strategies'));
       };
 
       StepView.prototype.clicked = function(e) {

@@ -7,12 +7,13 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			'data-collapsed': 'true'
 		events:
 			"click .submit": "clicked"
+			"click .delete": "remove"
 			
 		initialize: ->
 			_.bindAll @, 'clicked'
 			
 			id = @model.get('step_num')
-			console.log id
+			#console.log id
 			$(@el).attr('id', id)
 			
 			#whenever the model changes, the view should re-render
@@ -61,11 +62,14 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			<!--display old strategies -->
 				<% if (strategies.length != 0) { %>
 				
-			<ol style="text-shadow: none; background-color: turquoise; padding: 10px; padding-left: 40px; border-radius: 10px">
+			<ol style="list-style-type: none; text-shadow: none; border:5px solid gray; padding: 10px; padding-left: 30px; border-radius: 10px">
+			<% i = 0 %>
 			<% _.each(strategies, function(strat) { %> 
-				<li style="font-size: 16px; padding: 5px">
+				<li id="<%= i %>" style="font-size: 16px; padding: 10px">
+					<a class="delete" style="margin-right: 10px;" href="#" data-bypass="true" data-iconpos="notext" data-role="button" data-icon="delete" data-mini="true" data-inline="true">Delete</a>
 					<%= strat %>
 				</li> 
+				<% i = i + 1 %>
 			
 			<% }); %>
 			</ol>
@@ -90,6 +94,28 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 		#rerender: =>
 		#	console.log 'rerendering view'
 		#	@render()
+		remove: (e) ->
+			e.preventDefault()
+			
+			#get the id of the list element
+			todelete =  $(e.currentTarget).parent()
+			id = todelete.attr('id') #ex: list_0
+			num = parseInt(id) #ex: 0
+			
+			#remove it from the model
+			#so it doesn't get rerendered wrong
+			arr = @model.get('strategies')
+			#remove the element at index 'num'
+			arr.splice(num, 1) #only remove 1 element
+			
+			@model.set
+				strategies: arr
+			
+			console.log 'updated strategies', @model.get('strategies')
+			
+			#then the collection will rerender it
+			
+			#remoe it from localstorage and parse using uplaoder
 		clicked: (e) =>
 			e.preventDefault()
 			
@@ -110,5 +136,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			#update the model
 			@model.set
 				strategies: before
-							
+			
+			#then the collection will re render it
 			console.log 'updated strategies', @model.get('strategies')

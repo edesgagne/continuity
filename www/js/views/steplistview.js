@@ -21,7 +21,8 @@
 
       StepListView.prototype.initialize = function() {
         _.bindAll(this);
-        return this.collection.bind("change", this.rerender, this);
+        this.collection.bind("change", this.rerender, this);
+        return this.changed = -1;
       };
 
       StepListView.prototype.render = function() {
@@ -33,23 +34,46 @@
         console.log('jq display');
         $('[data-role="collapsible-set"]').collapsibleset();
         $('.textinput').textinput();
-        return $('[type="submit"]').button();
+        $('[type="submit"]').button();
+        return $('[data-role="button"]').button();
       };
 
       StepListView.prototype.rerender = function(changedmodel) {
+        var i, model, _i, _len, _ref1;
+        console.log('rerendering');
         $(this.el).html("");
+        this.collection.sort();
+        this.changed = null;
+        i = 1;
+        _ref1 = this.collection.models;
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          model = _ref1[_i];
+          console.log(model);
+          if (model === changedmodel) {
+            console.log('SAME');
+            this.changed = i;
+            break;
+          }
+          i = i + 1;
+        }
+        console.log(this.changed);
+        window.uploader.updateCollection(this.collection);
         this.render();
         console.log('rerendering collection');
-        this.jqdisplay();
-        return window.uploader.updateCollection(this.collection);
+        return this.jqdisplay();
       };
 
       StepListView.prototype.renderEach = function(step) {
         var element, stepView;
+        console.log(this.changed, step.get('step_num'));
         stepView = new StepView({
           model: step
         });
         element = stepView.render().el;
+        if (this.changed !== -1 && this.changed === step.get('step_num')) {
+          $(element).attr('data-collapsed', 'false');
+          this.changed = -1;
+        }
         return $(this.el).append(element);
       };
 

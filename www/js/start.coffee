@@ -33,7 +33,7 @@ require ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/app', 'routers
 			getStarted()
 		#otherwise, log them in
 		else
-			Parse.User.logIn "jane", "4321",
+			Parse.User.logIn "johnny", "1234",
 				success: (user) ->
 					console.log 'success logging in'
 					getStarted()
