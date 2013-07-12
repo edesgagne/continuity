@@ -29,10 +29,8 @@
 
       AppView.prototype.logOut = function() {
         console.log('logging out');
-        alert('logging out');
         Parse.User.logOut();
-        window.location.reload();
-        return alert('reloaded');
+        return window.location.reload();
       };
 
       AppView.prototype.render = function() {
