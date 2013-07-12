@@ -14,37 +14,21 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview', 'models/uploader'], 
-($, Mobile, _, Parse, BeforeStartView, Uploader) ->
+require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview', 'models/uploader', 'models/app'], 
+($, Mobile, _, Parse, BeforeStartView, Uploader, App) ->
 	
-	alert "starting app"
+	#alert "starting app"
 	
 	Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
 	
+	#requires parse
 	window.uploader = new Uploader
-	new BeforeStartView
 	
-	# getStarted = ->
-	# 	#initialize the uploader
-	# 	#should be accessible globally
-	# 	window.uploader = new Uploader
-	# 	#initialize the app
-	# 	app = new App
-	# 
-	# $(
-	# 	
-	# 	Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
-	# 
-	# 	#see if user is already logged in
-	# 	if Parse.User.current()
-	# 		console.log 'no need to sign in, user already logged'
-	# 		getStarted()
-	# 	#otherwise, log them in
-	# 	else
-			# Parse.User.logIn "johnny", "1234",
-			# 	success: (user) ->
-			# 		console.log 'success logging in'
-			# 		getStarted()
-			# 	error: (user, error) ->
-			# 		console.error 'error logging in', error
-	# )
+	#binds events to online/offline 
+	#requires uploader
+	new App 
+	
+	#requires app
+	#so it will know if user is online/offline
+	#so it will know whether to let them login/signup
+	new BeforeStartView
