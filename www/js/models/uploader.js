@@ -64,15 +64,20 @@
             console.log(list);
             window.localStorage["steplist"] = JSON.stringify(list);
             console.log('locstor', window.localStorage["steplist"]);
+            console.log('setting is set up to true');
+            currentUser.set({
+              isSetUp: true
+            });
+            currentUser.save();
             router = new MyRouter;
-            return Parse.history.start();
+            Parse.history.start();
+            return console.log('done in sync parse with local storage');
           },
           error: function(e) {
             return console.error('error', e);
           }
         });
-        window.localStorage["init"] = Parse.User.current().get('username');
-        return console.log('done in sync parse with local storage');
+        return window.localStorage["init"] = Parse.User.current().get('username');
       };
 
       Uploader.prototype.updateCollection = function(coll) {

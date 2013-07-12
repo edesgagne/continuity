@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist'], function($, Mobile, _, Parse, StepList) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
     var AppView, _ref;
     return AppView = (function(_super) {
       __extends(AppView, _super);
@@ -22,8 +22,7 @@
       AppView.prototype.initialize = function() {
         _.bindAll(this, 'logOut');
         this.render();
-        this.jqdisplay();
-        return this.setUpUser();
+        return this.jqdisplay();
       };
 
       AppView.prototype.logOut = function() {
@@ -39,71 +38,6 @@
 
       AppView.prototype.jqdisplay = function() {
         return $(this.el).trigger("pagecreate");
-      };
-
-      AppView.prototype.setUpUser = function() {
-        var currentUser;
-        if (window.uploader.getMode() !== "online") {
-          console.log("sorry, you must be online to set up the user");
-          return;
-        }
-        currentUser = Parse.User.current();
-        if (currentUser.get('isSetUp') === true) {
-          console.log('user already set up');
-          return window.uploader.syncParseWithLocalStorage();
-        } else {
-          this.setUpSafety();
-          currentUser.set({
-            isSetUp: true
-          });
-          return currentUser.save();
-        }
-      };
-
-      AppView.prototype.setUpSafety = function() {
-        var currentUser, list, obj_arr, st, stepJSON, _i, _len, _ref1;
-        console.log('setting up safety');
-        list = new StepList;
-        stepJSON = [
-          {
-            "step_num": 1,
-            "title": "Warning Signs",
-            "description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
-            "fields": ["warning sign"]
-          }, {
-            "step_num": 2,
-            "title": "Coping Strategies",
-            "description": "Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
-            "fields": ["coping strategy"]
-          }, {
-            "step_num": 3,
-            "title": "People",
-            "description": "People that provide distraction:",
-            "fields": ["name", "phone number"]
-          }, {
-            "step_num": 4,
-            "title": "Settings",
-            "description": "Social settings that provide distraction:",
-            "fields": ["place"]
-          }
-        ];
-        list.add(stepJSON);
-        currentUser = Parse.User.current();
-        obj_arr = [];
-        _ref1 = list.models;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          st = _ref1[_i];
-          st.set({
-            user: currentUser
-          });
-          st.setACL(new Parse.ACL(currentUser));
-          obj_arr.push(st);
-        }
-        return Parse.Object.saveAll(obj_arr).then((function() {
-          return window.uploader.syncParseWithLocalStorage();
-        }), function(error) {
-          return console.error('error saving objects', error);
-        });
       };
 
       return AppView;

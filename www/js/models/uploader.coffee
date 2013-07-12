@@ -74,16 +74,23 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 				
 					#can let the rest of the program continue
 					#@updateBlocker false
-				
+					
+					console.log 'setting is set up to true'
+					currentUser.set
+						isSetUp: true
+					currentUser.save()
+					
 					router = new MyRouter
 					Parse.history.start()
+					
+					console.log 'done in sync parse with local storage'
 				
 				error: (e) ->
 					console.error 'error', e
 					
 			window.localStorage["init"] = Parse.User.current().get('username')
 			
-			console.log 'done in sync parse with local storage'
+			
 	
 		updateCollection: (coll) ->
 			#update in local storage
