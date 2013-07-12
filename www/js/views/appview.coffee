@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse'], 
-($, Mobile, _, Parse) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist'], 
+($, Mobile, _, Parse, StepList) ->
 	class AppView extends Parse.View
 		el: '[data-role="page"]'
 		events:

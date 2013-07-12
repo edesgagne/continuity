@@ -14,8 +14,8 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview', 'models/uploader', 'models/app'], 
-($, Mobile, _, Parse, BeforeStartView, Uploader, App) ->
+require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'models/uploader', 'models/app'], 
+($, Mobile, _, Parse, StartView, Uploader, App) ->
 	
 	#alert "starting app"
 	
@@ -31,4 +31,4 @@ require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview
 	#requires app
 	#so it will know if user is online/offline
 	#so it will know whether to let them login/signup
-	new BeforeStartView
+	new StartView
