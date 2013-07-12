@@ -38,10 +38,10 @@ require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview
 	# 		getStarted()
 	# 	#otherwise, log them in
 	# 	else
-	# 		Parse.User.logIn "johnny", "1234",
-	# 			success: (user) ->
-	# 				console.log 'success logging in'
-	# 				getStarted()
-	# 			error: (user, error) ->
-	# 				console.error 'error logging in', error
+			# Parse.User.logIn "johnny", "1234",
+			# 	success: (user) ->
+			# 		console.log 'success logging in'
+			# 		getStarted()
+			# 	error: (user, error) ->
+			# 		console.error 'error logging in', error
 	# )

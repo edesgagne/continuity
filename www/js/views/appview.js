@@ -13,13 +13,34 @@
         return _ref;
       }
 
+      AppView.prototype.el = '[data-role="page"]';
+
+      AppView.prototype.events = {
+        'click .logout': 'logOut'
+      };
+
       AppView.prototype.initialize = function() {
         _.bindAll(this);
-        return this.render();
+        this.render();
+        return this.jqdisplay();
+      };
+
+      AppView.prototype.logOut = function() {
+        console.log('logging out');
+        Parse.User.logOut();
+        return new BeforeStartView;
       };
 
       AppView.prototype.render = function() {
-        return console.log('app view');
+        console.log('app view');
+        return $(this.el).html("	<!--panel -->\n    <div data-role=\"panel\" id=\"myPanel\" data-display=\"push\">\n	\n		<ul data-role=\"listview\" class=\"nav-search\">\n			<li><a href=\"#\">Home</a></li>\n			<li><a href=\"#activities\">Activities</a></li>\n			<li><a href=\"#safety\">Safety Planning</a></li>\n			<li><a href=\"#help\">Get Help</a></li>\n		</ul>\n    </div>\n\n\n	<!--header -->\n    <div data-role=\"header\" class=\"header\" data-position=\"fixed\" role=\"banner\">\n        <h3>Every Day</h3>\n        <a href=\"#myPanel\" data-icon=\"bars\" data-iconpos=\"notext\"></a>\n		<a class=\"logout\" data-bypass=\"true\">Log Out</a>\n\n    </div>\n\n\n	<!--content -->\n    <div data-role=\"content\">\n    </div>\n	");
+      };
+
+      AppView.prototype.jqdisplay = function() {
+        $(this.el).trigger("pagecreate");
+        return $(this.el).ready(function() {
+          return $.mobile.changePage($('[data-role="page"]'));
+        });
       };
 
       return AppView;

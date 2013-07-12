@@ -13,6 +13,8 @@
         return _ref;
       }
 
+      LoginView.prototype.el = '[data-role="page"]';
+
       LoginView.prototype.initialize = function() {
         _.bindAll(this);
         return this.render();
