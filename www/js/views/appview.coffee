@@ -14,7 +14,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			console.log 'logging out'
 			alert 'logging out'
 			Parse.User.logOut()
-			alert 'logged out'
 			window.location.reload()
 			alert 'reloaded'
 		render: ->

@@ -29,7 +29,6 @@
         console.log('logging out');
         alert('logging out');
         Parse.User.logOut();
-        alert('logged out');
         window.location.reload();
         return alert('reloaded');
       };
