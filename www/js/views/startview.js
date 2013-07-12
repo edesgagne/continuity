@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/appview', 'views/loginview'], function($, Mobile, _, Parse, AppView, LoginView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview', 'views/appview'], function($, Mobile, _, Parse, LoginView, AppView) {
     var StartView, _ref;
     return StartView = (function(_super) {
       __extends(StartView, _super);
@@ -14,16 +14,18 @@
       }
 
       StartView.prototype.initialize = function() {
-        console.log('start view');
+        _.bindAll(this);
         return this.render();
       };
 
       StartView.prototype.render = function() {
+        console.log('start view');
         if (Parse.User.current()) {
-          return new AppView;
+          new AppView;
         } else {
-          return new LoginView;
+          new LoginView;
         }
+        return this;
       };
 
       return StartView;

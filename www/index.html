@@ -8,16 +8,62 @@
 		<link rel="stylesheet" type="text/css" href="js/lib/jquery-mobile/jquery.mobile-1.3.1.css" />
 		<link rel="stylesheet" type="text/css" href="css/index.css" />
 		
+		<title>Every (It Doesn't Matter) Day</title>
+	</head>
+	<body>
+			
+		<div data-role="page">
+			
+			<!--panel -->
+		    <div data-role="panel" id="myPanel" data-display="push">
+			
+				<ul data-role="listview" class="nav-search">
+					<li><a href="#">Home</a></li>
+					<li><a href="#activities">Activities</a></li>
+					<li><a href="#safety">Safety Planning</a></li>
+					<li><a href="#help">Get Help</a></li>
+				</ul>
+		    </div>
+		
+		
+			<!--header -->
+		    <div data-role="header" class="header" data-position="fixed" role="banner">
+		        <h3>Every Day</h3>
+		        <a href="#myPanel" data-icon="bars" data-iconpos="notext"></a>
+
+		    </div>
+		
+		
+			<!--content -->
+		    <div data-role="content">
+		    </div>
+		
+		
+		</div> 
+		<!--end of page -->
+
+
 		<script rel="external" type="text/javascript" src="phonegap.js"></script>
 		
 		<script data-main="js/start.js" src="js/lib/require.js"></script>
 		
-		<title>Every (It Doesn't Matter) Day</title>
-	</head>
-	<body>
-		<div data-role="page">
-		
-		</div>
 	</body>
-</html>
-<!--refactored to parse views, but require js is causing module timeout, so i'm gonna switch out of require js also because it slows down the entire mobile application-->
+</html><!--bits of refactoring-->
+<!--added input type='tel' for phone numbers on safety planning-->
+<!--added input type='tel' for phone numbers on safety planning-->
+<!--added phone numbers to only take numbers-->
+<!--added parse user-->
+<!--refactored to make everything slightly more logical-->
+<!--got updating the view to work, but iopen method isn't working in view-->
+<!--gave up on open method-->
+<!--styling-->
+<!--added local storage integration (but doesn't upload to parse yet)-->
+<!--got rid of window.Class for all classes-->
+<!--online/offline syncing with parse and localstorage!  it works!-->
+<!--added a second user-->
+<!--added another user-->
+<!--jquery collapsible stays open when updated and rerendered-->
+<!--added feature where you can dial contacts straight out of safety plannig-->
+<!--added feature where you can dial contacts straight out of safety planning-->
+<!--a final commit before refactoring everything to use parse views-->
+<!--APPVIEW LOGINVIEW FLOW WORKS!!!!!-->

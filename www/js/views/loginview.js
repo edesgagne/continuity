@@ -3,47 +3,26 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview'], function($, Mobile, _, Parse, LoginView) {
-    var AppView, _ref;
-    return AppView = (function(_super) {
-      __extends(AppView, _super);
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview'], function($, Mobile, _, Parse, BeforeStartView) {
+    var LoginView, _ref;
+    return LoginView = (function(_super) {
+      __extends(LoginView, _super);
 
-      function AppView() {
-        _ref = AppView.__super__.constructor.apply(this, arguments);
+      function LoginView() {
+        _ref = LoginView.__super__.constructor.apply(this, arguments);
         return _ref;
       }
 
-      AppView.prototype.el = '[data-role="page"]';
-
-      AppView.prototype.events = {
-        'click .logout': 'logOut'
-      };
-
-      AppView.prototype.initialize = function() {
-        console.log('app view');
+      LoginView.prototype.initialize = function() {
         _.bindAll(this);
-        this.render();
-        return this.jqdisplay();
+        return this.render();
       };
 
-      AppView.prototype.render = function() {
-        return $(this.el).html("<!--panel -->\n		    <div data-role=\"panel\" id=\"myPanel\" data-display=\"push\">\n	<ul data-role=\"listview\" class=\"nav-search\">\n		<li><a href=\"#\">Home</a></li>\n		<li><a href=\"#activities\">Activities</a></li>\n		<li><a href=\"#safety\">Safety Planning</a></li>\n		<li><a href=\"#help\">Get Help</a></li>\n	</ul>\n		    </div>\n\n\n<!--header -->\n		    <div data-role=\"header\" class=\"header\" data-position=\"fixed\" role=\"banner\">\n		        <h3>Every Day</h3>\n		        <a href=\"#myPanel\" data-icon=\"bars\" data-iconpos=\"notext\"></a>\n				<a class=\"logout\" data-bypass=\"true\">Log Out</a>\n		    </div>\n\n\n<!--content -->\n		    <div data-role=\"content\">\n		    </div>\n");
+      LoginView.prototype.render = function() {
+        return console.log('login view');
       };
 
-      AppView.prototype.logOut = function() {
-        console.log('logging out');
-        Parse.User.logOut();
-        return new LoginView();
-      };
-
-      AppView.prototype.jqdisplay = function() {
-        $(this.el).trigger("pagecreate");
-        return $(this.el).ready(function() {
-          return $.mobile.changePage($('[data-role="page"]'));
-        });
-      };
-
-      return AppView;
+      return LoginView;
 
     })(Parse.View);
   });

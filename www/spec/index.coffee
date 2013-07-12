@@ -1,3 +1,8 @@
+describe "step", ->
+	it "creates step", ->
+		s = new Step
+		(expect s.get('strategies')).toEqual('[]')
+
 describe "parse", ->
 	beforeEach ->
 		Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", 
