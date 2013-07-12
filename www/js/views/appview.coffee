@@ -7,7 +7,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 		#used to get around require js circular dependencies
 		#for login and app view
 		initialize: ->
-			_.bindAll @
+			_.bindAll @, 'logOut'
 			@render()
 			@jqdisplay()
 		logOut: ->
