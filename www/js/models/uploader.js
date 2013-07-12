@@ -38,6 +38,10 @@
 
       Uploader.prototype.syncParseWithLocalStorage = function() {
         var currentUser, query, router;
+        if (window.uploader.getMode() !== "online") {
+          console.error("sorry, you must be online to set up the device");
+          return;
+        }
         if (window.localStorage["init"] === Parse.User.current().get('username')) {
           console.log('device already set up');
           router = new MyRouter;

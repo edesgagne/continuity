@@ -34,6 +34,10 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 			#unless..everything is uploaded to parse
 		
 		syncParseWithLocalStorage: ->
+			#user MUST be online if they've never used the device before
+			if window.uploader.getMode() != "online"
+				console.error "sorry, you must be online to set up the device"
+				return
 		
 			if window.localStorage["init"] == Parse.User.current().get('username')
 				console.log 'device already set up'

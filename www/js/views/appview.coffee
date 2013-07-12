@@ -16,7 +16,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist']
 			#each time user is on new device
 			#re-set up local storate
 			#puts all the steps from parse.com in localstorage
-			@setUpDevice() #has the query in it
+			#@setUpDevice() #has the query in it
 
 		logOut: ->
 			console.log 'logging out'
@@ -62,17 +62,22 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist']
 				return
 				
 			currentUser = Parse.User.current()
+			
 			if currentUser.get('isSetUp') == true
 				console.log 'user already set up'
-				#nothing needs to happen
-				return
-			#set up the user
-			console.log 'still here'
-			@setUpSafety()
-			#set it to true so the set up doesn't happen again
-			currentUser.set
-				isSetUp: true
-			currentUser.save()
+				#set up device
+				#the uploader sets up the router
+				window.uploader.syncParseWithLocalStorage()
+				#immediately set up device
+				#no need to add safety steps to parse.com
+			else
+				@setUpSafety()
+				
+				currentUser.set
+					isSetUp: true
+				currentUser.save()
+				#set it to true so the set up doesn't happen again
+				
 		
 		setUpSafety: ->
 			console.log 'setting up safety'
@@ -86,6 +91,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist']
 			currentUser = Parse.User.current();
 			
 			#loop through each step
+			obj_arr = []
 			for st in list.models
 				#make it query-able by that user
 				st.set
@@ -93,14 +99,12 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist']
 				#make sure only cur user can get it
 				st.setACL(new Parse.ACL(currentUser))
 				#save it
-				st.save()
+				obj_arr.push st
+				
+			Parse.Object.saveAll(obj_arr).then ( ->
+				#set up device
+				#the uploader sets up the router
+				window.uploader.syncParseWithLocalStorage()
+			), (error) ->
+				console.error 'error saving objects', error
 			
-		setUpDevice: ->
-			#user MUST be online if they've never used the device before
-			if window.uploader.getMode() != "online"
-				console.error "sorry, you must be online to set up the device"
-				return
-			
-			#the uploader sets up the router
-			window.uploader.syncParseWithLocalStorage()
-

@@ -23,8 +23,7 @@
         _.bindAll(this, 'logOut');
         this.render();
         this.jqdisplay();
-        this.setUpUser();
-        return this.setUpDevice();
+        return this.setUpUser();
       };
 
       AppView.prototype.logOut = function() {
@@ -51,18 +50,18 @@
         currentUser = Parse.User.current();
         if (currentUser.get('isSetUp') === true) {
           console.log('user already set up');
-          return;
+          return window.uploader.syncParseWithLocalStorage();
+        } else {
+          this.setUpSafety();
+          currentUser.set({
+            isSetUp: true
+          });
+          return currentUser.save();
         }
-        console.log('still here');
-        this.setUpSafety();
-        currentUser.set({
-          isSetUp: true
-        });
-        return currentUser.save();
       };
 
       AppView.prototype.setUpSafety = function() {
-        var currentUser, list, st, stepJSON, _i, _len, _ref1, _results;
+        var currentUser, list, obj_arr, st, stepJSON, _i, _len, _ref1;
         console.log('setting up safety');
         list = new StepList;
         stepJSON = [
@@ -90,25 +89,21 @@
         ];
         list.add(stepJSON);
         currentUser = Parse.User.current();
+        obj_arr = [];
         _ref1 = list.models;
-        _results = [];
         for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
           st = _ref1[_i];
           st.set({
             user: currentUser
           });
           st.setACL(new Parse.ACL(currentUser));
-          _results.push(st.save());
+          obj_arr.push(st);
         }
-        return _results;
-      };
-
-      AppView.prototype.setUpDevice = function() {
-        if (window.uploader.getMode() !== "online") {
-          console.error("sorry, you must be online to set up the device");
-          return;
-        }
-        return window.uploader.syncParseWithLocalStorage();
+        return Parse.Object.saveAll(obj_arr).then((function() {
+          return window.uploader.syncParseWithLocalStorage();
+        }), function(error) {
+          return console.error('error saving objects', error);
+        });
       };
 
       return AppView;
