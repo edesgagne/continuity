@@ -16,7 +16,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview', 'vie
 			# 		console.log 'success logging in'
 			# 	error: (user, error) ->
 			# 		console.error 'error logging in', error
-			
+
 			if Parse.User.current()
 				new AppView
 			else

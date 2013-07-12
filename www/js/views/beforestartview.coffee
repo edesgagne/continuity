@@ -3,6 +3,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview'],
 	class BeforeStartView extends Parse.View
 		#used to get around require js circular dependencies
 		#for login and app view
+		#actually not necessary anymore
 		initialize: ->
 			_.bindAll @
 			@render()

@@ -18,8 +18,9 @@
     }
   });
 
-  require(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview'], function($, Mobile, _, Parse, BeforeStartView) {
+  require(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview', 'models/uploader'], function($, Mobile, _, Parse, BeforeStartView, Uploader) {
     Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
+    window.uploader = new Uploader;
     return new BeforeStartView;
   });
 

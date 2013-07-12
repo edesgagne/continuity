@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview'], function($, Mobile, _, Parse, BeforeStartView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
     var LoginView, _ref;
     return LoginView = (function(_super) {
       __extends(LoginView, _super);
@@ -15,13 +15,67 @@
 
       LoginView.prototype.el = '[data-role="page"]';
 
+      LoginView.prototype.events = {
+        'submit form#login': 'logIn',
+        'submit form#signup': 'signUp'
+      };
+
       LoginView.prototype.initialize = function() {
         _.bindAll(this);
-        return this.render();
+        this.render();
+        return this.jqdisplay();
+      };
+
+      LoginView.prototype.logIn = function() {
+        var name, pass;
+        if (window.uploader.getMode() !== "online") {
+          console.error("can only log in if online");
+          return;
+        }
+        name = $('#login #name').val();
+        pass = $('#login #pass').val();
+        console.log(name);
+        console.log(pass);
+        return Parse.User.logIn(name, pass, {
+          success: function(user) {
+            console.log('success logging in');
+            return location.reload();
+          },
+          error: function(user, error) {
+            return console.error('error logging in', error);
+          }
+        });
+      };
+
+      LoginView.prototype.signUp = function() {
+        var name, pass, user;
+        if (window.uploader.getMode() !== "online") {
+          console.error("can only sign up if online");
+          return;
+        }
+        name = $('#signup #name').val();
+        pass = $('#signup #pass').val();
+        user = new Parse.User();
+        user.set("username", name);
+        user.set("password", pass);
+        return user.signUp(null, {
+          success: function(user) {
+            console.log('success signing up');
+            return location.reload();
+          },
+          error: function(user, error) {
+            return console.error("error signing up " + error.code + " " + error.message);
+          }
+        });
       };
 
       LoginView.prototype.render = function() {
-        return console.log('login view');
+        console.log('login view');
+        return $(this.el).html("	<div style=\"padding: 20px\">\n	\n	Login\n	<form id=\"login\">\n	<input id=\"name\" type=\"text\" placeholder=\"Username\"  />\n	<input id=\"pass\" type=\"password\" placeholder=\"Password\"  />\n	<input type=\"submit\" value=\"Submit\" />\n	</form>\n	\n	<br />\n	<br />\n	\n	Sign Up\n	<form id=\"signup\">\n	<input id=\"name\" type=\"text\" placeholder=\"Username\"  />\n	<input id=\"pass\" type=\"password\" placeholder=\"Password\"  />\n	<input type=\"submit\" value=\"Submit\" />\n	</form>\n	\n	</div>\n");
+      };
+
+      LoginView.prototype.jqdisplay = function() {
+        return $(this.el).trigger("pagecreate");
       };
 
       return LoginView;

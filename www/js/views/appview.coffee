@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview'], 
-($, Mobile, _, Parse, BeforeStartView) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse'], 
+($, Mobile, _, Parse) ->
 	class AppView extends Parse.View
 		el: '[data-role="page"]'
 		events:
@@ -13,7 +13,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview'
 		logOut: ->
 			console.log 'logging out'
 			Parse.User.logOut()
-			new BeforeStartView
+			location.reload()
 		render: ->
 			console.log 'app view'
 			
@@ -46,6 +46,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview'
 			"""
 		jqdisplay: ->
 			$(@el).trigger("pagecreate")
-			$(@el).ready ->
-				$.mobile.changePage $('[data-role="page"]')
+		#	$(@el).ready ->
+		#		$.mobile.changePage $('[data-role="page"]')
 			

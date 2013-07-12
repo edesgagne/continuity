@@ -14,11 +14,12 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview'], 
-($, Mobile, _, Parse, BeforeStartView) ->
+require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview', 'models/uploader'], 
+($, Mobile, _, Parse, BeforeStartView, Uploader) ->
 	
 	Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
 	
+	window.uploader = new Uploader
 	new BeforeStartView
 	
 	# getStarted = ->

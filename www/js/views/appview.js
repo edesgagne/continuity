@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/beforestartview'], function($, Mobile, _, Parse, BeforeStartView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
     var AppView, _ref;
     return AppView = (function(_super) {
       __extends(AppView, _super);
@@ -28,7 +28,7 @@
       AppView.prototype.logOut = function() {
         console.log('logging out');
         Parse.User.logOut();
-        return new BeforeStartView;
+        return location.reload();
       };
 
       AppView.prototype.render = function() {
@@ -37,10 +37,7 @@
       };
 
       AppView.prototype.jqdisplay = function() {
-        $(this.el).trigger("pagecreate");
-        return $(this.el).ready(function() {
-          return $.mobile.changePage($('[data-role="page"]'));
-        });
+        return $(this.el).trigger("pagecreate");
       };
 
       return AppView;
