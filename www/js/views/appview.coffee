@@ -12,8 +12,11 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			@jqdisplay()
 		logOut: ->
 			console.log 'logging out'
+			alert 'logging out'
 			Parse.User.logOut()
-			location.reload()
+			alert 'logged out'
+			window.location.reload()
+			alert 'reloaded'
 		render: ->
 			console.log 'app view'
 			

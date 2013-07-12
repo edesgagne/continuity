@@ -23,7 +23,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			Parse.User.logIn name, pass,
 				success: (user) ->
 					console.log 'success logging in'
-					location.reload()
+					window.location.reload()
 				error: (user, error) ->
 					console.error 'error logging in', error
 		signUp: ->
@@ -41,7 +41,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			user.signUp null,
 				success: (user) ->
 					console.log 'success signing up'
-					location.reload()
+					window.location.reload()
 				error: (user, error) ->
 					console.error "error signing up " + error.code + " " + error.message
 

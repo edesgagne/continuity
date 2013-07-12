@@ -39,7 +39,7 @@
         return Parse.User.logIn(name, pass, {
           success: function(user) {
             console.log('success logging in');
-            return location.reload();
+            return window.location.reload();
           },
           error: function(user, error) {
             return console.error('error logging in', error);
@@ -61,7 +61,7 @@
         return user.signUp(null, {
           success: function(user) {
             console.log('success signing up');
-            return location.reload();
+            return window.location.reload();
           },
           error: function(user, error) {
             return console.error("error signing up " + error.code + " " + error.message);
