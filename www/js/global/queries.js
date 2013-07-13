@@ -16,15 +16,14 @@
       Queries.prototype.className = "Queries";
 
       Queries.prototype.initialize = function() {
-        _.bindAll(this);
-        return console.log("queries");
+        console.log("queries");
+        return _.bindAll(this);
       };
 
       Queries.prototype.logInUser = function(name, pass) {
         return Parse.User.logIn(name, pass, {
           success: function(user) {
-            console.log('success logging in');
-            return window.location.reload();
+            return console.log('success logging in');
           },
           error: function(user, error) {
             return console.error('error logging in', error);
@@ -33,10 +32,13 @@
       };
 
       Queries.prototype.signUpUser = function(name, pass) {
-        return Parse.User.signUp(name, pass, {
+        var user;
+        user = new Parse.User();
+        user.set("username", name);
+        user.set("password", pass);
+        return user.signUp(null, {
           success: function(user) {
-            console.log('success signing up');
-            return window.location.reload();
+            return console.log('success signing up');
           },
           error: function(user, error) {
             return console.error("error signing up " + error.code + " " + error.message);
@@ -45,20 +47,55 @@
       };
 
       Queries.prototype.saveAllObjects = function(obj_arr) {
-        console.log('queries: saving all objects');
+        var currentUser, list, st, stepJSON, _i, _len, _ref1;
+        console.log('Queries: saving all objects');
+        list = new StepList;
+        stepJSON = [
+          {
+            "step_num": 1,
+            "title": "Warning Signs",
+            "description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
+            "fields": ["warning sign"]
+          }, {
+            "step_num": 2,
+            "title": "Coping Strategies",
+            "description": "Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
+            "fields": ["coping strategy"]
+          }, {
+            "step_num": 3,
+            "title": "People",
+            "description": "People that provide distraction:",
+            "fields": ["name", "phone number"]
+          }, {
+            "step_num": 4,
+            "title": "Settings",
+            "description": "Social settings that provide distraction:",
+            "fields": ["place"]
+          }
+        ];
+        list.add(stepJSON);
+        currentUser = Parse.User.current();
+        obj_arr = [];
+        _ref1 = list.models;
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          st = _ref1[_i];
+          st.set({
+            user: currentUser
+          });
+          st.setACL(new Parse.ACL(currentUser));
+          obj_arr.push(st);
+        }
         return Parse.Object.saveAll(obj_arr);
       };
 
       Queries.prototype.syncParseWithLocalStorage = function() {
-        var currentUser, query, router;
+        var currentUser, query;
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
           return;
         }
         if (window.localStorage["init"] === Parse.User.current().get('username')) {
           console.log('device already set up');
-          router = new MyRouter;
-          Parse.history.start();
           return;
         }
         currentUser = Parse.User.current();
@@ -82,8 +119,6 @@
               isSetUp: true
             });
             currentUser.save();
-            router = new MyRouter;
-            Parse.history.start();
             console.log('done in sync parse with local storage');
             return window.localStorage["init"] = Parse.User.current().get('username');
           },

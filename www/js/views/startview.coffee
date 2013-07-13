@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview', 'views/appview', 'models/usersetup'], 
-($, Mobile, _, Parse, LoginView, AppView, UserSetup) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview', 'views/appview', 'routers/myrouter'], 
+($, Mobile, _, Parse, LoginView, AppView, MyRouter) ->
 	class StartView extends Parse.View
 		#used to get around require js circular dependencies
 		#for login and app view
@@ -9,17 +9,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview', 'vie
 		render: ->
 			console.log 'start view'
 			
-			#Parse.User.logOut()
-			
-			# Parse.User.logIn "johnny", "1234",
-			# 	success: (user) ->
-			# 		console.log 'success logging in'
-			# 	error: (user, error) ->
-			# 		console.error 'error logging in', error
-
 			if Parse.User.current()
-				new UserSetup
 				new AppView
+				new MyRouter
+				Parse.history.start()
 			else
 				new LoginView
-			@

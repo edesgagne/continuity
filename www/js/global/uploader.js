@@ -17,8 +17,7 @@
 
       Uploader.prototype.initialize = function() {
         console.log("uploader");
-        this.mode = "online";
-        return this.blocker = false;
+        return this.mode = "online";
       };
 
       Uploader.prototype.getMode = function() {

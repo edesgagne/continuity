@@ -18,11 +18,11 @@
     }
   });
 
-  require(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'models/uploader', 'models/app', 'models/queries'], function($, Mobile, _, Parse, StartView, Uploader, App, Queries) {
+  require(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'global/app', 'global/queries', 'global/uploader'], function($, Mobile, _, Parse, StartView, App, Queries, Uploader) {
     Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
-    window.uploader = new Uploader;
     window.queries = new Queries;
-    new App;
+    window.uploader = new Uploader;
+    window.app = new App;
     return new StartView;
   });
 

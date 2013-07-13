@@ -34,7 +34,9 @@
         }
         name = $('#login #name').val();
         pass = $('#login #pass').val();
-        return window.queries.logInUser(name, pass);
+        return window.queries.logInUser(name, pass).then(function() {
+          return window.location.reload();
+        });
       };
 
       LoginView.prototype.signUp = function() {
@@ -45,7 +47,13 @@
         }
         name = $('#signup #name').val();
         pass = $('#signup #pass').val();
-        return window.queries.signUpUser(name, pass);
+        return window.queries.signUpUser(name, pass).then(function() {
+          return window.queries.saveAllObjects();
+        }).then(function() {
+          return window.queries.syncParseWithLocalStorage();
+        }).then(function() {
+          return window.location.reload();
+        });
       };
 
       LoginView.prototype.render = function() {

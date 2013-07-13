@@ -19,7 +19,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			name = $('#login #name').val()
 			pass = $('#login #pass').val()
 
-			window.queries.logInUser name, pass
+			window.queries.logInUser(name, pass).then( ->
+				window.location.reload()
+			)
 			
 		signUp: ->
 			if window.uploader.getMode() != "online"
@@ -29,7 +31,15 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			name = $('#signup #name').val()
 			pass = $('#signup #pass').val()
 			
-			window.queries.signUpUser name, pass
+			window.queries.signUpUser(name, pass).then( ->
+				#sets up user
+				window.queries.saveAllObjects()
+			).then( ->
+				#sets up device
+				window.queries.syncParseWithLocalStorage()
+			).then( ->
+				window.location.reload()
+			)
 
 
 		render: ->

@@ -14,21 +14,22 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'models/uploader', 'models/app', 'models/queries'], 
-($, Mobile, _, Parse, StartView, Uploader, App, Queries) ->
+require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 
+'global/app', 'global/queries', 'global/uploader'], 
+($, Mobile, _, Parse, StartView, App, Queries, Uploader) ->
 	
 	#alert "starting app"
 	
 	Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
 	
 	#requires parse
-	window.uploader = new Uploader
 	window.queries = new Queries
+	window.uploader = new Uploader
 	
-	#binds events to online/offline 
-	#requires uploader
-	new App 
-	
+	#binds online/offline events
+	#require uploader
+	window.app = new App
+
 	#requires app
 	#so it will know if user is online/offline
 	#so it will know whether to let them login/signup

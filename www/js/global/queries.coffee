@@ -3,27 +3,50 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 	class Queries extends Parse.Object
 		className: "Queries"
 		initialize: ->	
-			_.bindAll @
 			console.log "queries"
+			
+			_.bindAll @
 			
 		logInUser: (name, pass)->
 			Parse.User.logIn name, pass,
 				success: (user) ->
 					console.log 'success logging in'
-					window.location.reload()
 				error: (user, error) ->
 					console.error 'error logging in', error
 		
 		signUpUser: (name, pass)->
-			Parse.User.signUp name, pass,
+			user = new Parse.User()
+			user.set("username", name)
+			user.set("password", pass)
+			
+			user.signUp null,
 				success: (user) ->
 					console.log 'success signing up'
-					window.location.reload()
 				error: (user, error) ->
 					console.error "error signing up " + error.code + " " + error.message
 		
 		saveAllObjects: (obj_arr)->
-			console.log 'queries: saving all objects'
+			console.log 'Queries: saving all objects'
+			
+			list = new StepList
+
+			#add all the steps to the list
+			stepJSON = [{"step_num":1,"title":"Warning Signs","description":"Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:","fields":["warning sign"]},{"step_num":2,"title":"Coping Strategies","description":"Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):","fields":["coping strategy"]},{"step_num":3,"title":"People","description":"People that provide distraction:","fields":["name","phone number"]},{"step_num":4,"title":"Settings","description":"Social settings that provide distraction:","fields":["place"]}]
+			list.add stepJSON
+
+			currentUser = Parse.User.current();
+
+			#loop through each step
+			obj_arr = []
+			for st in list.models
+				#make it query-able by that user
+				st.set
+					user: currentUser
+				#make sure only cur user can get it
+				st.setACL(new Parse.ACL(currentUser))
+				#save it
+				obj_arr.push st
+			
 			Parse.Object.saveAll(obj_arr)
 
 
@@ -35,9 +58,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 
 			if window.localStorage["init"] == Parse.User.current().get('username')
 				console.log 'device already set up'
-
-				router = new MyRouter
-				Parse.history.start()
 
 				return
 
@@ -68,8 +88,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 						isSetUp: true
 					currentUser.save()
 
-					router = new MyRouter
-					Parse.history.start()
+					
 
 					console.log 'done in sync parse with local storage'
 					

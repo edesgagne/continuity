@@ -5,7 +5,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 			console.log "uploader"
 			#console.log "localstorage", window.localStorage["steplist"]
 			@mode = "online" #temporary, change to "default" later
-			@blocker = false
 		getMode: ->
 			return @mode
 		# getBlocker: ->

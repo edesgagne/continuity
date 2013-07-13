@@ -2355,8 +2355,8 @@
    * @class
    *
    * <p>Represents a latitude / longitude point that may be associated
-   * with a key in a ParseObject or used as a reference point for geo queries.
-   * This allows proximity-based queries on the key.</p>
+   * with a key in a ParseObject or used as a reference point for geo Queries.
+   * This allows proximity-based Queries on the key.</p>
    *
    * <p>Only one key in a class may contain a GeoPoint.</p>
    *
@@ -6897,29 +6897,29 @@
   };
 
   /**
-   * Constructs a Parse.Query that is the OR of the passed in queries.  For
+   * Constructs a Parse.Query that is the OR of the passed in Queries.  For
    * example:
    * <pre>var compoundQuery = Parse.Query.or(query1, query2, query3);</pre>
    *
    * will create a compoundQuery that is an or of the query1, query2, and
    * query3.
-   * @param {...Parse.Query} var_args The list of queries to OR.
-   * @return {Parse.Query} The query that is the OR of the passed in queries.
+   * @param {...Parse.Query} var_args The list of Queries to OR.
+   * @return {Parse.Query} The query that is the OR of the passed in Queries.
    */
   Parse.Query.or = function() {
-    var queries = _.toArray(arguments);
+    var Queries = _.toArray(arguments);
     var className = null;
-    Parse._arrayEach(queries, function(q) {
+    Parse._arrayEach(Queries, function(q) {
       if (_.isNull(className)) {
         className = q.className;
       }
 
       if (className !== q.className) {
-        throw "All queries must be for the same class";
+        throw "All Queries must be for the same class";
       }
     });
     var query = new Parse.Query(className);
-    query._orQuery(queries);
+    query._orQuery(Queries);
     return query;
   };
 
@@ -7105,7 +7105,7 @@
     },
 
     /**
-     * Helper for condition queries
+     * Helper for condition Queries
      */
     _addCondition: function(key, condition, value) {
       // Check if we already have a condition
@@ -7324,12 +7324,12 @@
     },
 
     /**
-     * Add constraint that at least one of the passed in queries matches.
-     * @param {Array} queries
+     * Add constraint that at least one of the passed in Queries matches.
+     * @param {Array} Queries
      * @return {Parse.Query} Returns the query, so you can chain this call.
      */
-    _orQuery: function(queries) {
-      var queryJSON = _.map(queries, function(q) {
+    _orQuery: function(Queries) {
+      var queryJSON = _.map(Queries, function(q) {
         return q.toJSON().where;
       });
 
