@@ -14,8 +14,8 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'models/uploader', 'models/app'], 
-($, Mobile, _, Parse, StartView, Uploader, App) ->
+require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'models/uploader', 'models/app', 'models/queries'], 
+($, Mobile, _, Parse, StartView, Uploader, App, Queries) ->
 	
 	#alert "starting app"
 	
@@ -23,6 +23,7 @@ require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'mo
 	
 	#requires parse
 	window.uploader = new Uploader
+	window.queries = new Queries
 	
 	#binds events to online/offline 
 	#requires uploader

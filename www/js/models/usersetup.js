@@ -26,7 +26,7 @@
         currentUser = Parse.User.current();
         if (currentUser.get('isSetUp') === true) {
           console.log('user already set up');
-          return window.uploader.syncParseWithLocalStorage();
+          return window.queries.syncParseWithLocalStorage();
         } else {
           return this.setUpSafety();
         }
@@ -71,8 +71,8 @@
           st.setACL(new Parse.ACL(currentUser));
           obj_arr.push(st);
         }
-        return Parse.Object.saveAll(obj_arr).then((function() {
-          return window.uploader.syncParseWithLocalStorage();
+        return queries.saveAllObjects(obj_arr).then((function() {
+          return window.queries.syncParseWithLocalStorage();
         }), function(error) {
           return console.error('error saving objects', error);
         });

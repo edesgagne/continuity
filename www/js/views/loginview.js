@@ -34,39 +34,18 @@
         }
         name = $('#login #name').val();
         pass = $('#login #pass').val();
-        console.log(name);
-        console.log(pass);
-        return Parse.User.logIn(name, pass, {
-          success: function(user) {
-            console.log('success logging in');
-            return window.location.reload();
-          },
-          error: function(user, error) {
-            return console.error('error logging in', error);
-          }
-        });
+        return window.queries.logInUser(name, pass);
       };
 
       LoginView.prototype.signUp = function() {
-        var name, pass, user;
+        var name, pass;
         if (window.uploader.getMode() !== "online") {
           console.error("can only sign up if online");
           return;
         }
         name = $('#signup #name').val();
         pass = $('#signup #pass').val();
-        user = new Parse.User();
-        user.set("username", name);
-        user.set("password", pass);
-        return user.signUp(null, {
-          success: function(user) {
-            console.log('success signing up');
-            return window.location.reload();
-          },
-          error: function(user, error) {
-            return console.error("error signing up " + error.code + " " + error.message);
-          }
-        });
+        return window.queries.signUpUser(name, pass);
       };
 
       LoginView.prototype.render = function() {

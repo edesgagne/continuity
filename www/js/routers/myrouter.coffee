@@ -37,8 +37,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 		showHome: ->
 			title = "Home"
 			@basics title
-			
-			$('[data-role="content"]').html "You are logged in as <b>" + Parse.User.current().get("username") + "</b>"
+			#Parse.User.current().get("username")
+			$('[data-role="content"]').html "You are logged in as <b>" + window.localStorage["init"]  + "</b>"
 		
 		showActivities: ->
 			title = "Activities"

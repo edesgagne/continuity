@@ -32,52 +32,8 @@
         console.log('newmode', this.mode);
         if (oldmode === "offline" && newmode === "online") {
           coll = JSON.parse(window.localStorage["steplist"]);
-          return this.updateCollectionOnline();
+          return window.queries.updateCollectionOnline();
         }
-      };
-
-      Uploader.prototype.syncParseWithLocalStorage = function() {
-        var currentUser, query, router;
-        if (window.uploader.getMode() !== "online") {
-          console.error("sorry, you must be online to set up the device");
-          return;
-        }
-        if (window.localStorage["init"] === Parse.User.current().get('username')) {
-          console.log('device already set up');
-          router = new MyRouter;
-          Parse.history.start();
-          return;
-        }
-        currentUser = Parse.User.current();
-        query = new Parse.Query(Step);
-        query.equalTo("user", currentUser);
-        console.log('setting up device...about to query');
-        query.find({
-          success: function(results) {
-            var list, r, _i, _len;
-            console.log('success in query');
-            list = new StepList;
-            for (_i = 0, _len = results.length; _i < _len; _i++) {
-              r = results[_i];
-              list.add(r);
-            }
-            console.log(list);
-            window.localStorage["steplist"] = JSON.stringify(list);
-            console.log('locstor', window.localStorage["steplist"]);
-            console.log('setting is set up to true');
-            currentUser.set({
-              isSetUp: true
-            });
-            currentUser.save();
-            router = new MyRouter;
-            Parse.history.start();
-            return console.log('done in sync parse with local storage');
-          },
-          error: function(e) {
-            return console.error('error', e);
-          }
-        });
-        return window.localStorage["init"] = Parse.User.current().get('username');
       };
 
       Uploader.prototype.updateCollection = function(coll) {
@@ -86,44 +42,8 @@
         window.localStorage["steplist"] = JSON.stringify(coll);
         if (this.mode === "online") {
           console.log('gonna update online...');
-          return this.updateCollectionOnline();
+          return window.queries.updateCollectionOnline();
         }
-      };
-
-      Uploader.prototype.updateCollectionOnline = function() {
-        var currentUser, query;
-        query = new Parse.Query(Step);
-        currentUser = Parse.User.current();
-        query.equalTo("user", currentUser);
-        query.ascending('step_num');
-        return query.find({
-          success: function(results) {
-            var i, obj, steps, updated;
-            steps = JSON.parse(window.localStorage["steplist"]);
-            i = 0;
-            while (i < results.length) {
-              obj = results[i];
-              updated = null;
-              $.each(steps, function(index, element) {
-                if (element.step_num === obj.get('step_num')) {
-                  updated = element;
-                }
-              });
-              if (obj.get('step_num') !== updated["step_num"]) {
-                console.error("steps are out of order");
-              }
-              obj.set({
-                strategies: updated["strategies"]
-              });
-              obj.save();
-              i = i + 1;
-            }
-            return console.log('synced online');
-          },
-          error: function(e) {
-            return console.error('error', e);
-          }
-        });
       };
 
       Uploader.prototype.displaySteps = function() {

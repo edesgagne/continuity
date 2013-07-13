@@ -47,7 +47,7 @@
         var title;
         title = "Home";
         this.basics(title);
-        return $('[data-role="content"]').html("You are logged in as <b>" + Parse.User.current().get("username") + "</b>");
+        return $('[data-role="content"]').html("You are logged in as <b>" + window.localStorage["init"] + "</b>");
       };
 
       MyRouter.prototype.showActivities = function() {

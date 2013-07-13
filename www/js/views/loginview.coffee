@@ -18,32 +18,19 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 				return
 			name = $('#login #name').val()
 			pass = $('#login #pass').val()
-			console.log name
-			console.log pass
-			Parse.User.logIn name, pass,
-				success: (user) ->
-					console.log 'success logging in'
-					window.location.reload()
-				error: (user, error) ->
-					console.error 'error logging in', error
+
+			window.queries.logInUser name, pass
+			
 		signUp: ->
 			if window.uploader.getMode() != "online"
 				console.error "can only sign up if online"
 				return
+				
 			name = $('#signup #name').val()
 			pass = $('#signup #pass').val()
 			
-			user = new Parse.User()
-			
-			user.set "username", name
-			user.set "password", pass
-			
-			user.signUp null,
-				success: (user) ->
-					console.log 'success signing up'
-					window.location.reload()
-				error: (user, error) ->
-					console.error "error signing up " + error.code + " " + error.message
+			window.queries.signUpUser name, pass
+
 
 		render: ->
 			console.log 'login view'

@@ -15,7 +15,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist']
 				console.log 'user already set up'
 				#set up device (if needed: the check is in the method)
 				#the uploader sets up the router
-				window.uploader.syncParseWithLocalStorage()
+				window.queries.syncParseWithLocalStorage()
 				#immediately set up device
 				#no need to add safety steps to parse.com
 			else
@@ -43,9 +43,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist']
 				#save it
 				obj_arr.push st
 
-			Parse.Object.saveAll(obj_arr).then ( ->
+			queries.saveAllObjects(obj_arr).then ( ->
 				#set up device
 				#the uploader sets up the router
-				window.uploader.syncParseWithLocalStorage()
+				window.queries.syncParseWithLocalStorage()
 			), (error) ->
 				console.error 'error saving objects', error
