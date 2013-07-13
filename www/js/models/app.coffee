@@ -3,10 +3,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 	class App extends Parse.Object
 		className: "App"
 		initialize: ->	
+			console.log "app"
 			#window.localStorage.clear() #temporary
 			@bindEvents()
-			
-			console.log "app"
 			
 		bindEvents: ->
 			document.addEventListener "deviceready", @onDeviceReady, false

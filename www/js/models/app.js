@@ -16,8 +16,8 @@
       App.prototype.className = "App";
 
       App.prototype.initialize = function() {
-        this.bindEvents();
-        return console.log("app");
+        console.log("app");
+        return this.bindEvents();
       };
 
       App.prototype.bindEvents = function() {

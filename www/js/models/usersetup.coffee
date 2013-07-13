@@ -13,21 +13,13 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist']
 
 			if currentUser.get('isSetUp') == true
 				console.log 'user already set up'
-				#set up device
+				#set up device (if needed: the check is in the method)
 				#the uploader sets up the router
 				window.uploader.syncParseWithLocalStorage()
 				#immediately set up device
 				#no need to add safety steps to parse.com
 			else
 				@setUpSafety()
-
-				
-				
-				#this means the user has just signed up
-				#but that means it'll be taken to the undefined screen
-				#so log out then reload
-				#set it to true so the set up doesn't happen again
-
 
 		setUpSafety: ->
 			console.log 'setting up safety'
@@ -57,6 +49,3 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist']
 				window.uploader.syncParseWithLocalStorage()
 			), (error) ->
 				console.error 'error saving objects', error
-
-
-
