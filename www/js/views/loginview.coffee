@@ -16,6 +16,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			if window.uploader.getMode() != "online"
 				console.error "can only log in if online"
 				return
+			
 			name = $('#login #name').val()
 			pass = $('#login #pass').val()
 
@@ -34,13 +35,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 				
 			name = $('#signup #name').val()
 			pass = $('#signup #pass').val()
-			
-			
-			
 
 			window.queries.signUpUser(name, pass).then((students) ->
 				window.queries.saveAllObjects()
-				
 			).then( ->
 				window.queries.syncParseWithLocalStorage()
 			).then ( ->

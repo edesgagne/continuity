@@ -7,10 +7,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 			@mode = "online" #temporary, change to "default" later
 		getMode: ->
 			return @mode
-		# getBlocker: ->
-		# 		return @blocker
-		# 	updateBlocker: (newval)->
-		# 		@blocker = newval
 		updateMode: (newmode) ->
 			oldmode = @mode
 			@mode = newmode
@@ -31,10 +27,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 			#because in app.coffee > setUpDevice
 			#if the user goes to a new device, all their data is lsot
 			#unless..everything is uploaded to parse
-		
-			
-			
-	
+
 		updateCollection: (coll) ->
 			#update in local storage
 			console.log 'updating collection'
