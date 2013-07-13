@@ -1,6 +1,8 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist', 'routers/myrouter'], 
 ($, Mobile, _, Parse, Step, StepList, MyRouter) ->
 	class Queries extends Parse.Object
+		#THESE ALL MUST RETURN PROMISES
+		#CAN'T EVEN RETURN PARSE ERROR
 		className: "Queries"
 		initialize: ->	
 			console.log "queries"
@@ -8,18 +10,20 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			_.bindAll @
 			
 		logInUser: (name, pass)->
-			Parse.User.logIn name, pass,
-				success: (user) ->
-					console.log 'success logging in'
-				error: (user, error) ->
-					console.error 'error logging in', error
+			return Parse.User.logIn name, pass,
+				# success: (user) ->
+				# 	console.log 'success in login'
+				# 	return Parse.Promise.as()
+				# error: (user, error) ->
+				# 	console.log 'error in login'
+				# 	return Parse.Promise.error(error)
 		
 		signUpUser: (name, pass)->
 			user = new Parse.User()
 			user.set("username", name)
 			user.set("password", pass)
 			
-			user.signUp null,
+			return user.signUp null,
 				success: (user) ->
 					console.log 'success signing up'
 				error: (user, error) ->
@@ -47,19 +51,20 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 				#save it
 				obj_arr.push st
 			
-			Parse.Object.saveAll(obj_arr)
+			return Parse.Object.saveAll(obj_arr)
 
 
 		syncParseWithLocalStorage: ->
 			#user MUST be online if they've never used the device before
 			if window.uploader.getMode() != "online"
 				console.error "sorry, you must be online to set up the device"
-				return
+				fail = new Parse.Promise()
+				return fail.reject "not online"
 
 			if window.localStorage["init"] == Parse.User.current().get('username')
 				console.log 'device already set up'
-
-				return
+				success = new Parse.Promise()
+				return success.resolve()
 
 			currentUser = Parse.User.current()
 
@@ -69,7 +74,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			query.equalTo "user", currentUser
 			console.log 'setting up device...about to query'
 
-			query.find
+			return query.find
 				success: (results) ->
 					console.log 'success in query'
 					list = new StepList
@@ -104,7 +109,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			currentUser = Parse.User.current()
 			query.equalTo "user", currentUser
 			query.ascending('step_num')
-			query.find
+			return query.find
 				success: (results) ->
 					steps = JSON.parse window.localStorage["steplist"]
 

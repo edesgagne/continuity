@@ -19,10 +19,14 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			name = $('#login #name').val()
 			pass = $('#login #pass').val()
 
-			window.queries.logInUser(name, pass).then( ->
+
+			window.queries.logInUser(name, pass).then((students) ->
+				window.queries.syncParseWithLocalStorage()
+			).then ( ->
 				window.location.reload()
-			)
-			
+			), (error) ->
+				console.error 'there was an error logging in', error
+				
 		signUp: ->
 			if window.uploader.getMode() != "online"
 				console.error "can only sign up if online"
@@ -31,16 +35,20 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			name = $('#signup #name').val()
 			pass = $('#signup #pass').val()
 			
-			window.queries.signUpUser(name, pass).then( ->
-				#sets up user
-				window.queries.saveAllObjects()
-			).then( ->
-				#sets up device
-				window.queries.syncParseWithLocalStorage()
-			).then( ->
-				window.location.reload()
-			)
+			
+			
 
+			window.queries.signUpUser(name, pass).then((students) ->
+				window.queries.saveAllObjects()
+				
+			).then( ->
+				window.queries.syncParseWithLocalStorage()
+			).then ( ->
+				window.location.reload()
+			# Everything is done!
+			), (error) ->
+				console.error 'there was an error signing up', error
+			
 
 		render: ->
 			console.log 'login view'

@@ -21,14 +21,7 @@
       };
 
       Queries.prototype.logInUser = function(name, pass) {
-        return Parse.User.logIn(name, pass, {
-          success: function(user) {
-            return console.log('success logging in');
-          },
-          error: function(user, error) {
-            return console.error('error logging in', error);
-          }
-        });
+        return Parse.User.logIn(name, pass);
       };
 
       Queries.prototype.signUpUser = function(name, pass) {
@@ -89,14 +82,16 @@
       };
 
       Queries.prototype.syncParseWithLocalStorage = function() {
-        var currentUser, query;
+        var currentUser, fail, query, success;
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
-          return;
+          fail = new Parse.Promise();
+          return fail.reject("not online");
         }
         if (window.localStorage["init"] === Parse.User.current().get('username')) {
           console.log('device already set up');
-          return;
+          success = new Parse.Promise();
+          return success.resolve();
         }
         currentUser = Parse.User.current();
         query = new Parse.Query(Step);

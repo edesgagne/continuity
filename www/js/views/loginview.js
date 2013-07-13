@@ -34,8 +34,12 @@
         }
         name = $('#login #name').val();
         pass = $('#login #pass').val();
-        return window.queries.logInUser(name, pass).then(function() {
+        return window.queries.logInUser(name, pass).then(function(students) {
+          return window.queries.syncParseWithLocalStorage();
+        }).then((function() {
           return window.location.reload();
+        }), function(error) {
+          return console.error('there was an error logging in', error);
         });
       };
 
@@ -47,12 +51,14 @@
         }
         name = $('#signup #name').val();
         pass = $('#signup #pass').val();
-        return window.queries.signUpUser(name, pass).then(function() {
+        return window.queries.signUpUser(name, pass).then(function(students) {
           return window.queries.saveAllObjects();
         }).then(function() {
           return window.queries.syncParseWithLocalStorage();
-        }).then(function() {
+        }).then((function() {
           return window.location.reload();
+        }), function(error) {
+          return console.error('there was an error signing up', error);
         });
       };
 
