@@ -1,10 +1,13 @@
-require.config 
+require.config
 	paths:
 		'jquery': 'lib/jquery-1.8.3'
 		'jquerymobile': 'lib/jquery-mobile/jquery.mobile-1.3.1'
 		'underscore': 'lib/underscore'
 		#'backbone': 'lib/backbone'
 		'parse': 'lib/parse-1.2.8'
+		#'jasmine': '../spec/lib/jasmine-1.2.0/jasmine'
+		#'jasmine-html': '../spec/lib/jasmine-1.2.0/jasmine-html'
+		#'spec': '../spec'
 	shim:
 		"underscore":
 			exports: "_"
