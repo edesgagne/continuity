@@ -1,5 +1,6 @@
 require.config({
-	//baseURL: 'js/',
+	//base url not working
+	//baseURL: '../js/',
 	//urlArgs: 'cb=' + Math.random(),
 	paths: {
 		'jquery': '../js/lib/jquery-1.8.3',
@@ -30,9 +31,6 @@ require.config({
 
 require(['jquery', 'jasmine-html'], function ($, jasmine) {
 
-	
-			
-			
     var jasmineEnv = jasmine.getEnv();
     jasmineEnv.updateInterval = 1000;
 
@@ -46,8 +44,8 @@ require(['jquery', 'jasmine-html'], function ($, jasmine) {
 
     var specs = [];
 
-    specs.push('stepSpec');
-	//if this doesn't work, it might be b/c it's looking in js/stepspec
+	specs.push('parseSpec');
+	specs.push('stepSpec');
 
 
 
