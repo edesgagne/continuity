@@ -9,6 +9,7 @@ require.config({
 		'parse': '../js/lib/parse-1.2.8',
 		'jasmine': 'lib/jasmine-1.2.0/jasmine',
 		'jasmine-html': 'lib/jasmine-1.2.0/jasmine-html',
+		'jasmine-jquery': 'lib/jasmine-jquery'
 		//'spec': 'spec'
 	},
 	shim: {
@@ -25,12 +26,21 @@ require.config({
 		"jasmine-html": {
 			deps: ['jasmine'],
 			exports: 'jasmine'
+		},
+		"jasmine-jquery": {
+			deps: ['jquery', 'jasmine', 'jasmine-html'],
+			exports: 'jasmine'
+			//jasmine-jquery is dependent on jasmine-html
+			//which is dependent on jasmine
+			//so everything gets loaded in the require call
 		}
 	}
 });
 
-require(['jquery', 'jasmine-html'], function ($, jasmine) {
-
+require(['jquery', 'jasmine-jquery'], function ($, jasmine) {
+	//technically requiring jquery isn't necessary
+	//because jasmine-jquery is dependent on it anyways
+	
     var jasmineEnv = jasmine.getEnv();
     jasmineEnv.updateInterval = 1000;
 
