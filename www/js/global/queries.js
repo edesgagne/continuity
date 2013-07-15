@@ -131,6 +131,8 @@
         window.localStorage["steplist"] = JSON.stringify(coll);
         if (window.uploader.getMode() === "online") {
           return window.queries.updateCollectionOnline();
+        } else {
+          return window.uploader.setUpdatedOffline(true);
         }
       };
 

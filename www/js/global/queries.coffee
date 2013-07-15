@@ -102,9 +102,11 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			#because if you're always online
 			#nothing gets refreshed and uploaded
 			if window.uploader.getMode() == "online"
-				#uses the version in local storage
+				#can immediately be uploaded online
 				window.queries.updateCollectionOnline()	
-
+			else
+				#must upload offline updates eventually
+				window.uploader.setUpdatedOffline(true)
 		updateCollectionOnline: ->
 			console.log 'updating collection online'
 				

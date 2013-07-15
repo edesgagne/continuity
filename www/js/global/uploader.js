@@ -17,7 +17,17 @@
 
       Uploader.prototype.initialize = function() {
         console.log("uploader");
-        return this.mode = "online";
+        this.mode = "online";
+        return this.updatedOffline = false;
+      };
+
+      Uploader.prototype.getUpdatedOffline = function() {
+        return this.wasUpdatedOffline;
+      };
+
+      Uploader.prototype.setUpdatedOffline = function(newval) {
+        console.log('updated offline: ', newval);
+        return this.updatedOffline = newval;
       };
 
       Uploader.prototype.getMode = function() {
@@ -25,12 +35,13 @@
       };
 
       Uploader.prototype.updateMode = function(newmode) {
-        var coll, oldmode;
+        var oldmode;
         oldmode = this.mode;
         this.mode = newmode;
         console.log('newmode', this.mode);
-        if (oldmode === "offline" && newmode === "online") {
-          coll = JSON.parse(window.localStorage["steplist"]);
+        if (oldmode === "offline" && newmode === "online" && this.updatedOffline === true) {
+          console.log('doing online updates automatically');
+          this.updatedOffline = false;
           return window.queries.updateCollectionOnline();
         }
       };

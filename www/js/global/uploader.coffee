@@ -4,17 +4,20 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 		initialize: ->	
 			console.log "uploader"
 			@mode = "online" #temporary, change to "default" later
+			@updatedOffline = false
+		getUpdatedOffline: ->
+			return @wasUpdatedOffline
+		setUpdatedOffline: (newval)->
+			console.log 'updated offline: ', newval
+			@updatedOffline = newval
 		getMode: ->
 			return @mode
 		updateMode: (newmode) ->
 			oldmode = @mode
 			@mode = newmode
-			
 			console.log 'newmode', @mode
 			
-			if oldmode == "offline" and newmode =="online"
-				#get what's in local storage
-				coll = JSON.parse window.localStorage["steplist"]
-				#upload to parse
-				#everything has already been put in localstorage
+			if oldmode == "offline" and newmode =="online" and @updatedOffline == true
+				console.log 'doing online updates automatically'
+				@updatedOffline = false
 				window.queries.updateCollectionOnline()
