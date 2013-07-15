@@ -23,6 +23,10 @@
         strategies: []
       };
 
+      Step.prototype.open = function() {
+        return console.log('triggered open');
+      };
+
       return Step;
 
     })(Parse.Object);

@@ -19,12 +19,14 @@
   });
 
   require(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'global/app', 'global/queries', 'global/uploader'], function($, Mobile, _, Parse, StartView, App, Queries, Uploader) {
-    console.log('start');
-    Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
-    window.queries = new Queries;
-    window.uploader = new Uploader;
-    window.app = new App;
-    return new StartView;
+    return $(document).ready(function() {
+      console.log('start');
+      Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
+      window.queries = new Queries;
+      window.uploader = new Uploader;
+      window.app = new App;
+      return new StartView;
+    });
   });
 
 }).call(this);

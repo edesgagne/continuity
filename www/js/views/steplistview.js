@@ -20,14 +20,23 @@
       };
 
       StepListView.prototype.initialize = function() {
-        _.bindAll(this);
-        this.collection.bind("change", this.rerender, this);
-        return this.changed = -1;
+        return _.bindAll(this);
       };
 
       StepListView.prototype.render = function() {
         this.collection.each(this.renderEach, this);
+        this.collection.bind('change', this.rerender, this);
         return this;
+      };
+
+      StepListView.prototype.rerender = function(changedmodel) {
+        var step_num;
+        $(this.el).html("");
+        this.render();
+        step_num = changedmodel.get("step_num");
+        $("#" + step_num).attr('data-collapsed', 'false');
+        this.jqdisplay();
+        return window.uploader.updateCollection(this.collection);
       };
 
       StepListView.prototype.jqdisplay = function() {
@@ -38,37 +47,12 @@
         return $('[data-role="button"]').button();
       };
 
-      StepListView.prototype.rerender = function(changedmodel) {
-        var i, model, _i, _len, _ref1;
-        console.log('rerendering collection');
-        $(this.el).html("");
-        this.collection.sort();
-        this.changed = null;
-        i = 1;
-        _ref1 = this.collection.models;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          model = _ref1[_i];
-          if (model === changedmodel) {
-            this.changed = i;
-            break;
-          }
-          i = i + 1;
-        }
-        window.uploader.updateCollection(this.collection);
-        this.render();
-        return this.jqdisplay();
-      };
-
       StepListView.prototype.renderEach = function(step) {
         var element, stepView;
         stepView = new StepView({
           model: step
         });
         element = stepView.render().el;
-        if (this.changed !== -1 && this.changed === step.get('step_num')) {
-          $(element).attr('data-collapsed', 'false');
-          this.changed = -1;
-        }
         return $(this.el).append(element);
       };
 

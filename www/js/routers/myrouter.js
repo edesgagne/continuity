@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist', 'views/stepview', 'views/steplistview'], function($, Mobile, _, Parse, Step, StepList, StepView, StepListView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'views/safetyview', 'views/helpview', 'views/activitiesview'], function($, Mobile, _, Parse, HomeView, SafetyView, HelpView, ActivitiesView) {
     var MyRouter, _ref;
     return MyRouter = (function(_super) {
       __extends(MyRouter, _super);
@@ -13,15 +13,25 @@
         return _ref;
       }
 
+      MyRouter.prototype.routes = {
+        "": "showHome",
+        "safety": "showSafety",
+        "help": "showHelp",
+        "activities": "showActivities"
+      };
+
       MyRouter.prototype.initialize = function() {
         console.log("router");
+        return this.bindMenu();
+      };
+
+      MyRouter.prototype.bindMenu = function() {
         return $(document).on("click", "a:not([data-bypass])", function(evt) {
           var href, root;
           href = {
             prop: $(this).prop("href"),
             attr: $(this).attr("href")
           };
-          console.error(href.attr);
           root = location.protocol + "//" + location.host + "/";
           if (href.prop && href.prop.slice(0, root.length) === root) {
             evt.preventDefault();
@@ -31,13 +41,6 @@
           }
           return $('#myPanel').panel("close");
         });
-      };
-
-      MyRouter.prototype.routes = {
-        "": "showHome",
-        "safety": "showSafety",
-        "help": "showHelp",
-        "activities": "showActivities"
       };
 
       MyRouter.prototype.basics = function(title) {
@@ -50,28 +53,28 @@
         var title;
         title = "Home";
         this.basics(title);
-        return $('[data-role="content"]').html("You are logged in as <b>" + window.localStorage["init"] + "</b>");
+        return new HomeView;
       };
 
       MyRouter.prototype.showActivities = function() {
         var title;
         title = "Activities";
-        return this.basics(title);
+        this.basics(title);
+        return new ActivitiesView;
       };
 
       MyRouter.prototype.showSafety = function() {
         var title;
         title = "Safety Planning";
         this.basics(title);
-        return window.uploader.displaySteps();
+        return new SafetyView;
       };
 
       MyRouter.prototype.showHelp = function() {
         var title;
         title = "Get Help";
         this.basics(title);
-        $('[data-role="content"]').html("\n<a data-icon=\"grid\" data-role=\"button\" href=\"tel:8002738255\">\nCall the Lifeline\n</a>\n\n<button\nonclick=\"window.open('http://suicidepreventionlifeline.org/GetHelp/LifelineChat.aspx', '_blank', 'location=yes');\"\ntarget=\"_blank\" data-icon=\"grid\" data-role=\"button\" href=\"\">\nLifeline Crisis Chat\n</button>\n\n\n<button\nonclick=\"window.open('http://findtreatment.samhsa.gov/MHTreatmentLocator/faces/quickSearch.jspx', '_blank', 'location=yes');\"\ntarget=\"_blank\" data-icon=\"search\" data-role=\"button\" href=\"\">\nTreatment Locator\n</button>\n\n\n");
-        return $('[data-role="button"]').button();
+        return new HelpView;
       };
 
       return MyRouter;

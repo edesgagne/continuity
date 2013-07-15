@@ -1,16 +1,79 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
 	class StepView extends Parse.View
+		main_template: _.template """
+		<h3>
+		<%= step_num %> : <%= title %>
+		</h3>
 	
+
+	<div style="opacity:0.5; text-shadow: none; font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px"> 
+	<%= description %>
+	</div>
+	
+
+	
+	<!-- add new strategy -->
+		
+	<% _.each(fields, function(field) { %> 
+	
+	
+		<% if (field == "phone number") { %>
+		    <input type="tel" name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
+	    
+		<% } else { %>
+		    <input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
+		
+		<% } %>
+
+	<% }); %>
+	<input id="<%= step_num %>" class="submit" type="submit" value="Submit" />
+		
+		
+		"""
+		sub_template: _.template """
+		<!--display old strategies -->
+			<% if (strategies.length != 0) { %>
+			
+		<ol style="list-style-type: none; text-shadow: none; border:5px solid gray; padding: 10px; padding-left: 30px; border-radius: 10px">
+		<% i = 0 %>
+		<% _.each(strategies, function(strat) { %> 
+			<li id="<%= i %>" style="font-size: 16px; padding: 10px">
+				<a class="delete" style="margin-right: 10px;" href="#" data-bypass="true" data-iconpos="notext" data-role="button" data-icon="delete" data-mini="true" data-inline="true">Delete</a>
+				
+				<% if(strat.indexOf("|") == -1) { %>
+					<%= strat %>
+				<% } else { %>
+					<% arr = strat.split(" | ");
+					str = arr[0];
+					phone = arr[1];
+					%>
+					<%= str %>
+					
+					<a data-inline="true" data-mini="true" data-role="button" href="tel:<%= phone %>">
+					Call Phone: <%= phone %>
+					</a>
+					
+					
+				<% } %>
+			</li> 
+			<% i = i + 1 %>
+		
+		<% }); %>
+		</ol>
+		
+		<% } %>
+		"""
+		
 		tagName: 'div'
 		attributes:
 			'data-role': 'collapsible'
 			'data-collapsed': 'true'
 		events:
-			"click .submit": "clicked"
+			"click .submit": "add"
 			"click .delete": "remove"
 			
 		initialize: ->
-			_.bindAll @, 'clicked'
+			_.bindAll @, 'add'
 			
 			id = @model.get('step_num')
 			#console.log id
@@ -19,82 +82,12 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			#whenever the model changes, the view should re-render
 			
 			#@model.bind('change', @rerender)
-			@model.on('openCollapsible', @open)
+			#@model.on('openCollapsible', @open)
+			@model.bind('change:strategies', @updateStrategies, @)
 			
-			temp = """
-		
-			<h3>
-			<%= step_num %> : <%= title %>
-			</h3>
-		
-
-		<div style="opacity:0.5; text-shadow: none; font-size: 14px; color: #333; background-color: pink; padding: 10px; border-radius: 10px"> 
-		<%= description %>
-		</div>
-		
-
-		
-		<!-- add new strategy -->
-			
-		<% _.each(fields, function(field) { %> 
-		
-		
-			<% if (field == "phone number") { %>
-			    <input type="tel" name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
-		    
-			<% } else { %>
-			    <input name="" class="textinput" placeholder="Add <%= field %>" value="" type="text" data-mini="false" />
-			
-			<% } %>
-	
-		<% }); %>
-		<input id="<%= step_num %>" class="submit" type="submit" value="Submit" />
-		
-		
-
-			
-		
-		
-			
-		
-		
-		
-			<!--display old strategies -->
-				<% if (strategies.length != 0) { %>
-				
-			<ol style="list-style-type: none; text-shadow: none; border:5px solid gray; padding: 10px; padding-left: 30px; border-radius: 10px">
-			<% i = 0 %>
-			<% _.each(strategies, function(strat) { %> 
-				<li id="<%= i %>" style="font-size: 16px; padding: 10px">
-					<a class="delete" style="margin-right: 10px;" href="#" data-bypass="true" data-iconpos="notext" data-role="button" data-icon="delete" data-mini="true" data-inline="true">Delete</a>
-					
-					<% if(strat.indexOf("|") == -1) { %>
-						<%= strat %>
-					<% } else { %>
-						<% arr = strat.split(" | ");
-						str = arr[0];
-						phone = arr[1];
-						%>
-						<%= str %>
-						
-						<a data-inline="true" data-mini="true" data-role="button" href="tel:<%= phone %>">
-						Call Phone: <%= phone %>
-						</a>
-						
-						
-					<% } %>
-				</li> 
-				<% i = i + 1 %>
-			
-			<% }); %>
-			</ol>
-			
-			<% } %>
-		
-			"""
-			@template = _.template temp
-
-		open: =>
+			#always stays the same
+			@content = @main_template(@model.toJSON())
+		open: ->
 			#this is being triggered twice?
 			console.log 'triggered open'
 			console.log $(@el).attr('data-collapsed')
@@ -102,13 +95,15 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			$(@el).attr('data-collapsed', 'false')
 			console.log $(@el).attr('data-collapsed')
 			$('[data-role="collapsible-set"]').collapsibleset("refresh")
-		render: =>
-			content = @template(@model.toJSON())
-			$(@el).html content
+		render: ->
+			sub_content = @sub_template(@model.toJSON())
+			$(@el).html @content
+			$(@el).append sub_content
 			@ #return itself
-		#rerender: =>
-		#	console.log 'rerendering view'
-		#	@render()
+		updateStrategies: (changedmodel) ->
+			console.log 'update strategies view'
+			console.log changedmodel
+			@render()
 		remove: (e) ->
 			e.preventDefault()
 			
@@ -131,7 +126,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			#then the collection will rerender it
 			
 			#remoe it from localstorage and parse using uplaoder
-		clicked: (e) =>
+		add: (e) ->
 			e.preventDefault()
 			
 			#get values of input fields
@@ -145,12 +140,12 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			str_output = str_output.replace(","," | ")
 			
 			#add them to the array
-			before = @model.get('strategies')
-			before.push str_output
+			arr = @model.get('strategies')
+			arr.push str_output
 			
 			#update the model
 			@model.set
-				strategies: before
+				strategies: arr
 			
 			#then the collection will re render it
-			console.log 'updated strategies', @model.get('strategies')
+			console.log 'added strategies', @model.get('strategies')

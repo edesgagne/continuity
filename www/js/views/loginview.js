@@ -55,7 +55,9 @@
           return window.queries.saveAllObjects();
         }).then(function() {
           return window.queries.syncParseWithLocalStorage();
-        }).then((function() {}), function(error) {
+        }).then((function() {
+          return window.location.reload();
+        }), function(error) {
           return console.error('there was an error signing up', error);
         });
       };

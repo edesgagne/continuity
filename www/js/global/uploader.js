@@ -45,27 +45,6 @@
         }
       };
 
-      Uploader.prototype.displaySteps = function() {
-        var element, list, listview, step, steps_array, _i, _len;
-        if (this.mode === "offline" || this.mode === "online") {
-          console.log('displaying offline');
-          list = new StepList;
-          steps_array = JSON.parse(window.localStorage["steplist"]);
-          for (_i = 0, _len = steps_array.length; _i < _len; _i++) {
-            step = steps_array[_i];
-            list.add(step);
-          }
-          listview = new StepListView({
-            collection: list
-          });
-          element = listview.render().el;
-          $('[data-role="content"]').html(element);
-          return listview.jqdisplay();
-        } else {
-          return console.error('must be either online or offline');
-        }
-      };
-
       return Uploader;
 
     })(Parse.Object);

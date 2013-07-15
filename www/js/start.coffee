@@ -20,22 +20,23 @@ require.config
 require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 
 'global/app', 'global/queries', 'global/uploader'], 
 ($, Mobile, _, Parse, StartView, App, Queries, Uploader) ->
-	
-	console.log 'start'
-	
-	#alert "starting app"
-	
-	Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
-	
-	#requires parse
-	window.queries = new Queries
-	window.uploader = new Uploader
-	
-	#binds online/offline events
-	#require uploader
-	window.app = new App
+	#temporary until wrapped in "on device ready"
+	$(document).ready ->
+		console.log 'start'
 
-	#requires app
-	#so it will know if user is online/offline
-	#so it will know whether to let them login/signup
-	new StartView
+		#alert "starting app"
+
+		Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
+
+		#requires parse
+		window.queries = new Queries
+		window.uploader = new Uploader
+
+		#binds online/offline events
+		#require uploader
+		window.app = new App
+
+		#requires app
+		#so it will know if user is online/offline
+		#so it will know whether to let them login/signup
+		new StartView

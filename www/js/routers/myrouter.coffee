@@ -1,9 +1,18 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist', 'views/stepview', 'views/steplistview'], 
-($, Mobile, _, Parse, Step, StepList, StepView, StepListView) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'views/safetyview', 'views/helpview', 'views/activitiesview'], 
+($, Mobile, _, Parse, HomeView, SafetyView, HelpView, ActivitiesView) ->
 	class MyRouter extends Parse.Router
+		
+		routes:
+			"": "showHome"
+			"safety": "showSafety"
+			"help": "showHelp"
+			"activities": "showActivities"
 		
 		initialize: ->
 			console.log "router"
+			@bindMenu()
+			
+		bindMenu: ->
 			#set it up so the links in the menu bar work
 			$(document).on "click", "a:not([data-bypass])", (evt) ->
 				
@@ -11,7 +20,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 					prop: $(this).prop("href")
 					attr: $(this).attr("href")
 				
-				console.error href.attr
 				
 				root = location.protocol + "//" + location.host + "/"
 				if href.prop and href.prop.slice(0, root.length) is root
@@ -20,13 +28,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 
 				#close the panel
 				$('#myPanel').panel("close")
-		
-		routes:
-			"": "showHome"
-			"safety": "showSafety"
-			"help": "showHelp"
-			"activities": "showActivities"
-		
+
 		basics: (title) ->
 			#log
 			console.log "show " + title
@@ -40,52 +42,20 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 		showHome: ->
 			title = "Home"
 			@basics title
-			#Parse.User.current().get("username")
-			$('[data-role="content"]').html "You are logged in as <b>" + window.localStorage["init"]  + "</b>"
+			new HomeView
 		
 		showActivities: ->
 			title = "Activities"
 			@basics title
+			new ActivitiesView
 		
 		showSafety: ->
 			title = "Safety Planning"
 			@basics title
-			
-			#change content
-			#list must be gotten in a query
-			window.uploader.displaySteps()
+			new SafetyView
 			
 		showHelp: ->
 			title = "Get Help"
 			@basics title
-			
-			
-
-			
-			
-			$('[data-role="content"]').html """
-			
-			<a data-icon="grid" data-role="button" href="tel:8002738255">
-			Call the Lifeline
-			</a>
-			
-			<button
-			onclick="window.open('http://suicidepreventionlifeline.org/GetHelp/LifelineChat.aspx', '_blank', 'location=yes');"
-			target="_blank" data-icon="grid" data-role="button" href="">
-			Lifeline Crisis Chat
-			</button>
-			
-			
-			<button
-			onclick="window.open('http://findtreatment.samhsa.gov/MHTreatmentLocator/faces/quickSearch.jspx', '_blank', 'location=yes');"
-			target="_blank" data-icon="search" data-role="button" href="">
-			Treatment Locator
-			</button>
-			
-			
-			
-			"""
-			
-			$('[data-role="button"]').button();
-			
+			new HelpView
 			

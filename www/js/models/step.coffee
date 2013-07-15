@@ -7,8 +7,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			description: ''
 			fields: []
 			strategies: []
-		# toJSON: ->
-		# 	{
-		# 		"step_num": @get('stepnum'),
-		# 		"strategies": @get('strategies')
-		# 	}
+		open: ->
+			console.log 'triggered open'
+		  
+		
