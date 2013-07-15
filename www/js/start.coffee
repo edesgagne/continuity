@@ -17,8 +17,8 @@ require.config
 		"parse":
 			deps: ['underscore', 'jquery']
 			exports: "Parse"
-require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 
-'global/app', 'global/queries', 'global/uploader'], 
+require ['jquery', 'jquerymobile', 'underscore', 'parse', 
+'views/startview', 'global/app', 'global/queries', 'global/uploader'], 
 ($, Mobile, _, Parse, StartView, App, Queries, Uploader) ->
 	#temporary until wrapped in "on device ready"
 	$(document).ready ->

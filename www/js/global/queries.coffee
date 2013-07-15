@@ -1,12 +1,11 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist', 'routers/myrouter', 'models/mysteps'], 
-($, Mobile, _, Parse, Step, StepList, MyRouter, MySteps) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps'], 
+($, Mobile, _, Parse, MySteps) ->
 	class Queries extends Parse.Object
 		#THESE ALL MUST RETURN PROMISES
 		#CAN'T EVEN RETURN PARSE ERROR
 		className: "Queries"
 		initialize: ->	
 			console.log "queries"
-			
 			_.bindAll @
 			
 		logInUser: (name, pass)->
@@ -16,13 +15,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 				return fail.reject "not online"
 				
 			return Parse.User.logIn name, pass,
-				# success: (user) ->
-				# 	console.log 'success in login'
-				# 	return Parse.Promise.as()
-				# error: (user, error) ->
-				# 	console.log 'error in login'
-				# 	return Parse.Promise.error(error)
-		
+
 		signUpUser: (name, pass)->
 			if window.uploader.getMode() != "online"
 				console.error "sorry, you must be online to set up the device"

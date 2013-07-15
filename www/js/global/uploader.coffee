@@ -1,4 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist', 'views/steplistview', 'models/step', 'routers/myrouter'], ($, Mobile, _, Parse, StepList, StepListView, Step, MyRouter) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse'], 
+($, Mobile, _, Parse) ->
 	class Uploader extends Parse.Object
 		className: "Uploader"
 		initialize: ->	
