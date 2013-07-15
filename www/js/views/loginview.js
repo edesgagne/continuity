@@ -35,7 +35,7 @@
         name = $('#login #name').val();
         pass = $('#login #pass').val();
         return window.queries.logInUser(name, pass).then(function(students) {
-          return window.queries.syncParseWithLocalStorage();
+          return window.queries.parseToLocalStorage();
         }).then((function() {
           return window.location.reload();
         }), function(error) {
@@ -52,9 +52,7 @@
         name = $('#signup #name').val();
         pass = $('#signup #pass').val();
         return window.queries.signUpUser(name, pass).then(function(students) {
-          return window.queries.saveAllObjects();
-        }).then(function() {
-          return window.queries.syncParseWithLocalStorage();
+          return window.queries.saveSteps();
         }).then((function() {
           return window.location.reload();
         }), function(error) {

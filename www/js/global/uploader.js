@@ -35,16 +35,6 @@
         }
       };
 
-      Uploader.prototype.updateCollection = function(coll) {
-        console.log('updating collection');
-        console.log(coll);
-        window.localStorage["steplist"] = JSON.stringify(coll);
-        if (this.mode === "online") {
-          console.log('gonna update online...');
-          return window.queries.updateCollectionOnline();
-        }
-      };
-
       return Uploader;
 
     })(Parse.Object);

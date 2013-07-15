@@ -15,7 +15,7 @@
 
       HomeView.prototype.el = '[data-role="content"]';
 
-      HomeView.prototype.template = _.template("You are logged in as <b>" + window.localStorage["init"] + "</b>");
+      HomeView.prototype.template = _.template("You are logged in as <b>" + window.localStorage["user"] + "</b>");
 
       HomeView.prototype.initialize = function() {
         _.bindAll(this);

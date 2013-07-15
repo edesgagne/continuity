@@ -8,15 +8,17 @@ stepJSON = [
 		"description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
 		"fields": [
 			"warning sign"
-		]
+		],
+		"strategies": []
 	},
 	{
 		"step_num": 2,
 		"title": "Coping Strategies",
-		"description": "Internal coping strategies ‚Äì things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
+		"description": "Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
 		"fields": [
 			"coping strategy"
-		]
+		],
+		"strategies": []
 	},
 	{
 		"step_num": 3,
@@ -25,7 +27,8 @@ stepJSON = [
 		"fields": [
 			"name",
 			"phone number"
-		]
+		],
+		"strategies": []
 	},
 	{
 		"step_num": 4,
@@ -33,6 +36,7 @@ stepJSON = [
 		"description": "Social settings that provide distraction:",
 		"fields": [
 			"place"
-		]
+		],
+		"strategies": []
 	}
 ]

@@ -20,27 +20,28 @@
       };
 
       StepListView.prototype.initialize = function() {
-        return _.bindAll(this);
+        _.bindAll(this, 'rerender', 'jqdisplay', 'renderEach');
+        return this.collection.on('change', this.rerender);
       };
 
       StepListView.prototype.render = function() {
         this.collection.each(this.renderEach, this);
-        this.collection.bind('change', this.rerender, this);
         return this;
       };
 
       StepListView.prototype.rerender = function(changedmodel) {
         var step_num;
+        console.log('called rerender');
         $(this.el).html("");
         this.render();
         step_num = changedmodel.get("step_num");
         $("#" + step_num).attr('data-collapsed', 'false');
         this.jqdisplay();
-        return window.uploader.updateCollection(this.collection);
+        return window.queries.updateCollection(this.collection);
       };
 
       StepListView.prototype.jqdisplay = function() {
-        console.log('jq display');
+        console.log('jq display of steplistview');
         $('[data-role="collapsible-set"]').collapsibleset();
         $('.textinput').textinput();
         $('[type="submit"]').button();

@@ -4,13 +4,16 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], ($, 
 		attributes: 
 			'data-role': 'collapsible-set'
 		initialize: ->
-			_.bindAll @
-			
+			_.bindAll @, 'rerender', 'jqdisplay', 'renderEach'
+			@collection.on 'change', @rerender
 		render: ->
 			@collection.each @renderEach, @
-			@collection.bind 'change', @rerender , @
+			#@collection.bind 'remove', @rerender
 			@ #returns itself
-		rerender: (changedmodel)->
+		rerender: (changedmodel) ->
+			
+			console.log 'called rerender'
+			
 			$(@el).html ""
 			@render()
 			
@@ -20,9 +23,10 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], ($, 
 			
 			@jqdisplay()
 			
-			window.uploader.updateCollection @collection
+			#TEMPORARY!  COMMENT THIS BACK IN!
+			window.queries.updateCollection @collection
 		jqdisplay: ->
-			console.log 'jq display'
+			console.log 'jq display of steplistview'
 			#initialize everything to make it styled with jquery mobile
 			$('[data-role="collapsible-set"]').collapsibleset()
 

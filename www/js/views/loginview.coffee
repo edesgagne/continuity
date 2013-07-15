@@ -22,7 +22,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 
 
 			window.queries.logInUser(name, pass).then((students) ->
-				window.queries.syncParseWithLocalStorage()
+				window.queries.parseToLocalStorage()
 			).then ( ->
 				window.location.reload()
 			), (error) ->
@@ -37,9 +37,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			pass = $('#signup #pass').val()
 
 			window.queries.signUpUser(name, pass).then((students) ->
-				window.queries.saveAllObjects()
-			).then( ->
-				window.queries.syncParseWithLocalStorage()
+				window.queries.saveSteps()
 			).then ( ->
 				window.location.reload()
 			# Everything is done!

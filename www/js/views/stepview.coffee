@@ -73,37 +73,23 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			"click .delete": "remove"
 			
 		initialize: ->
-			_.bindAll @, 'add'
+			_.bindAll @, 'render', 'add', 'remove'
 			
 			id = @model.get('step_num')
 			#console.log id
 			$(@el).attr('id', id)
 			
-			#whenever the model changes, the view should re-render
-			
-			#@model.bind('change', @rerender)
-			#@model.on('openCollapsible', @open)
-			@model.bind('change:strategies', @updateStrategies, @)
-			
 			#always stays the same
 			@content = @main_template(@model.toJSON())
-		open: ->
-			#this is being triggered twice?
-			console.log 'triggered open'
-			console.log $(@el).attr('data-collapsed')
-			
-			$(@el).attr('data-collapsed', 'false')
-			console.log $(@el).attr('data-collapsed')
-			$('[data-role="collapsible-set"]').collapsibleset("refresh")
 		render: ->
 			sub_content = @sub_template(@model.toJSON())
 			$(@el).html @content
 			$(@el).append sub_content
 			@ #return itself
-		updateStrategies: (changedmodel) ->
-			console.log 'update strategies view'
-			console.log changedmodel
-			@render()
+		#updateStrategies: (changedmodel) ->
+		#	console.log 'update strategies view'
+		#	console.log changedmodel
+		#	@render()
 		remove: (e) ->
 			e.preventDefault()
 			
@@ -128,7 +114,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			#remoe it from localstorage and parse using uplaoder
 		add: (e) ->
 			e.preventDefault()
-			
+						
 			#get values of input fields
 			output = Array()
 			$(@el).find('.textinput').each ->
@@ -140,12 +126,14 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			str_output = str_output.replace(","," | ")
 			
 			#add them to the array
-			arr = @model.get('strategies')
-			arr.push str_output
+			@model.get('strategies').push str_output
+			@model.trigger('change', @model)
 			
+			#JUST THAT UPDATES TEH MODEL!!
+						
 			#update the model
-			@model.set
-				strategies: arr
+			#@model.set
+			#	strategies: arr
 			
 			#then the collection will re render it
 			console.log 'added strategies', @model.get('strategies')

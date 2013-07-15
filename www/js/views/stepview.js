@@ -31,19 +31,10 @@
 
       StepView.prototype.initialize = function() {
         var id;
-        _.bindAll(this, 'add');
+        _.bindAll(this, 'render', 'add', 'remove');
         id = this.model.get('step_num');
         $(this.el).attr('id', id);
-        this.model.bind('change:strategies', this.updateStrategies, this);
         return this.content = this.main_template(this.model.toJSON());
-      };
-
-      StepView.prototype.open = function() {
-        console.log('triggered open');
-        console.log($(this.el).attr('data-collapsed'));
-        $(this.el).attr('data-collapsed', 'false');
-        console.log($(this.el).attr('data-collapsed'));
-        return $('[data-role="collapsible-set"]').collapsibleset("refresh");
       };
 
       StepView.prototype.render = function() {
@@ -52,12 +43,6 @@
         $(this.el).html(this.content);
         $(this.el).append(sub_content);
         return this;
-      };
-
-      StepView.prototype.updateStrategies = function(changedmodel) {
-        console.log('update strategies view');
-        console.log(changedmodel);
-        return this.render();
       };
 
       StepView.prototype.remove = function(e) {
@@ -75,7 +60,7 @@
       };
 
       StepView.prototype.add = function(e) {
-        var arr, output, str_output;
+        var output, str_output;
         e.preventDefault();
         output = Array();
         $(this.el).find('.textinput').each(function() {
@@ -84,11 +69,8 @@
         });
         str_output = output.toString();
         str_output = str_output.replace(",", " | ");
-        arr = this.model.get('strategies');
-        arr.push(str_output);
-        this.model.set({
-          strategies: arr
-        });
+        this.model.get('strategies').push(str_output);
+        this.model.trigger('change', this.model);
         return console.log('added strategies', this.model.get('strategies'));
       };
 

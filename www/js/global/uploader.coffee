@@ -18,17 +18,3 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 				#upload to parse
 				#everything has already been put in localstorage
 				window.queries.updateCollectionOnline()
-		updateCollection: (coll) ->
-			#update in local storage
-			console.log 'updating collection'
-			console.log coll
-			window.localStorage["steplist"] = JSON.stringify coll
-			
-			#upload to parse if mode is online
-			#it won't work to reply on updateMode
-			#because if you're always online
-			#nothing gets refreshed and uploaded
-			if @mode == "online"
-				console.log 'gonna update online...'
-				#uses the version in local storage
-				window.queries.updateCollectionOnline()

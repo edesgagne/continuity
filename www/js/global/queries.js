@@ -21,11 +21,22 @@
       };
 
       Queries.prototype.logInUser = function(name, pass) {
+        var fail;
+        if (window.uploader.getMode() !== "online") {
+          console.error("sorry, you must be online to set up the device");
+          fail = new Parse.Promise();
+          return fail.reject("not online");
+        }
         return Parse.User.logIn(name, pass);
       };
 
       Queries.prototype.signUpUser = function(name, pass) {
-        var user;
+        var fail, user;
+        if (window.uploader.getMode() !== "online") {
+          console.error("sorry, you must be online to set up the device");
+          fail = new Parse.Promise();
+          return fail.reject("not online");
+        }
         user = new Parse.User();
         user.set("username", name);
         user.set("password", pass);
@@ -39,37 +50,46 @@
         });
       };
 
-      Queries.prototype.saveAllObjects = function() {
-        var b, currentUser, mylist, stepJSON;
-        console.log('Queries: saving all objects');
-        mylist = new StepList;
+      Queries.prototype.saveSteps = function() {
+        var b, currentUser, fail, stepJSON;
+        console.log('saving steps');
+        if (window.uploader.getMode() !== "online") {
+          console.error("sorry, you must be online to set up the device");
+          fail = new Parse.Promise();
+          return fail.reject("not online");
+        }
         stepJSON = [
           {
             "step_num": 1,
             "title": "Warning Signs",
             "description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
-            "fields": ["warning sign"]
+            "fields": ["warning sign"],
+            "strategies": []
           }, {
             "step_num": 2,
             "title": "Coping Strategies",
             "description": "Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
-            "fields": ["coping strategy"]
+            "fields": ["coping strategy"],
+            "strategies": []
           }, {
             "step_num": 3,
             "title": "People",
             "description": "People that provide distraction:",
-            "fields": ["name", "phone number"]
+            "fields": ["name", "phone number"],
+            "strategies": []
           }, {
             "step_num": 4,
             "title": "Settings",
             "description": "Social settings that provide distraction:",
-            "fields": ["place"]
+            "fields": ["place"],
+            "strategies": []
           }
         ];
-        mylist.add(stepJSON);
+        window.localStorage["user"] = Parse.User.current().get("username");
+        window.localStorage["steplist"] = JSON.stringify(stepJSON);
         currentUser = Parse.User.current();
         b = new MySteps({
-          list: JSON.stringify(mylist)
+          list: JSON.stringify(stepJSON)
         });
         b.set({
           user: currentUser
@@ -79,59 +99,59 @@
         return b.save();
       };
 
-      Queries.prototype.syncParseWithLocalStorage = function() {
+      Queries.prototype.parseToLocalStorage = function() {
         var currentUser, fail, query, success;
+        console.log('parse to localstorage');
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
           fail = new Parse.Promise();
           return fail.reject("not online");
         }
-        if (window.localStorage["init"] === Parse.User.current().get('username')) {
-          console.log('device already set up');
+        if (window.localStorage["user"] === Parse.User.current().get('username')) {
+          console.log('local storage already contains this user data');
           success = new Parse.Promise();
           return success.resolve();
         }
         currentUser = Parse.User.current();
         query = new Parse.Query(MySteps);
         query.equalTo("user", currentUser);
-        console.log('setting up device...about to query');
         return query.first({
           success: function(mysteps) {
-            var list, myjson;
+            var myjson;
             console.log('success in query');
-            list = new StepList;
             myjson = JSON.parse(mysteps.get("list"));
-            list.add(myjson);
-            console.log(list);
-            window.localStorage["steplist"] = JSON.stringify(list);
-            console.log('locstor', window.localStorage["steplist"]);
-            console.log('setting is set up to true');
-            currentUser.set({
-              isSetUp: true
-            });
-            currentUser.save();
-            console.log('done in sync parse with local storage');
-            return window.localStorage["init"] = Parse.User.current().get('username');
-          },
-          error: function(e) {
-            return console.error('error', e);
+            window.localStorage["steplist"] = JSON.stringify(myjson);
+            return window.localStorage["user"] = currentUser.get("username");
           }
         });
       };
 
+      Queries.prototype.updateCollection = function(coll) {
+        console.log('updating collection on localstorage');
+        window.localStorage["steplist"] = JSON.stringify(coll);
+        if (window.uploader.getMode() === "online") {
+          return window.queries.updateCollectionOnline();
+        }
+      };
+
       Queries.prototype.updateCollectionOnline = function() {
-        var currentUser, query;
+        var currentUser, fail, query;
+        console.log('updating collection online');
+        if (window.uploader.getMode() !== "online") {
+          console.error("sorry, you must be online to set up the device");
+          fail = new Parse.Promise();
+          return fail.reject("not online");
+        }
         query = new Parse.Query(MySteps);
         currentUser = Parse.User.current();
         query.equalTo("user", currentUser);
         return query.first({
           success: function(mysteps) {
             var steps;
-            steps = JSON.stringify(JSON.parse(window.localStorage["steplist"]));
+            steps = window.localStorage["steplist"];
             mysteps.set({
               list: steps
             });
-            console.log(mysteps);
             mysteps.save();
             return console.log('synced online');
           },
