@@ -12,6 +12,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview', 'vie
 			if Parse.User.current()
 				new AppView
 				new MyRouter
-				Parse.history.start()
+				Parse.history.start() 
+				#({pushState: true}) 
+				#only works if tested with http
+				
 			else
 				new LoginView

@@ -6,14 +6,17 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collect
 			console.log "router"
 			#set it up so the links in the menu bar work
 			$(document).on "click", "a:not([data-bypass])", (evt) ->
+				
 				href =
 					prop: $(this).prop("href")
 					attr: $(this).attr("href")
-
+				
+				console.error href.attr
+				
 				root = location.protocol + "//" + location.host + "/"
 				if href.prop and href.prop.slice(0, root.length) is root
 					evt.preventDefault()
-					Parse.history.navigate href.attr, true
+					Parse.history.navigate href.attr, {trigger: true}
 
 				#close the panel
 				$('#myPanel').panel("close")

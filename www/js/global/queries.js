@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist', 'routers/myrouter'], function($, Mobile, _, Parse, Step, StepList, MyRouter) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/step', 'collections/steplist', 'routers/myrouter', 'models/mysteps'], function($, Mobile, _, Parse, Step, StepList, MyRouter, MySteps) {
     var Queries, _ref;
     return Queries = (function(_super) {
       __extends(Queries, _super);
@@ -39,10 +39,10 @@
         });
       };
 
-      Queries.prototype.saveAllObjects = function(obj_arr) {
-        var currentUser, list, st, stepJSON, _i, _len, _ref1;
+      Queries.prototype.saveAllObjects = function() {
+        var b, currentUser, mylist, stepJSON;
         console.log('Queries: saving all objects');
-        list = new StepList;
+        mylist = new StepList;
         stepJSON = [
           {
             "step_num": 1,
@@ -66,19 +66,17 @@
             "fields": ["place"]
           }
         ];
-        list.add(stepJSON);
+        mylist.add(stepJSON);
         currentUser = Parse.User.current();
-        obj_arr = [];
-        _ref1 = list.models;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          st = _ref1[_i];
-          st.set({
-            user: currentUser
-          });
-          st.setACL(new Parse.ACL(currentUser));
-          obj_arr.push(st);
-        }
-        return Parse.Object.saveAll(obj_arr);
+        b = new MySteps({
+          list: JSON.stringify(mylist)
+        });
+        b.set({
+          user: currentUser
+        });
+        b.setACL(new Parse.ACL(currentUser));
+        console.log('mysteps: ', b);
+        return b.save();
       };
 
       Queries.prototype.syncParseWithLocalStorage = function() {
@@ -94,18 +92,16 @@
           return success.resolve();
         }
         currentUser = Parse.User.current();
-        query = new Parse.Query(Step);
+        query = new Parse.Query(MySteps);
         query.equalTo("user", currentUser);
         console.log('setting up device...about to query');
-        return query.find({
-          success: function(results) {
-            var list, r, _i, _len;
+        return query.first({
+          success: function(mysteps) {
+            var list, myjson;
             console.log('success in query');
             list = new StepList;
-            for (_i = 0, _len = results.length; _i < _len; _i++) {
-              r = results[_i];
-              list.add(r);
-            }
+            myjson = JSON.parse(mysteps.get("list"));
+            list.add(myjson);
             console.log(list);
             window.localStorage["steplist"] = JSON.stringify(list);
             console.log('locstor', window.localStorage["steplist"]);
@@ -125,32 +121,18 @@
 
       Queries.prototype.updateCollectionOnline = function() {
         var currentUser, query;
-        query = new Parse.Query(Step);
+        query = new Parse.Query(MySteps);
         currentUser = Parse.User.current();
         query.equalTo("user", currentUser);
-        query.ascending('step_num');
-        return query.find({
-          success: function(results) {
-            var i, obj, steps, updated;
-            steps = JSON.parse(window.localStorage["steplist"]);
-            i = 0;
-            while (i < results.length) {
-              obj = results[i];
-              updated = null;
-              $.each(steps, function(index, element) {
-                if (element.step_num === obj.get('step_num')) {
-                  updated = element;
-                }
-              });
-              if (obj.get('step_num') !== updated["step_num"]) {
-                console.error("steps are out of order");
-              }
-              obj.set({
-                strategies: updated["strategies"]
-              });
-              obj.save();
-              i = i + 1;
-            }
+        return query.first({
+          success: function(mysteps) {
+            var steps;
+            steps = JSON.stringify(JSON.parse(window.localStorage["steplist"]));
+            mysteps.set({
+              list: steps
+            });
+            console.log(mysteps);
+            mysteps.save();
             return console.log('synced online');
           },
           error: function(e) {

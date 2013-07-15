@@ -21,6 +21,8 @@ require ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview',
 'global/app', 'global/queries', 'global/uploader'], 
 ($, Mobile, _, Parse, StartView, App, Queries, Uploader) ->
 	
+	console.log 'start'
+	
 	#alert "starting app"
 	
 	Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"

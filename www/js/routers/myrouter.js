@@ -21,10 +21,13 @@
             prop: $(this).prop("href"),
             attr: $(this).attr("href")
           };
+          console.error(href.attr);
           root = location.protocol + "//" + location.host + "/";
           if (href.prop && href.prop.slice(0, root.length) === root) {
             evt.preventDefault();
-            Parse.history.navigate(href.attr, true);
+            Parse.history.navigate(href.attr, {
+              trigger: true
+            });
           }
           return $('#myPanel').panel("close");
         });

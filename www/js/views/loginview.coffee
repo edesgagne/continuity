@@ -41,7 +41,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			).then( ->
 				window.queries.syncParseWithLocalStorage()
 			).then ( ->
-				window.location.reload()
+				#window.location.reload()
 			# Everything is done!
 			), (error) ->
 				console.error 'there was an error signing up', error
