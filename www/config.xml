@@ -57,7 +57,6 @@
 
     <!-- Define app splash screen for each platform. -->
     <gap:splash src="res/screen/android/portrait.png"  gap:platform="android" />
-  <!--  <gap:splash src="res/screen/android/landscape.png"  gap:platform="android"/> -->
 
    <!-- <gap:splash src="res/screen/android/screen-mdpi-portrait.png"  gap:platform="android" gap:density="mdpi" />
     <gap:splash src="res/screen/android/screen-hdpi-portrait.png"  gap:platform="android" gap:density="hdpi" />
