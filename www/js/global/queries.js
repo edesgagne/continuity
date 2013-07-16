@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps'], function($, Mobile, _, Parse, MySteps) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps', 'views/popupview'], function($, Mobile, _, Parse, MySteps, PopupView) {
     var Queries, _ref;
     return Queries = (function(_super) {
       __extends(Queries, _super);
@@ -21,42 +21,33 @@
       };
 
       Queries.prototype.logInUser = function(name, pass) {
-        var fail;
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
-          fail = new Parse.Promise();
-          return fail.reject("not online");
+          return Parse.Promise.error({
+            message: 'not online'
+          });
         }
         return Parse.User.logIn(name, pass);
       };
 
       Queries.prototype.signUpUser = function(name, pass) {
-        var fail, user;
+        var user;
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
-          fail = new Parse.Promise();
-          return fail.reject("not online");
+          return Parse.Promise.error("not online");
         }
         user = new Parse.User();
         user.set("username", name);
         user.set("password", pass);
-        return user.signUp(null, {
-          success: function(user) {
-            return console.log('success signing up');
-          },
-          error: function(user, error) {
-            return console.error("error signing up " + error.code + " " + error.message);
-          }
-        });
+        return user.signUp(null);
       };
 
       Queries.prototype.saveSteps = function() {
-        var b, currentUser, fail, stepJSON;
+        var b, currentUser, stepJSON;
         console.log('saving steps');
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
-          fail = new Parse.Promise();
-          return fail.reject("not online");
+          return Parse.Promise.error("not online");
         }
         stepJSON = [
           {
@@ -118,17 +109,15 @@
       };
 
       Queries.prototype.parseToLocalStorage = function() {
-        var currentUser, fail, query, success;
+        var currentUser, query;
         console.log('parse to localstorage');
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
-          fail = new Parse.Promise();
-          return fail.reject("not online");
+          return Parse.Promise.error("not online");
         }
         if (window.localStorage["user"] === Parse.User.current().get('username')) {
           console.log('local storage already contains this user data');
-          success = new Parse.Promise();
-          return success.resolve();
+          return Parse.Promise.as("already set up");
         }
         currentUser = Parse.User.current();
         query = new Parse.Query(MySteps);
@@ -155,12 +144,11 @@
       };
 
       Queries.prototype.updateCollectionOnline = function() {
-        var currentUser, fail, query;
+        var currentUser, query;
         console.log('updating collection online');
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
-          fail = new Parse.Promise();
-          return fail.reject("not online");
+          return Parse.Promise.error("not online");
         }
         query = new Parse.Query(MySteps);
         currentUser = Parse.User.current();
@@ -174,9 +162,6 @@
             });
             mysteps.save();
             return console.log('synced online');
-          },
-          error: function(e) {
-            return console.error('error', e);
           }
         });
       };

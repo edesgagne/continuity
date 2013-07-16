@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/appview.html'], function($, Mobile, _, Parse, apptemplate) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/apptemplate.html'], function($, Mobile, _, Parse, apptemplate) {
     var AppView, _ref;
     return AppView = (function(_super) {
       __extends(AppView, _super);

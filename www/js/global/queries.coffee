@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps'], 
-($, Mobile, _, Parse, MySteps) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps', 'views/popupview'], 
+($, Mobile, _, Parse, MySteps, PopupView) ->
 	class Queries extends Parse.Object
 		#THESE ALL MUST RETURN PROMISES
 		#CAN'T EVEN RETURN PARSE ERROR
@@ -7,38 +7,33 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps'],
 		initialize: ->	
 			console.log "queries"
 			_.bindAll @
-			
+			#@online_err = new PopupView 
+			#	text: "Sorry, you must be online to do this."			
 		logInUser: (name, pass)->
+			#it isn't returning the parse promise anyways
 			if window.uploader.getMode() != "online"
 				console.error "sorry, you must be online to set up the device"
-				fail = new Parse.Promise()
-				return fail.reject "not online"
-				
-			return Parse.User.logIn name, pass,
+				return Parse.Promise.error({message: 'not online'})
+			
+			return Parse.User.logIn name, pass
 
 		signUpUser: (name, pass)->
 			if window.uploader.getMode() != "online"
 				console.error "sorry, you must be online to set up the device"
-				fail = new Parse.Promise()
-				return fail.reject "not online"
+				return Parse.Promise.error("not online")
 			
 			user = new Parse.User()
 			user.set("username", name)
 			user.set("password", pass)
 			
-			return user.signUp null,
-				success: (user) ->
-					console.log 'success signing up'
-				error: (user, error) ->
-					console.error "error signing up " + error.code + " " + error.message
+			return user.signUp null
 		
 		saveSteps: ->
 			console.log 'saving steps'
 			
 			if window.uploader.getMode() != "online"
 				console.error "sorry, you must be online to set up the device"
-				fail = new Parse.Promise()
-				return fail.reject "not online"
+				return Parse.Promise.error("not online")
 						
 			#add all the steps to the list
 			stepJSON = [{"step_num":1,"title":"Warning Signs","description":"Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:","fields":["warning sign"],"strategies":[]},{"step_num":2,"title":"Coping Strategies","description":"Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):","fields":["coping strategy"],"strategies":[]},{"step_num":3,"title":"People","description":"People that provide distraction:","fields":["name","phone number"],"strategies":[]},{"step_num":4,"title":"Settings","description":"Social settings that provide distraction:","fields":["place"],"strategies":[]},{"step_num":5,"title":"Professionals","description":"Professionals or agencies I can contact during a crisis:","fields":["name","phone number"],"strategies":[]},{"step_num":6,"title":"Environment","description":"Ways to make the environment safe:","fields":["way"],"strategies":[]},{"step_num":7,"title":"One Thing","description":"The one thing that is most important to me and worth living for is:","fields":["thing"],"strategies":[]}]
@@ -64,12 +59,10 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps'],
 			#user MUST be online if they've never used the device before
 			if window.uploader.getMode() != "online"
 				console.error "sorry, you must be online to set up the device"
-				fail = new Parse.Promise()
-				return fail.reject "not online"
+				return Parse.Promise.error("not online")
 			if window.localStorage["user"] == Parse.User.current().get('username')
 				console.log 'local storage already contains this user data'
-				success = new Parse.Promise()
-				return success.resolve()
+				return Parse.Promise.as("already set up")
 				#set parse steps to localstorage
 			
 			currentUser = Parse.User.current()
@@ -104,8 +97,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps'],
 				
 			if window.uploader.getMode() != "online"
 				console.error "sorry, you must be online to set up the device"
-				fail = new Parse.Promise()
-				return fail.reject "not online"
+				return Parse.Promise.error("not online")
 			
 			#upload everything to parse
 			query = new Parse.Query MySteps
@@ -121,5 +113,3 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps'],
 					#console.log mysteps
 					mysteps.save()
 					console.log 'synced online'
-				error: (e) ->
-					console.error 'error', e

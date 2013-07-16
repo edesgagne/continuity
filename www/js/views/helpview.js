@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/helptemplate.html'], function($, Mobile, _, Parse, helptemplate) {
     var HelpView, _ref;
     return HelpView = (function(_super) {
       __extends(HelpView, _super);
@@ -15,7 +15,7 @@
 
       HelpView.prototype.el = '[data-role="content"]';
 
-      HelpView.prototype.template = _.template("<a data-icon=\"grid\" data-role=\"button\" href=\"tel:8002738255\">\nCall the Lifeline\n</a>\n\n<button\nonclick=\"window.open('http://suicidepreventionlifeline.org/GetHelp/LifelineChat.aspx', '_blank', 'location=yes');\"\ntarget=\"_blank\" data-icon=\"grid\" data-role=\"button\" href=\"\">\nLifeline Crisis Chat\n</button>\n\n\n<button\nonclick=\"window.open('http://findtreatment.samhsa.gov/MHTreatmentLocator/faces/quickSearch.jspx', '_blank', 'location=yes');\"\ntarget=\"_blank\" data-icon=\"search\" data-role=\"button\" href=\"\">\nTreatment Locator\n</button>");
+      HelpView.prototype.template = _.template(helptemplate);
 
       HelpView.prototype.initialize = function() {
         _.bindAll(this, 'render', 'jqdisplay');

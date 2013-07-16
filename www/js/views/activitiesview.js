@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/activitiestemplate.html'], function($, Mobile, _, Parse, activitiestemplate) {
     var ActivitiesView, _ref;
     return ActivitiesView = (function(_super) {
       __extends(ActivitiesView, _super);
@@ -15,7 +15,7 @@
 
       ActivitiesView.prototype.el = '[data-role="content"]';
 
-      ActivitiesView.prototype.template = _.template("Ready for activities?");
+      ActivitiesView.prototype.template = _.template(activitiestemplate);
 
       ActivitiesView.prototype.initialize = function() {
         _.bindAll(this, 'render');

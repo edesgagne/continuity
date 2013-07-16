@@ -1,4 +1,4 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/appview.html'], 
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/apptemplate.html'], 
 ($, Mobile, _, Parse, apptemplate) ->
 	class AppView extends Parse.View
 		el: '[data-role="page"]'

@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/logintemplate.html', 'views/popupview'], function($, Mobile, _, Parse, logintemplate, PopupView) {
     var LoginView, _ref;
     return LoginView = (function(_super) {
       __extends(LoginView, _super);
@@ -14,6 +14,8 @@
       }
 
       LoginView.prototype.el = '[data-role="page"]';
+
+      LoginView.prototype.template = _.template(logintemplate);
 
       LoginView.prototype.events = {
         'submit form#login': 'logIn',
@@ -26,12 +28,9 @@
         return this.jqdisplay();
       };
 
-      LoginView.prototype.logIn = function() {
+      LoginView.prototype.logIn = function(e) {
         var name, pass;
-        if (window.uploader.getMode() !== "online") {
-          console.error("can only log in if online");
-          return;
-        }
+        e.preventDefault();
         name = $('#login #name').val();
         pass = $('#login #pass').val();
         return window.queries.logInUser(name, pass).then(function(students) {
@@ -39,16 +38,23 @@
         }).then((function() {
           return window.location.reload();
         }), function(error) {
-          return console.error('there was an error logging in', error);
+          console.error(error.message);
+          setTimeout((function() {
+            var popup;
+            popup = new PopupView({
+              text: 'There was an error logging in: ' + error.message
+            });
+            return popup.open();
+          }), 500);
+          return setTimeout((function() {
+            return window.location.reload();
+          }), 3000);
         });
       };
 
-      LoginView.prototype.signUp = function() {
+      LoginView.prototype.signUp = function(e) {
         var name, pass;
-        if (window.uploader.getMode() !== "online") {
-          console.error("can only sign up if online");
-          return;
-        }
+        e.preventDefault();
         name = $('#signup #name').val();
         pass = $('#signup #pass').val();
         return window.queries.signUpUser(name, pass).then(function(students) {
@@ -56,13 +62,23 @@
         }).then((function() {
           return window.location.reload();
         }), function(error) {
-          return console.error('there was an error signing up', error);
+          console.error(error.message);
+          setTimeout((function() {
+            var popup;
+            popup = new PopupView({
+              text: 'There was an error signing up: ' + error.message
+            });
+            return popup.open();
+          }), 500);
+          return setTimeout((function() {
+            return window.location.reload();
+          }), 3000);
         });
       };
 
       LoginView.prototype.render = function() {
         console.log('login view');
-        return $(this.el).html("	<div style=\"padding: 20px\">\n	\n	Login\n	<form id=\"login\">\n	<input id=\"name\" type=\"text\" placeholder=\"Username\"  />\n	<input id=\"pass\" type=\"password\" placeholder=\"Password\"  />\n	<input type=\"submit\" value=\"Submit\" />\n	</form>\n	\n	<br />\n	<br />\n	\n	Sign Up\n	<form id=\"signup\">\n	<input id=\"name\" type=\"text\" placeholder=\"Username\"  />\n	<input id=\"pass\" type=\"password\" placeholder=\"Password\"  />\n	<input type=\"submit\" value=\"Submit\" />\n	</form>\n	\n	</div>\n");
+        return $(this.el).html(this.template);
       };
 
       LoginView.prototype.jqdisplay = function() {

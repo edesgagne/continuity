@@ -1,7 +1,8 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/activitiestemplate.html'], 
+($, Mobile, _, Parse, activitiestemplate) ->
 	class ActivitiesView extends Parse.View
 		el: '[data-role="content"]'
-		template: _.template("Ready for activities?")
+		template: _.template activitiestemplate
 		initialize: ->
 			_.bindAll @, 'render'
 			@render()

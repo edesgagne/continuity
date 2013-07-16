@@ -1,7 +1,8 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse'], 
-($, Mobile, _, Parse) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/logintemplate.html', 'views/popupview'], 
+($, Mobile, _, Parse, logintemplate, PopupView) ->
 	class LoginView extends Parse.View
 		el: '[data-role="page"]'
+		template: _.template logintemplate
 		events:
 			'submit form#login': 'logIn'
 			'submit form#signup': 'signUp'
@@ -12,10 +13,15 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			_.bindAll @, 'logIn', 'signUp', 'render', 'jqdisplay'
 			@render()
 			@jqdisplay()
-		logIn: ->
-			if window.uploader.getMode() != "online"
-				console.error "can only log in if online"
-				return
+			
+
+		logIn: (e)->
+			
+			e.preventDefault()
+			# if window.uploader.getMode() != "online"
+			# 	@online_err.open()
+			# 	console.error "can only log in if online"
+			# 	return
 			
 			name = $('#login #name').val()
 			pass = $('#login #pass').val()
@@ -26,12 +32,23 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			).then ( ->
 				window.location.reload()
 			), (error) ->
-				console.error 'there was an error logging in', error
+				console.error error.message
+				setTimeout ( ->
+					popup = new PopupView
+						text: 'There was an error logging in: ' + error.message
+					popup.open()
+				), 500 #waits until page is reloaded
 				
-		signUp: ->
-			if window.uploader.getMode() != "online"
-				console.error "can only sign up if online"
-				return
+				setTimeout (->
+					window.location.reload()
+				), 3000
+				
+		signUp: (e)->
+			e.preventDefault()
+			# if window.uploader.getMode() != "online"
+			# 	@online_err.open()
+			# 	console.error "can only sign up if online"
+			# 	return
 				
 			name = $('#signup #name').val()
 			pass = $('#signup #pass').val()
@@ -42,35 +59,26 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 				window.location.reload()
 			# Everything is done!
 			), (error) ->
-				console.error 'there was an error signing up', error
+				console.error error.message
+				#waits until page is reloaded automatically
+				#because of jquery or parse or something
+				#so the popup only comes after parse reloads the page
+				#alternate solution: stop parse from reloading the page
+				setTimeout ( ->
+					popup = new PopupView
+						text: 'There was an error signing up: ' + error.message
+					popup.open()
+				), 500 
+				
+				setTimeout (->
+					window.location.reload()
+				), 3000
 			
 
 		render: ->
 			console.log 'login view'
 			
-			$(@el).html """
-				<div style="padding: 20px">
-				
-				Login
-				<form id="login">
-				<input id="name" type="text" placeholder="Username"  />
-				<input id="pass" type="password" placeholder="Password"  />
-				<input type="submit" value="Submit" />
-				</form>
-				
-				<br />
-				<br />
-				
-				Sign Up
-				<form id="signup">
-				<input id="name" type="text" placeholder="Username"  />
-				<input id="pass" type="password" placeholder="Password"  />
-				<input type="submit" value="Submit" />
-				</form>
-				
-				</div>
-			
-			"""
+			$(@el).html @template
 		jqdisplay: ->
 			$(@el).trigger("pagecreate")
 		#	$(@el).ready ->
