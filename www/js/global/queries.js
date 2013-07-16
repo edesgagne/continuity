@@ -83,6 +83,24 @@
             "description": "Social settings that provide distraction:",
             "fields": ["place"],
             "strategies": []
+          }, {
+            "step_num": 5,
+            "title": "Professionals",
+            "description": "Professionals or agencies I can contact during a crisis:",
+            "fields": ["name", "phone number"],
+            "strategies": []
+          }, {
+            "step_num": 6,
+            "title": "Environment",
+            "description": "Ways to make the environment safe:",
+            "fields": ["way"],
+            "strategies": []
+          }, {
+            "step_num": 7,
+            "title": "One Thing",
+            "description": "The one thing that is most important to me and worth living for is:",
+            "fields": ["thing"],
+            "strategies": []
           }
         ];
         window.localStorage["user"] = Parse.User.current().get("username");

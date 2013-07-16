@@ -33,7 +33,8 @@
         });
         element = listview.render().el;
         $(this.el).html(element);
-        return listview.jqdisplay();
+        listview.jqdisplay();
+        return $(this.el).append("\n<span style=\"font-size: 12px; margin-top: 10px\">\nAdapted from the Safety Plan Template developed by Barbara Stanley and Gregory K. Brown\n<span>\n");
       };
 
       return SafetyView;

@@ -16,3 +16,11 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 			element = listview.render().el
 			$(@el).html element
 			listview.jqdisplay()
+			
+			$(@el).append """
+			
+			<span style="font-size: 12px; margin-top: 10px">
+			Adapted from the Safety Plan Template developed by Barbara Stanley and Gregory K. Brown
+			<span>
+			
+			"""

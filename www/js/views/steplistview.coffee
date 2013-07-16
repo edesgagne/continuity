@@ -23,7 +23,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], ($, 
 			
 			@jqdisplay()
 			
-			#TEMPORARY!  COMMENT THIS BACK IN!
 			window.queries.updateCollection @collection
 		jqdisplay: ->
 			console.log 'jq display of steplistview'
