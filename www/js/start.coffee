@@ -8,6 +8,7 @@ require.config
 		#'jasmine': '../spec/lib/jasmine-1.2.0/jasmine'
 		#'jasmine-html': '../spec/lib/jasmine-1.2.0/jasmine-html'
 		#'spec': '../spec'
+		'text': 'lib/text'
 	shim:
 		"underscore":
 			exports: "_"

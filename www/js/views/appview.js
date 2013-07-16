@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/appview.html'], function($, Mobile, _, Parse, apptemplate) {
     var AppView, _ref;
     return AppView = (function(_super) {
       __extends(AppView, _super);
@@ -14,6 +14,8 @@
       }
 
       AppView.prototype.el = '[data-role="page"]';
+
+      AppView.prototype.template = _.template(apptemplate);
 
       AppView.prototype.events = {
         'click .logout': 'logOut'
@@ -33,7 +35,7 @@
 
       AppView.prototype.render = function() {
         console.log('app view');
-        return $(this.el).html("	<!--panel -->\n    <div data-role=\"panel\" id=\"myPanel\" data-display=\"push\">\n	\n		<ul data-role=\"listview\" class=\"nav-search\">\n			<li><a href=\"#\">Home</a></li>\n			<li><a href=\"#activities\">Activities</a></li>\n			<li><a href=\"#safety\">Safety Planning</a></li>\n			<li><a href=\"#help\">Get Help</a></li>\n		</ul>\n    </div>\n\n\n	<!--header -->\n    <div data-role=\"header\" class=\"header\" data-position=\"fixed\" role=\"banner\">\n        <h3>Every Day</h3>\n        <a href=\"#myPanel\" data-icon=\"bars\" data-iconpos=\"notext\"></a>\n		<a class=\"logout\" data-bypass=\"true\">Log Out</a>\n\n    </div>\n\n\n	<!--content -->\n    <div data-role=\"content\">\n    </div>\n	");
+        return $(this.el).html(this.template);
       };
 
       AppView.prototype.jqdisplay = function() {

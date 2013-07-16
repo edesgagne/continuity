@@ -9,7 +9,8 @@ require.config({
 		'parse': '../js/lib/parse-1.2.8',
 		'jasmine': 'lib/jasmine-1.2.0/jasmine',
 		'jasmine-html': 'lib/jasmine-1.2.0/jasmine-html',
-		'jasmine-jquery': 'lib/jasmine-jquery'
+		'jasmine-jquery': 'lib/jasmine-jquery',
+		//'text': '../js/lib/text'
 		//'spec': 'spec'
 	},
 	shim: {

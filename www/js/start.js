@@ -5,7 +5,8 @@
       'jquery': 'lib/jquery-1.8.3',
       'jquerymobile': 'lib/jquery-mobile/jquery.mobile-1.3.1',
       'underscore': 'lib/underscore',
-      'parse': 'lib/parse-1.2.8'
+      'parse': 'lib/parse-1.2.8',
+      'text': 'lib/text'
     },
     shim: {
       "underscore": {
