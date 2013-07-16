@@ -18,7 +18,7 @@
       HomeView.prototype.template = _.template("You are logged in as <b>" + window.localStorage["user"] + "</b>");
 
       HomeView.prototype.initialize = function() {
-        _.bindAll(this);
+        _.bindAll(this, 'render');
         return this.render();
       };
 

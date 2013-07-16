@@ -20,7 +20,7 @@
       };
 
       StepListView.prototype.initialize = function() {
-        _.bindAll(this, 'rerender', 'jqdisplay', 'renderEach');
+        _.bindAll(this, 'render', 'rerender', 'jqdisplay', 'renderEach');
         return this.collection.on('change', this.rerender);
       };
 

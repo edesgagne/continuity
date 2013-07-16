@@ -45,20 +45,6 @@
         return this;
       };
 
-      StepView.prototype.remove = function(e) {
-        var arr, id, num, todelete;
-        e.preventDefault();
-        todelete = $(e.currentTarget).parent();
-        id = todelete.attr('id');
-        num = parseInt(id);
-        arr = this.model.get('strategies');
-        arr.splice(num, 1);
-        this.model.set({
-          strategies: arr
-        });
-        return console.log('updated strategies', this.model.get('strategies'));
-      };
-
       StepView.prototype.add = function(e) {
         var output, str_output;
         e.preventDefault();
@@ -72,6 +58,20 @@
         this.model.get('strategies').push(str_output);
         this.model.trigger('change', this.model);
         return console.log('added strategies', this.model.get('strategies'));
+      };
+
+      StepView.prototype.remove = function(e) {
+        var arr, id, num, todelete;
+        e.preventDefault();
+        todelete = $(e.currentTarget).parent();
+        id = todelete.attr('id');
+        num = parseInt(id);
+        arr = this.model.get('strategies');
+        arr.splice(num, 1);
+        this.model.set({
+          strategies: arr
+        });
+        return console.log('updated strategies', this.model.get('strategies'));
       };
 
       return StepView;

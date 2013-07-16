@@ -18,7 +18,7 @@
       ActivitiesView.prototype.template = _.template("Ready for activities?");
 
       ActivitiesView.prototype.initialize = function() {
-        _.bindAll(this);
+        _.bindAll(this, 'render');
         return this.render();
       };
 

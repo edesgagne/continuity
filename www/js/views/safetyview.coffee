@@ -3,7 +3,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 	class SafetyView extends Parse.View
 		el: '[data-role="content"]'
 		initialize: ->
-			_.bindAll @
+			_.bindAll @, 'render'
 			@render()
 		render: ->
 			list = new StepList

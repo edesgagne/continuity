@@ -21,7 +21,7 @@
       };
 
       LoginView.prototype.initialize = function() {
-        _.bindAll(this);
+        _.bindAll(this, 'logIn', 'signUp', 'render', 'jqdisplay');
         this.render();
         return this.jqdisplay();
       };

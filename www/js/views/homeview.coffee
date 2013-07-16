@@ -3,7 +3,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 		el: '[data-role="content"]'
 		template: _.template("You are logged in as <b>" + window.localStorage["user"]  + "</b>")
 		initialize: ->
-			_.bindAll @
+			_.bindAll @, 'render'
 			@render()
 		render: ->
 			$(@el).html @template

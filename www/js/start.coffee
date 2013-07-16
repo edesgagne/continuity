@@ -33,7 +33,7 @@ require ['jquery', 'jquerymobile', 'underscore', 'parse',
 		window.uploader = new Uploader
 
 		#binds online/offline events
-		#require uploader
+		#requires uploader
 		window.app = new App
 
 		#requires app

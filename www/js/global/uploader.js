@@ -15,10 +15,13 @@
 
       Uploader.prototype.className = "Uploader";
 
+      Uploader.prototype.mode = "online";
+
+      Uploader.prototype.updatedOffline = false;
+
       Uploader.prototype.initialize = function() {
-        console.log("uploader");
-        this.mode = "online";
-        return this.updatedOffline = false;
+        _.bindAll(this, 'getUpdatedOffline', 'setUpdatedOffline', 'getMode', 'updateMode');
+        return console.log("uploader");
       };
 
       Uploader.prototype.getUpdatedOffline = function() {

@@ -20,7 +20,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 		</button>
 		"""
 		initialize: ->
-			_.bindAll @
+			_.bindAll @, 'render', 'jqdisplay'
 			@render()
 			@jqdisplay()
 		render: ->

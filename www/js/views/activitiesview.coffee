@@ -3,7 +3,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 		el: '[data-role="content"]'
 		template: _.template("Ready for activities?")
 		initialize: ->
-			_.bindAll @
+			_.bindAll @, 'render'
 			@render()
 		render: ->
 			$(@el).html @template

@@ -4,7 +4,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview', 'vie
 		#used to get around require js circular dependencies
 		#for login and app view
 		initialize: ->
-			_.bindAll @
+			_.bindAll @, 'render'
 			@render()
 		render: ->
 			console.log 'start view'

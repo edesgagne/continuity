@@ -2,10 +2,13 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 ($, Mobile, _, Parse) ->
 	class Uploader extends Parse.Object
 		className: "Uploader"
+		mode: "online" #temporary, change to "default" later
+		updatedOffline: false
 		initialize: ->	
+			_.bindAll @, 'getUpdatedOffline', 'setUpdatedOffline', 'getMode', 'updateMode'
 			console.log "uploader"
-			@mode = "online" #temporary, change to "default" later
-			@updatedOffline = false
+			#@mode = "online" 
+			#@updatedOffline = false
 		getUpdatedOffline: ->
 			return @wasUpdatedOffline
 		setUpdatedOffline: (newval)->

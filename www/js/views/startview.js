@@ -14,7 +14,7 @@
       }
 
       StartView.prototype.initialize = function() {
-        _.bindAll(this);
+        _.bindAll(this, 'render');
         return this.render();
       };
 

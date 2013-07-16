@@ -86,10 +86,25 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			$(@el).html @content
 			$(@el).append sub_content
 			@ #return itself
-		#updateStrategies: (changedmodel) ->
-		#	console.log 'update strategies view'
-		#	console.log changedmodel
-		#	@render()
+		add: (e) ->
+			e.preventDefault()
+
+			#get values of input fields
+			output = Array()
+			$(@el).find('.textinput').each ->
+				output.push $(this).val()
+				#clear it
+				$(this).val("")
+			str_output = output.toString()
+
+			str_output = str_output.replace(","," | ")
+
+			#add them to the array
+			@model.get('strategies').push str_output
+			@model.trigger('change', @model)
+
+			#then the collection will re render it
+			console.log 'added strategies', @model.get('strategies')
 		remove: (e) ->
 			e.preventDefault()
 			
@@ -112,28 +127,3 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			#then the collection will rerender it
 			
 			#remoe it from localstorage and parse using uplaoder
-		add: (e) ->
-			e.preventDefault()
-						
-			#get values of input fields
-			output = Array()
-			$(@el).find('.textinput').each ->
-				output.push $(this).val()
-				#clear it
-				$(this).val("")
-			str_output = output.toString()
-			
-			str_output = str_output.replace(","," | ")
-			
-			#add them to the array
-			@model.get('strategies').push str_output
-			@model.trigger('change', @model)
-			
-			#JUST THAT UPDATES TEH MODEL!!
-						
-			#update the model
-			#@model.set
-			#	strategies: arr
-			
-			#then the collection will re render it
-			console.log 'added strategies', @model.get('strategies')

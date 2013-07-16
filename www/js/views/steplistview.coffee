@@ -4,7 +4,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], ($, 
 		attributes: 
 			'data-role': 'collapsible-set'
 		initialize: ->
-			_.bindAll @, 'rerender', 'jqdisplay', 'renderEach'
+			_.bindAll @, 'render', 'rerender', 'jqdisplay', 'renderEach'
 			@collection.on 'change', @rerender
 		render: ->
 			@collection.each @renderEach, @

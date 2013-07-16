@@ -16,7 +16,7 @@
       SafetyView.prototype.el = '[data-role="content"]';
 
       SafetyView.prototype.initialize = function() {
-        _.bindAll(this);
+        _.bindAll(this, 'render');
         return this.render();
       };
 

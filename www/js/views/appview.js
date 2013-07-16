@@ -20,7 +20,7 @@
       };
 
       AppView.prototype.initialize = function() {
-        _.bindAll(this, 'logOut');
+        _.bindAll(this, 'logOut', 'render');
         this.render();
         return this.jqdisplay();
       };

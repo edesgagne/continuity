@@ -7,7 +7,4 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			description: ''
 			fields: []
 			strategies: []
-		open: ->
-			console.log 'triggered open'
-		  
 		
