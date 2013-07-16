@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/hometemplate.html', 'views/popupview'], function($, Mobile, _, Parse, hometemplate, PopupView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/hometemplate.html'], function($, Mobile, _, Parse, hometemplate) {
     var HomeView, _ref;
     return HomeView = (function(_super) {
       __extends(HomeView, _super);
@@ -17,15 +17,8 @@
 
       HomeView.prototype.template = _.template(hometemplate);
 
-      HomeView.prototype.events = {
-        'click button': 'openPopup'
-      };
-
       HomeView.prototype.initialize = function() {
-        _.bindAll(this, 'render', 'openPopup');
-        this.popup = new PopupView({
-          text: "You've earned points!"
-        });
+        _.bindAll(this, 'render');
         return this.render();
       };
 
@@ -33,11 +26,6 @@
         return $(this.el).html(this.template({
           user: window.localStorage["user"]
         }));
-      };
-
-      HomeView.prototype.openPopup = function() {
-        console.log('popup event bound');
-        return this.popup.open();
       };
 
       return HomeView;

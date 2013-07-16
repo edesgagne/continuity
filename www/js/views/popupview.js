@@ -20,7 +20,7 @@
       };
 
       PopupView.prototype.initialize = function() {
-        _.bindAll(this, 'render');
+        _.bindAll(this, 'render', 'jqdisplay', 'open');
         this.render();
         return this.jqdisplay();
       };

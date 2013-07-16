@@ -5,7 +5,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 		attributes:
 			"data-role": "popup"
 		initialize: ->
-			_.bindAll @, 'render'
+			_.bindAll @, 'render', 'jqdisplay', 'open'
 			@render()
 			@jqdisplay()
 		render: ->
