@@ -1,4 +1,4 @@
-define ["../../js/models/activity"], (Activity) ->
+define ["models/activity"], (Activity) ->
 	describe "The Activity Class", ->
 		beforeEach ->
 			@a = new Activity

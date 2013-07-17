@@ -1,5 +1,5 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
-	class window.Activity extends Parse.Object
+	class Activity extends Parse.Object
 		className: "Activity"
 		defaults:
 			id: 0

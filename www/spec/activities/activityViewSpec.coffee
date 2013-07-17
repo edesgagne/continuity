@@ -1,4 +1,4 @@
-define ["../../js/views/activityview"], (ActivityView) ->
+define ["views/activityview", "models/activity"], (ActivityView, Activity) ->
 	describe "The Activity View", ->
 		beforeEach ->
 			@a = new Activity({id: 1, description: "activity desc"})

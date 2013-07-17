@@ -1,4 +1,4 @@
-define ["../../js/collections/activitylist"], (ActivityList) ->
+define ["collections/activitylist"], (ActivityList) ->
 	describe "The Activity List", ->
 		beforeEach ->
 			myjson = [

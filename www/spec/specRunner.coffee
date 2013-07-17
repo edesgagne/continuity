@@ -47,6 +47,7 @@ require ["jquery", "jasmine-jquery"], ($, jasmine) ->
 	specs.push "../spec/activities/activitySpec"
 	specs.push "../spec/activities/activityListSpec"
 	specs.push "../spec/activities/activityViewSpec"
+	specs.push "../spec/activities/activityListViewSpec"
 	
 	$ ->
 		require specs, (spec) ->
