@@ -7,8 +7,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/loginte
 			'submit form#login': 'logIn'
 			'submit form#signup': 'signUp'
 			
-		#used to get around require js circular dependencies
-		#for login and app view
 		initialize: ->
 			_.bindAll @, 'logIn', 'signUp', 'render', 'jqdisplay'
 			@render()
@@ -18,10 +16,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/loginte
 		logIn: (e)->
 			
 			e.preventDefault()
-			# if window.uploader.getMode() != "online"
-			# 	@online_err.open()
-			# 	console.error "can only log in if online"
-			# 	return
 			
 			name = $('#login #name').val()
 			pass = $('#login #pass').val()
@@ -45,10 +39,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/loginte
 				
 		signUp: (e)->
 			e.preventDefault()
-			# if window.uploader.getMode() != "online"
-			# 	@online_err.open()
-			# 	console.error "can only sign up if online"
-			# 	return
 				
 			name = $('#signup #name').val()
 			pass = $('#signup #pass').val()

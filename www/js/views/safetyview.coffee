@@ -13,8 +13,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/steplist',
 			listview = new StepListView {collection: list}
 
 			#display it
-			element = listview.render().el
-			$(@el).html element
+			$(@el).html listview.render().el
 			listview.jqdisplay()
 			
 			$(@el).append """

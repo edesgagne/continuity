@@ -6,9 +6,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], ($, 
 		initialize: ->
 			_.bindAll @, 'render', 'rerender', 'jqdisplay', 'renderEach'
 			@collection.on 'change', @rerender
+
 		render: ->
 			@collection.each @renderEach, @
-			#@collection.bind 'remove', @rerender
 			@ #returns itself
 		rerender: (changedmodel) ->
 			

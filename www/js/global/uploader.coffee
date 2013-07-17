@@ -7,8 +7,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 		initialize: ->	
 			_.bindAll @, 'getUpdatedOffline', 'setUpdatedOffline', 'getMode', 'updateMode'
 			console.log "uploader"
-			#@mode = "online" 
-			#@updatedOffline = false
 		getUpdatedOffline: ->
 			return @wasUpdatedOffline
 		setUpdatedOffline: (newval)->

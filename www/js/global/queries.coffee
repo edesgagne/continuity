@@ -7,8 +7,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps', 'view
 		initialize: ->	
 			console.log "queries"
 			_.bindAll @
-			#@online_err = new PopupView 
-			#	text: "Sorry, you must be online to do this."			
 		logInUser: (name, pass)->
 			#it isn't returning the parse promise anyways
 			if window.uploader.getMode() != "online"

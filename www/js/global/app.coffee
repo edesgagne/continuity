@@ -1,11 +1,9 @@
-#define ['lib/backbone', 'jquery', 'routers/myrouter'], (Backbone, $, MyRouter) ->
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], 
 ($, Mobile, _, Parse) ->
 	class App extends Parse.Object
 		className: "App"
 		initialize: ->	
 			console.log "app"
-			#window.localStorage.clear() #temporary
 			@bindEvents()
 			
 		bindEvents: ->

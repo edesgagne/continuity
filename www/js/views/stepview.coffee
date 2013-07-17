@@ -59,4 +59,4 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/steptem
 			
 			#then the collection will rerender it
 			
-			#remoe it from localstorage and parse using uplaoder
+			#remove it from localstorage and parse using uplaoder

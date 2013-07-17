@@ -34,7 +34,6 @@ require.config
 			deps: ["jquery", "jasmine", "jasmine-html"]
 			exports: "jasmine"
 
-
 #jasmine-jquery is dependent on jasmine-html
 #which is dependent on jasmine
 #so everything gets loaded in the require call
@@ -50,6 +49,7 @@ require ["jquery", "jasmine-jquery"], ($, jasmine) ->
 		htmlReporter.specFilter spec
 
 	specs = []
+	
 	specs.push "activities/activitySpec"
 
 	$ ->

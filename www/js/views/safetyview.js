@@ -21,7 +21,7 @@
       };
 
       SafetyView.prototype.render = function() {
-        var element, list, listview, step, steps_array, _i, _len;
+        var list, listview, step, steps_array, _i, _len;
         list = new StepList;
         steps_array = JSON.parse(window.localStorage["steplist"]);
         for (_i = 0, _len = steps_array.length; _i < _len; _i++) {
@@ -31,8 +31,7 @@
         listview = new StepListView({
           collection: list
         });
-        element = listview.render().el;
-        $(this.el).html(element);
+        $(this.el).html(listview.render().el);
         listview.jqdisplay();
         return $(this.el).append("\n<span style=\"font-size: 12px; margin-top: 10px\">\nAdapted from the Safety Plan Template developed by Barbara Stanley and Gregory K. Brown\n<span>\n");
       };
