@@ -4,8 +4,8 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/activity'], function($, Mobile, _, Parse, Activity) {
-    var ActivityList, _ref;
-    return ActivityList = (function(_super) {
+    var _ref;
+    return window.ActivityList = (function(_super) {
       __extends(ActivityList, _super);
 
       function ActivityList() {
@@ -16,7 +16,29 @@
       ActivityList.prototype.model = Activity;
 
       ActivityList.prototype.comparator = function(object) {
-        return object.get('id');
+        return object.id;
+      };
+
+      ActivityList.prototype.initialize = function(json) {
+        this.add(json);
+        _.bindAll(this);
+        return this.bind('change:isCompleted', this.completed, this);
+      };
+
+      ActivityList.prototype.completed = function(completedModel) {
+        var doneid, next;
+        doneid = completedModel.id;
+        if (doneid === this.models.length) {
+          return this.finishedList();
+        } else {
+          next = this.get(doneid + 1);
+          next.unlock();
+          return next.current();
+        }
+      };
+
+      ActivityList.prototype.finishedList = function() {
+        return console.log('finished');
       };
 
       return ActivityList;

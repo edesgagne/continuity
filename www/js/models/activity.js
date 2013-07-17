@@ -4,8 +4,8 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
-    var Activity, _ref;
-    return Activity = (function(_super) {
+    var _ref;
+    return window.Activity = (function(_super) {
       __extends(Activity, _super);
 
       function Activity() {
@@ -21,6 +21,27 @@
         isCompleted: false,
         isCurrent: false,
         isLocked: true
+      };
+
+      Activity.prototype.complete = function() {
+        this.set({
+          isCompleted: true
+        });
+        return this.set({
+          isCurrent: false
+        });
+      };
+
+      Activity.prototype.unlock = function() {
+        return this.set({
+          isLocked: false
+        });
+      };
+
+      Activity.prototype.current = function() {
+        return this.set({
+          isCurrent: true
+        });
       };
 
       return Activity;

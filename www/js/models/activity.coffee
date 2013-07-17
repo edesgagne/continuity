@@ -1,5 +1,5 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
-	class Activity extends Parse.Object
+	class window.Activity extends Parse.Object
 		className: "Activity"
 		defaults:
 			id: 0
@@ -7,4 +7,14 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			isCompleted: false
 			isCurrent: false
 			isLocked: true
-			
+		complete: ->
+			@set
+				isCompleted: true
+			@set
+				isCurrent: false
+		unlock: ->
+			@set
+				isLocked: false
+		current: ->
+			@set
+				isCurrent: true

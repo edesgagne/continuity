@@ -8,12 +8,17 @@
       it("should initialize", function() {
         return (expect(this.a)).not.toBeNull();
       });
-      return it("should have proper defaults", function() {
+      it("should have proper defaults", function() {
         (expect(this.a.get("id"))).toEqual(0);
         (expect(this.a.get("description"))).toEqual("");
         (expect(this.a.get("isCompleted"))).toEqual(false);
         (expect(this.a.get("isCurrent"))).toEqual(false);
         return (expect(this.a.get("isLocked"))).toEqual(true);
+      });
+      return it("should properly go to the next activity", function() {
+        this.a.complete();
+        (expect(this.a.get("isCompleted"))).toEqual(true);
+        return (expect(this.a.get("isCurrent"))).toEqual(false);
       });
     });
   });
