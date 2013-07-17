@@ -8,7 +8,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/activit
 		initialize: ->
 			_.bindAll @, 'render', 'checked'
 			@render()
-			@model.bind 'change:isCompleted', @render
+			#@model.bind 'change:isCompleted', @render
 		render: ->
 			$(@el).html @template(@model.toJSON())
 			@ #return itself

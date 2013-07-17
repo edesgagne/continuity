@@ -12,8 +12,7 @@
         (expect(this.a.get("id"))).toEqual(0);
         (expect(this.a.get("description"))).toEqual("");
         (expect(this.a.get("isCompleted"))).toEqual(false);
-        (expect(this.a.get("isCurrent"))).toEqual(false);
-        return (expect(this.a.get("isLocked"))).toEqual(true);
+        return (expect(this.a.get("isCurrent"))).toEqual(false);
       });
       return it("should properly go to the next activity", function() {
         this.a.complete();

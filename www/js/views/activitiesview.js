@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'models/activity', 'views/activityview', 'text!templates/activitiestemplate.html'], function($, Mobile, _, Parse, Activity, ActivityView, activitiestemplate) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/activitylist', 'views/activitylistview'], function($, Mobile, _, Parse, ActivityList, ActivityListView) {
     var ActivitiesView, _ref;
     return ActivitiesView = (function(_super) {
       __extends(ActivitiesView, _super);
@@ -21,7 +21,24 @@
       };
 
       ActivitiesView.prototype.render = function() {
-        return $(this.el).html('hello');
+        var myjson;
+        myjson = [
+          {
+            id: 3,
+            description: "ho 3"
+          }, {
+            id: 1,
+            description: "hey 1",
+            isCurrent: true
+          }, {
+            id: 2,
+            description: "hi 2"
+          }
+        ];
+        this.al = new ActivityList(myjson);
+        return this.alv = new ActivityListView({
+          collection: this.al
+        });
       };
 
       return ActivitiesView;

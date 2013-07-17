@@ -3,7 +3,7 @@ define ["views/activityview", "models/activity"], (ActivityView, Activity) ->
 		beforeEach ->
 			@a = new Activity({id: 1, description: "activity desc"})
 			@v = new ActivityView {model: @a}
-			$("[data-role='page']").html @v.el
+			$("[data-role='content']").html @v.el
 		it "should initialize", ->
 			(expect @v).not.toBeNull()
 		it "should make activity completed when checked", ->

@@ -2,11 +2,19 @@ define ["views/activitylistview", "collections/activitylist"], (ActivityListView
 	describe "The Activity List View", ->
 		beforeEach ->
 			myjson = [
-				{id: 3, description: "ho"},
-				{id: 1, description: "hey", isCurrent: true, isLocked: false},
-				{id: 2, description: "hi"},
+				{id: 3, description: "ho 3"},
+				{id: 1, description: "hey 1", isCurrent: true},
+				{id: 2, description: "hi 2"},
 			]
 			@al = new ActivityList myjson
 			@alv = new ActivityListView {collection: @al}
 		it "should initialize", ->
 			(expect @alv).not.toBeNull()
+		it "should re-render when isCurrent changes", ->
+			spyOn @alv, 'render' #prevents it from actually executing?
+			firstmodel = @al.get(1)
+			firstmodel.complete() #triggered by click event
+			(expect @alv.render).toHaveBeenCalled()
+		
+		#ONLY "PREV" button
+		#disable it on first one

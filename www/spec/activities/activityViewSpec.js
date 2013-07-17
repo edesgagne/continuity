@@ -10,7 +10,7 @@
         this.v = new ActivityView({
           model: this.a
         });
-        return $("[data-role='page']").html(this.v.el);
+        return $("[data-role='content']").html(this.v.el);
       });
       it("should initialize", function() {
         return (expect(this.v)).not.toBeNull();

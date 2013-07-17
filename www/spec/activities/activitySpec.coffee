@@ -9,7 +9,6 @@ define ["models/activity"], (Activity) ->
 			(expect @a.get("description")).toEqual ""
 			(expect @a.get("isCompleted")).toEqual false
 			(expect @a.get("isCurrent")).toEqual false
-			(expect @a.get("isLocked")).toEqual true
 		it "should properly go to the next activity", ->
 			@a.complete()
 			(expect @a.get("isCompleted")).toEqual true

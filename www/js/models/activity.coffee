@@ -6,18 +6,18 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			description: ""
 			isCompleted: false
 			isCurrent: false
-			isLocked: true
 		complete: ->
 			@set
 				isCompleted: true
-			@set
-				isCurrent: false
+				#is completed is what the collection binds to
+				#so it must be called last
+				#so all other changes can be updated first
 		undoComplete: ->
 			@set
 				isCompleted: false
-		unlock: ->
+		notCurrent: ->
 			@set
-				isLocked: false
+				isCurrent: false
 		current: ->
 			@set
 				isCurrent: true

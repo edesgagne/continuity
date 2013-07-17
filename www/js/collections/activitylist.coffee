@@ -6,16 +6,3 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/activity'], ($,
 		initialize: (json) ->
 			@add json
 			_.bindAll @
-			@bind 'change:isCompleted', @completed, @
-		completed: (completedModel) ->
-			doneid = completedModel.id
-			#see if it's the last one
-			if doneid == @models.length
-				@finishedList()
-			#set the next one to unlocked and current
-			else
-				next = @get(doneid + 1)
-				next.unlock()
-				next.current()
-		finishedList: ->
-			console.log 'finished'

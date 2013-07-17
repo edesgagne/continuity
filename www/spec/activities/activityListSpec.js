@@ -11,8 +11,7 @@
           }, {
             id: 1,
             description: "hey",
-            isCurrent: true,
-            isLocked: false
+            isCurrent: true
           }, {
             id: 2,
             description: "hi"
@@ -41,26 +40,8 @@
         }
         return _results;
       });
-      it("should mark the first one as current", function() {
+      return it("should mark the first one as current", function() {
         return (expect(this.firstmodel.get("isCurrent"))).toEqual(true);
-      });
-      it("should mark the first one as unlocked", function() {
-        return (expect(this.firstmodel.get("isLocked"))).toEqual(false);
-      });
-      it("upon complete, should move isCurrent to next model", function() {
-        this.firstmodel.complete();
-        return (expect(this.secondmodel.get("isCurrent"))).toEqual(true);
-      });
-      it("upon complete, should move unlock next model", function() {
-        this.firstmodel.complete();
-        return (expect(this.secondmodel.get("isLocked"))).toEqual(false);
-      });
-      return it("should properly handle finishing the last model", function() {
-        spyOn(this.al, "finishedList");
-        this.firstmodel.complete();
-        this.secondmodel.complete();
-        this.al.get(3).complete();
-        return (expect(this.al.finishedList)).toHaveBeenCalled();
       });
     });
   });

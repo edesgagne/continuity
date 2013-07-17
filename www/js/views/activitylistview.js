@@ -16,11 +16,52 @@
       ActivityListView.prototype.el = '[data-role="content"]';
 
       ActivityListView.prototype.initialize = function() {
-        _.bindAll(this, 'render');
-        return this.collection.on('change', this.rerender);
+        _.bindAll(this, 'render', 'rerender');
+        this.collection.on('change:isCompleted', this.rerender, this);
+        return this.render();
       };
 
-      ActivityListView.prototype.render = function() {};
+      ActivityListView.prototype.getCurrentId = function() {
+        var arr, nextid;
+        arr = this.collection.pluck("isCurrent");
+        nextid = arr.indexOf(true) + 1;
+        return nextid;
+      };
+
+      ActivityListView.prototype.getCurrent = function() {
+        var next, nextid;
+        nextid = this.getCurrentId();
+        next = this.collection.get(nextid);
+        return next;
+      };
+
+      ActivityListView.prototype.render = function() {
+        var av, next;
+        $(this.el).html("");
+        next = this.getCurrent();
+        av = new ActivityView({
+          model: next
+        });
+        return $(this.el).append(av.el);
+      };
+
+      ActivityListView.prototype.rerender = function(changedmodel) {
+        var cur, curid, next;
+        console.log('rerender');
+        curid = this.getCurrentId();
+        console.log(curid);
+        if (curid === this.collection.models.length) {
+          console.log('finished list');
+        } else {
+          cur = this.collection.get(curid);
+          next = this.collection.get(curid + 1);
+          console.log(this.collection.pluck("isCurrent"));
+          cur.notCurrent();
+          next.current();
+          console.log(this.collection.pluck("isCurrent"));
+          return this.render();
+        }
+      };
 
       return ActivityListView;
 

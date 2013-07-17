@@ -7,15 +7,14 @@
         myjson = [
           {
             id: 3,
-            description: "ho"
+            description: "ho 3"
           }, {
             id: 1,
-            description: "hey",
-            isCurrent: true,
-            isLocked: false
+            description: "hey 1",
+            isCurrent: true
           }, {
             id: 2,
-            description: "hi"
+            description: "hi 2"
           }
         ];
         this.al = new ActivityList(myjson);
@@ -23,8 +22,15 @@
           collection: this.al
         });
       });
-      return it("should initialize", function() {
+      it("should initialize", function() {
         return (expect(this.alv)).not.toBeNull();
+      });
+      return it("should re-render when isCurrent changes", function() {
+        var firstmodel;
+        spyOn(this.alv, 'render');
+        firstmodel = this.al.get(1);
+        firstmodel.complete();
+        return (expect(this.alv.render)).toHaveBeenCalled();
       });
     });
   });

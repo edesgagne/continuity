@@ -21,24 +21,7 @@
 
       ActivityList.prototype.initialize = function(json) {
         this.add(json);
-        _.bindAll(this);
-        return this.bind('change:isCompleted', this.completed, this);
-      };
-
-      ActivityList.prototype.completed = function(completedModel) {
-        var doneid, next;
-        doneid = completedModel.id;
-        if (doneid === this.models.length) {
-          return this.finishedList();
-        } else {
-          next = this.get(doneid + 1);
-          next.unlock();
-          return next.current();
-        }
-      };
-
-      ActivityList.prototype.finishedList = function() {
-        return console.log('finished');
+        return _.bindAll(this);
       };
 
       return ActivityList;

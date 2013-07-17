@@ -19,16 +19,12 @@
         id: 0,
         description: "",
         isCompleted: false,
-        isCurrent: false,
-        isLocked: true
+        isCurrent: false
       };
 
       Activity.prototype.complete = function() {
-        this.set({
-          isCompleted: true
-        });
         return this.set({
-          isCurrent: false
+          isCompleted: true
         });
       };
 
@@ -38,9 +34,9 @@
         });
       };
 
-      Activity.prototype.unlock = function() {
+      Activity.prototype.notCurrent = function() {
         return this.set({
-          isLocked: false
+          isCurrent: false
         });
       };
 

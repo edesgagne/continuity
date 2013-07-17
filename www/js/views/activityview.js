@@ -23,8 +23,7 @@
 
       ActivityView.prototype.initialize = function() {
         _.bindAll(this, 'render', 'checked');
-        this.render();
-        return this.model.bind('change:isCompleted', this.render);
+        return this.render();
       };
 
       ActivityView.prototype.render = function() {
