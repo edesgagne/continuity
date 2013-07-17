@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview'], function($, Mobile, _, Parse, ActivityView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', 'text!templates/activitylisttemplate.html'], function($, Mobile, _, Parse, ActivityView, activitylisttemplate) {
     var ActivityListView, _ref;
     return ActivityListView = (function(_super) {
       __extends(ActivityListView, _super);
@@ -15,52 +15,88 @@
 
       ActivityListView.prototype.el = '[data-role="content"]';
 
+      ActivityListView.prototype.template = _.template(activitylisttemplate);
+
+      ActivityListView.prototype.events = {
+        'click #prev': 'prev',
+        'click #next': 'next'
+      };
+
       ActivityListView.prototype.initialize = function() {
         _.bindAll(this, 'render', 'rerender');
         this.collection.on('change:isCompleted', this.rerender, this);
-        return this.render();
+        return this.render(true);
       };
 
       ActivityListView.prototype.getCurrentId = function() {
-        var arr, nextid;
+        var arr, curid;
         arr = this.collection.pluck("isCurrent");
-        nextid = arr.indexOf(true) + 1;
-        return nextid;
+        curid = arr.indexOf(true) + 1;
+        return curid;
       };
 
       ActivityListView.prototype.getCurrent = function() {
-        var next, nextid;
-        nextid = this.getCurrentId();
-        next = this.collection.get(nextid);
-        return next;
+        var cur, curid;
+        curid = this.getCurrentId();
+        cur = this.collection.get(curid);
+        return cur;
       };
 
-      ActivityListView.prototype.render = function() {
-        var av, next;
-        $(this.el).html("");
-        next = this.getCurrent();
+      ActivityListView.prototype.render = function(firstcall) {
+        if (firstcall) {
+          this.viewpointer = this.getCurrentId();
+        }
+        return this.changeScreen();
+      };
+
+      ActivityListView.prototype.prev = function() {
+        console.log('prev');
+        this.viewpointer--;
+        return this.changeScreen();
+      };
+
+      ActivityListView.prototype.next = function() {
+        console.log('next');
+        this.viewpointer++;
+        return this.changeScreen();
+      };
+
+      ActivityListView.prototype.changeScreen = function() {
+        var av, newscreen;
+        newscreen = this.collection.get(this.viewpointer);
+        console.log(this.viewpointer);
         av = new ActivityView({
-          model: next
+          model: newscreen
         });
-        return $(this.el).append(av.el);
+        $(this.el).html(this.template());
+        $(this.el).append(av.el);
+        this.jqdisplay();
+        if (this.viewpointer === 1) {
+          $('#prev').button("disable");
+        }
+        if (this.viewpointer === this.getCurrentId()) {
+          return $('#next').button("disable");
+        }
       };
 
       ActivityListView.prototype.rerender = function(changedmodel) {
         var cur, curid, next;
-        console.log('rerender');
+        console.log('rerender activitylistview');
         curid = this.getCurrentId();
-        console.log(curid);
         if (curid === this.collection.models.length) {
           console.log('finished list');
+          this.changeScreen();
         } else {
           cur = this.collection.get(curid);
           next = this.collection.get(curid + 1);
-          console.log(this.collection.pluck("isCurrent"));
           cur.notCurrent();
           next.current();
-          console.log(this.collection.pluck("isCurrent"));
           return this.render();
         }
+      };
+
+      ActivityListView.prototype.jqdisplay = function() {
+        return $('[data-role="button"]').button();
       };
 
       return ActivityListView;

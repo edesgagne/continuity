@@ -16,5 +16,7 @@ define ["views/activitylistview", "collections/activitylist"], (ActivityListView
 			firstmodel.complete() #triggered by click event
 			(expect @alv.render).toHaveBeenCalled()
 		
-		#ONLY "PREV" button
-		#disable it on first one
+		#NEXT: test for 'prev' functionality
+		#if iscurrent, disable "next" button
+		#make sure prev goes to prev one
+		#then next button is enabled
