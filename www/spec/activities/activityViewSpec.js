@@ -10,13 +10,13 @@
         this.v = new ActivityView({
           model: this.a
         });
-        return $("#activitystage").html(this.v.el);
+        return $("[data-role='page']").html(this.v.el);
       });
       it("should initialize", function() {
         return (expect(this.v)).not.toBeNull();
       });
       return it("should make activity completed when checked", function() {
-        $("#check").trigger("click");
+        $("#unchecked").trigger("click");
         return (expect(this.a.get("isCompleted"))).toEqual(true);
       });
     });

@@ -18,12 +18,13 @@
       ActivityView.prototype.tagName = 'div';
 
       ActivityView.prototype.events = {
-        'click #check': 'checked'
+        'click #unchecked': 'checked'
       };
 
       ActivityView.prototype.initialize = function() {
         _.bindAll(this, 'render', 'checked');
-        return this.render();
+        this.render();
+        return this.model.bind('change:isCompleted', this.render);
       };
 
       ActivityView.prototype.render = function() {

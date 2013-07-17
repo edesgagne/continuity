@@ -4,10 +4,11 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/activit
 		template: _.template activitytemplate
 		tagName: 'div'
 		events:
-			'click #check': 'checked'
+			'click #unchecked': 'checked'
 		initialize: ->
 			_.bindAll @, 'render', 'checked'
 			@render()
+			@model.bind 'change:isCompleted', @render
 		render: ->
 			$(@el).html @template(@model.toJSON())
 			@ #return itself
