@@ -2,10 +2,18 @@
 (function() {
   define(["../../js/models/activity"], function(Activity) {
     return describe("The Activity Class", function() {
-      return it("should initialize", function() {
-        var a;
-        a = new Activity;
-        return (expect(a)).not.toBeNull();
+      beforeEach(function() {
+        return this.a = new Activity;
+      });
+      it("should initialize", function() {
+        return (expect(this.a)).not.toBeNull();
+      });
+      return it("should have proper defaults", function() {
+        (expect(this.a.get("id"))).toEqual(0);
+        (expect(this.a.get("description"))).toEqual("");
+        (expect(this.a.get("isCompleted"))).toEqual(false);
+        (expect(this.a.get("isCurrent"))).toEqual(false);
+        return (expect(this.a.get("isLocked"))).toEqual(true);
       });
     });
   });

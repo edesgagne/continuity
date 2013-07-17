@@ -1,10 +1,11 @@
 require.config
+	#baseUrl: ''
 	paths:
-		'jquery': 'lib/jquery-1.8.3'
-		'jquerymobile': 'lib/jquery-mobile/jquery.mobile-1.3.1'
+		'jquery': 'lib/jquery'
+		'jquerymobile': 'lib/jquery-mobile/jquery-mobile'
 		'underscore': 'lib/underscore'
 		#'backbone': 'lib/backbone'
-		'parse': 'lib/parse-1.2.8'
+		'parse': 'lib/parse'
 		#'jasmine': '../spec/lib/jasmine-1.2.0/jasmine'
 		#'jasmine-html': '../spec/lib/jasmine-1.2.0/jasmine-html'
 		#'spec': '../spec'

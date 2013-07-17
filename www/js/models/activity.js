@@ -15,6 +15,14 @@
 
       Activity.prototype.className = "Activity";
 
+      Activity.prototype.defaults = {
+        id: 0,
+        description: "",
+        isCompleted: false,
+        isCurrent: false,
+        isLocked: true
+      };
+
       return Activity;
 
     })(Parse.Object);

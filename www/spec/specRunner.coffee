@@ -1,20 +1,13 @@
 require.config
-	
-	#base url not working
-	#baseURL: '../js/',
-	#urlArgs: 'cb=' + Math.random(),
+	baseUrl: '../js'
 	paths:
-		jquery: "../js/lib/jquery-1.8.3"
-		jquerymobile: "../js/lib/jquery-mobile/jquery.mobile-1.3.1"
-		underscore: "../js/lib/underscore"
-		parse: "../js/lib/parse-1.2.8"
-		jasmine: "lib/jasmine-1.2.0/jasmine"
-		"jasmine-html": "lib/jasmine-1.2.0/jasmine-html"
-		"jasmine-jquery": "lib/jasmine-jquery"
-
-	
-	#'text': '../js/lib/text'
-	#'spec': 'spec'
+		jquery: "lib/jquery"
+		jquerymobile: "lib/jquery-mobile/jquery-mobile"
+		underscore: "lib/underscore"
+		parse: "lib/parse"
+		jasmine: "../spec/lib/jasmine/jasmine"
+		"jasmine-html": "../spec/lib/jasmine/jasmine-html"
+		"jasmine-jquery": "../spec/lib/jasmine-jquery"
 	shim:
 		underscore:
 			exports: "_"
@@ -50,8 +43,9 @@ require ["jquery", "jasmine-jquery"], ($, jasmine) ->
 
 	specs = []
 	
-	specs.push "activities/activitySpec"
-
+	specs.push "../spec/activities/activitySpec"
+	specs.push "../spec/activities/activityListSpec"
+	
 	$ ->
 		require specs, (spec) ->
 			jasmineEnv.execute()

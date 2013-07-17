@@ -1,5 +1,12 @@
 define ["../../js/models/activity"], (Activity) ->
 	describe "The Activity Class", ->
+		beforeEach ->
+			@a = new Activity
 		it "should initialize", ->
-			a = new Activity
-			(expect a).not.toBeNull()
+			(expect @a).not.toBeNull()
+		it "should have proper defaults", ->
+			(expect @a.get("id")).toEqual 0
+			(expect @a.get("description")).toEqual ""
+			(expect @a.get("isCompleted")).toEqual false
+			(expect @a.get("isCurrent")).toEqual false
+			(expect @a.get("isLocked")).toEqual true
