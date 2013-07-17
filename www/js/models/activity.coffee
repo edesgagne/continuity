@@ -12,6 +12,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 				isCompleted: true
 			@set
 				isCurrent: false
+		undoComplete: ->
+			@set
+				isCompleted: false
 		unlock: ->
 			@set
 				isLocked: false

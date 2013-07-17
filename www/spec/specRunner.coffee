@@ -5,6 +5,7 @@ require.config
 		jquerymobile: "lib/jquery-mobile/jquery-mobile"
 		underscore: "lib/underscore"
 		parse: "lib/parse"
+		'text': 'lib/text'
 		jasmine: "../spec/lib/jasmine/jasmine"
 		"jasmine-html": "../spec/lib/jasmine/jasmine-html"
 		"jasmine-jquery": "../spec/lib/jasmine-jquery"
@@ -45,6 +46,7 @@ require ["jquery", "jasmine-jquery"], ($, jasmine) ->
 	
 	specs.push "../spec/activities/activitySpec"
 	specs.push "../spec/activities/activityListSpec"
+	specs.push "../spec/activities/activityViewSpec"
 	
 	$ ->
 		require specs, (spec) ->

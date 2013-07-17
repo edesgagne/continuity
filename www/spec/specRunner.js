@@ -7,6 +7,7 @@
       jquerymobile: "lib/jquery-mobile/jquery-mobile",
       underscore: "lib/underscore",
       parse: "lib/parse",
+      'text': 'lib/text',
       jasmine: "../spec/lib/jasmine/jasmine",
       "jasmine-html": "../spec/lib/jasmine/jasmine-html",
       "jasmine-jquery": "../spec/lib/jasmine-jquery"
@@ -45,6 +46,7 @@
     specs = [];
     specs.push("../spec/activities/activitySpec");
     specs.push("../spec/activities/activityListSpec");
+    specs.push("../spec/activities/activityViewSpec");
     return $(function() {
       return require(specs, function(spec) {
         return jasmineEnv.execute();

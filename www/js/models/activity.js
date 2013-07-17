@@ -32,6 +32,12 @@
         });
       };
 
+      Activity.prototype.undoComplete = function() {
+        return this.set({
+          isCompleted: false
+        });
+      };
+
       Activity.prototype.unlock = function() {
         return this.set({
           isLocked: false

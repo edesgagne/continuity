@@ -23,9 +23,7 @@
         if (Parse.User.current()) {
           new AppView;
           new MyRouter;
-          return Parse.history.start({
-            pushState: true
-          });
+          return Parse.history.start();
         } else {
           return new LoginView;
         }

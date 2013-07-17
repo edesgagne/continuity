@@ -1,0 +1,17 @@
+<div style="margin: 10px; padding: 30px; text-shadow: none; background-color: pink; border-radius: 30px; text-align: center">
+	<div style="font-size: 30px; font-weight: bold; margin-bottom: 10px">
+		# <%= objectId %>
+	</div>
+	<div style="font-size: 20px; margin-bottom: 10px">
+		<%= description %>
+	</div>
+	<% if (isCompleted) { %>
+		<div>
+			checked
+		</div>
+	<% } else { %>
+		<div id='check'>
+			unchecked
+		</div>
+	<% } %>
+</div>
