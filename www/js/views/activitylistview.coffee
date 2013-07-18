@@ -6,8 +6,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 		events:
 			'click #prev': 'prev'
 			'click #next': 'next'
-			'swiperight #activity': 'prev'
-			'swipeleft #activity': 'next'
+			'swiperight body': 'prev'
+			'swipeleft body': 'next'
 		initialize: ->
 			_.bindAll @, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay'
 			@collection.on 'change:isCompleted', @rerender, @
