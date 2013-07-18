@@ -7,11 +7,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/activityli
 			_.bindAll @, 'render'
 			@render()
 		render: ->
-			myjson = [
-				{id: 3, description: "ho 3"},
-				{id: 1, description: "hey 1", isCurrent: true},
-				{id: 2, description: "hi 2"},
-			]
+			myjson = window.queries.getMyJSON("js/json/activities.json")
+			console.log myjson
 			@al = new ActivityList myjson
 			@alv = new ActivityListView {collection: @al}
 			#$(@el).html @alv.el

@@ -22,19 +22,8 @@
 
       ActivitiesView.prototype.render = function() {
         var myjson;
-        myjson = [
-          {
-            id: 3,
-            description: "ho 3"
-          }, {
-            id: 1,
-            description: "hey 1",
-            isCurrent: true
-          }, {
-            id: 2,
-            description: "hi 2"
-          }
-        ];
+        myjson = window.queries.getMyJSON("js/json/activities.json");
+        console.log(myjson);
         this.al = new ActivityList(myjson);
         return this.alv = new ActivityListView({
           collection: this.al
