@@ -28,6 +28,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/loginte
 			), (error) ->
 				console.error error.message
 				alert("There was an error logging in " + error.message)
+				window.location.reload()
 				# setTimeout ( ->
 				# 	popup = new PopupView
 				# 		text: 'There was an error logging in: ' + error.message
@@ -51,19 +52,21 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/loginte
 			# Everything is done!
 			), (error) ->
 				console.error error.message
+				alert("There was an error signing up " + error.message)
+				window.location.reload()
 				#waits until page is reloaded automatically
 				#because of jquery or parse or something
 				#so the popup only comes after parse reloads the page
 				#alternate solution: stop parse from reloading the page
-				setTimeout ( ->
-					popup = new PopupView
-						text: 'There was an error signing up: ' + error.message
-					popup.open()
-				), 500 
-				
-				setTimeout (->
-					window.location.reload()
-				), 3000
+				# setTimeout ( ->
+				# 	popup = new PopupView
+				# 		text: 'There was an error signing up: ' + error.message
+				# 	popup.open()
+				# ), 500 
+				# 
+				# setTimeout (->
+				# 	window.location.reload()
+				# ), 3000
 			
 
 		render: ->

@@ -39,7 +39,8 @@
           return window.location.reload();
         }), function(error) {
           console.error(error.message);
-          return alert("There was an error logging in " + error.message);
+          alert("There was an error logging in " + error.message);
+          return window.location.reload();
         });
       };
 
@@ -54,16 +55,8 @@
           return window.location.reload();
         }), function(error) {
           console.error(error.message);
-          setTimeout((function() {
-            var popup;
-            popup = new PopupView({
-              text: 'There was an error signing up: ' + error.message
-            });
-            return popup.open();
-          }), 500);
-          return setTimeout((function() {
-            return window.location.reload();
-          }), 3000);
+          alert("There was an error signing up " + error.message);
+          return window.location.reload();
         });
       };
 
