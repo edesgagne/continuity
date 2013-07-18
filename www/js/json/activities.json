@@ -1,15 +1,127 @@
 [
-	{
-		"id": 1, 
-		"description": "capp",
-		"isCurrent": true
-	},
-	{
-		"id": 2, 
-		"description": "coop"
-	},
-	{
-		"id": 3, 
-		"description": "loop"
-	}
+    {
+        "id": 1,
+        "description": "<b>Quiz.</b> Take a diagnostic test.",
+        "isCurrent": true
+    },
+    {
+        "id": 2,
+        "description": "<b>Write.</b> Fill out as much as you can of the Safety Planning portion of this app."
+    },
+    {
+        "id": 3,
+        "description": "<b>Write.</b>  Jot down something you appreciate about someone else."
+    },
+    {
+        "id": 4,
+        "description": "<b>Focus.</b>  Eat something and focus on it."
+    },
+    {
+        "id": 5,
+        "description": "<b>Write.</b>  Jot down what makes you happy."
+    },
+    {
+        "id": 6,
+        "description": "<b>Interact.</b>  Call or write to a friend."
+    },
+    {
+        "id": 7,
+        "description": "<b>Write.</b>  Catch a bad thought.  Then write it down, name the distortion (personalization, overgeneralization, magnification, arbitrary inference), and find a more accurate way of thinking."
+    },
+    {
+        "id": 8,
+        "description": "<b>Quiz.</b>  Find your strengths.  Take the quiz at authentichappiness.org."
+    },
+    {
+        "id": 9,
+        "description": "<b>Act.</b>  Participate in activities that involve your strengths."
+    },
+    {
+        "id": 10,
+        "description": "<b>Interact.</b>  Hug or High-Five someone today."
+    },
+    {
+        "id": 11,
+        "description": "<b>Write.</b>  Tell your life as a healthy story, not a horror story."
+    },
+    {
+        "id": 12,
+        "description": "<b>Act.</b>  Learn something new."
+    },
+    {
+        "id": 13,
+        "description": "<b>Write.</b>  Jot down what you're passionate about."
+    },
+    {
+        "id": 14,
+        "description": "<b>Interact.</b>  Schedule a social event."
+    },
+    {
+        "id": 15,
+        "description": "<b>Write.</b>  List your top fives (people, vacations, foods)."
+    },
+    {
+        "id": 16,
+        "description": "<b>Act.</b>  Go outside, and write about the beauty you notice."
+    },
+    {
+        "id": 17,
+        "description": "<b>Act.</b>  Do something for yourself (eat, watch a funny TV show, read a cartoon)."
+    },
+    {
+        "id": 18,
+        "description": "<b>Interact.</b>  Commit a random act of kindness for another person."
+    },
+    {
+        "id": 19,
+        "description": "<b>Act.</b>  Think about which of the two previous activities made you feel better: doing something for yourself or doing something for another?  Then do it again."
+    },
+    {
+        "id": 20,
+        "description": "<b>Flow.</b> Draw, read, be absorbed in something."
+    },
+    {
+        "id": 21,
+        "description": "<b>Volunteer.</b>  Look through local programs and sign up for something."
+    },
+    {
+        "id": 22,
+        "description": "<b>Write.</b>  Jot down what you're looking forward to in the next week/month/year."
+    },
+    {
+        "id": 23,
+        "description": "<b>Write.</b>  Jot down your goals for the next week/month/year."
+    },
+    {
+        "id": 24,
+        "description": "<b>Interact.</b>  Smile to a neighbor."
+    },
+    {
+        "id": 25,
+        "description": "<b>Interact.</b>  Say hello to 3 people."
+    },
+    {
+        "id": 26,
+        "description": "<b>Act.</b>  Read a part of the newspaper that interests you."
+    },
+    {
+        "id": 27,
+        "description": "<b>Act.</b>  Play with a child."
+    },
+    {
+        "id": 28,
+        "description": "<b>Act.</b>  Take an afternoon nap."
+    },
+    {
+        "id": 29,
+        "description": "<b>Act.</b>  Water  a potted plant."
+    },
+    {
+        "id": 30,
+        "description": "<b>Act.</b>  If needed, call a hotline or schedule an appointment with a psychologist."
+    },
+    {
+        "id": 31,
+        "description": "<b>Quiz.</b>  Retake the diagnostic test to see how far you've come."
+    }
 ]

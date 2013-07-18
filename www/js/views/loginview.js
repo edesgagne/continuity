@@ -39,7 +39,8 @@
           return window.location.reload();
         }), function(error) {
           console.error(error.message);
-          return new window.StartView;
+          alert("Error: " + error.message.toLowerCase());
+          return window.location.reload();
         });
       };
 
@@ -54,7 +55,8 @@
           return window.location.reload();
         }), function(error) {
           console.error(error.message);
-          return new window.StartView;
+          alert("Error: " + error.message.toLowerCase());
+          return window.location.reload();
         });
       };
 
