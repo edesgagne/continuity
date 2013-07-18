@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/logintemplate.html', 'views/popupview', 'views/startview'], function($, Mobile, _, Parse, logintemplate, PopupView, StartView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/logintemplate.html', 'views/popupview'], function($, Mobile, _, Parse, logintemplate, PopupView) {
     var LoginView, _ref;
     return LoginView = (function(_super) {
       __extends(LoginView, _super);
@@ -39,8 +39,7 @@
           return window.location.reload();
         }), function(error) {
           console.error(error.message);
-          alert("Error: " + error.message.toLowerCase());
-          return window.location.reload();
+          return new window.StartView;
         });
       };
 
@@ -55,8 +54,7 @@
           return window.location.reload();
         }), function(error) {
           console.error(error.message);
-          alert("Error: " + error.message.toLowerCase());
-          return window.location.reload();
+          return new window.StartView;
         });
       };
 

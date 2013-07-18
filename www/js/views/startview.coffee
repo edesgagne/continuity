@@ -1,6 +1,6 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/loginview', 'views/appview', 'routers/myrouter'], 
 ($, Mobile, _, Parse, LoginView, AppView, MyRouter) ->
-	class StartView extends Parse.View
+	class window.StartView extends Parse.View
 		#used to get around require js circular dependencies
 		#for login and app view
 		initialize: ->

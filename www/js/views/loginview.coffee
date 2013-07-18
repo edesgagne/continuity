@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/logintemplate.html', 'views/popupview', 'views/startview'], 
-($, Mobile, _, Parse, logintemplate, PopupView, StartView) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/logintemplate.html', 'views/popupview'], 
+($, Mobile, _, Parse, logintemplate, PopupView) ->
 	class LoginView extends Parse.View
 		el: '[data-role="page"]'
 		template: _.template logintemplate
@@ -27,8 +27,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/loginte
 				window.location.reload()
 			), (error) ->
 				console.error error.message
-				alert("Error: " + error.message.toLowerCase())
-				window.location.reload()
+				#alert("Error: " + error.message.toLowerCase())
+				#window.location.reload()
+				new window.StartView #never called
 				# setTimeout ( ->
 				# 	popup = new PopupView
 				# 		text: 'There was an error logging in: ' + error.message
@@ -52,8 +53,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/loginte
 			# Everything is done!
 			), (error) ->
 				console.error error.message
-				alert("Error: " + error.message.toLowerCase())
-				window.location.reload()
+				#alert("Error: " + error.message.toLowerCase())
+				#window.location.reload()
+				new window.StartView #never called
 				#waits until page is reloaded automatically
 				#because of jquery or parse or something
 				#so the popup only comes after parse reloads the page
