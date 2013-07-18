@@ -19,15 +19,15 @@
 
       ActivityListView.prototype.events = {
         'click #prev': 'prev',
-        'click #next': 'next',
-        'swiperight body': 'prev',
-        'swipeleft body': 'next'
+        'click #next': 'next'
       };
 
       ActivityListView.prototype.initialize = function() {
-        _.bindAll(this, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay');
+        _.bindAll(this, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'remove');
         this.collection.on('change:isCompleted', this.rerender, this);
-        return this.render(true);
+        this.render(true);
+        $(window).bind("swiperight", _.bind(this.prev, this));
+        return $(window).bind("swipeleft", _.bind(this.next, this));
       };
 
       ActivityListView.prototype.getCurrentId = function() {
@@ -53,6 +53,7 @@
 
       ActivityListView.prototype.prev = function() {
         if ($('#prev').attr("disabled") === "disabled") {
+          console.error('tried to call prev, but disabled');
           return;
         }
         console.log('prev');
@@ -62,6 +63,8 @@
 
       ActivityListView.prototype.next = function() {
         if ($('#next').attr("disabled")) {
+          console.error('tried to call next, but disabled');
+          alert("Sorry, you must tap the checkmark in order to unlock the next activity.");
           return;
         }
         console.log('next');
@@ -89,7 +92,7 @@
 
       ActivityListView.prototype.rerender = function(changedmodel) {
         var cur, curid, next;
-        console.log('rerender activitylistview');
+        console.error('rerender activitylistview');
         curid = this.getCurrentId();
         cur = this.collection.get(curid);
         next = this.collection.get(curid + 1);
@@ -100,6 +103,15 @@
 
       ActivityListView.prototype.jqdisplay = function() {
         return $('[data-role="button"]').button();
+      };
+
+      ActivityListView.prototype.destroy = function() {
+        $(window).off("swipeleft");
+        $(window).off("swiperight");
+        this.undelegateEvents();
+        $(this.el).removeData().unbind();
+        this.remove();
+        return Backbone.View.prototype.remove.call(this);
       };
 
       return ActivityListView;
