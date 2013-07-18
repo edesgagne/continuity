@@ -1,7 +1,4 @@
-//isn't actually used in file
-//http://www.freeformatter.com/json-formatter.html#ad-output
-
-stepJSON = [
+[
 	{
 		"step_num": 1,
 		"title": "Warning Signs",

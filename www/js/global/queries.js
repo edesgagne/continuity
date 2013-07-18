@@ -20,6 +20,21 @@
         return _.bindAll(this);
       };
 
+      Queries.prototype.getMyJSON = function(file) {
+        var myjson;
+        console.log('calling get json');
+        myjson = null;
+        $.ajax({
+          url: file,
+          async: false,
+          dataType: 'json',
+          success: function(json) {
+            return myjson = JSON.stringify(json);
+          }
+        });
+        return JSON.parse(myjson);
+      };
+
       Queries.prototype.logInUser = function(name, pass) {
         if (window.uploader.getMode() !== "online") {
           console.error("sorry, you must be online to set up the device");
@@ -49,51 +64,7 @@
           console.error("sorry, you must be online to set up the device");
           return Parse.Promise.error("not online");
         }
-        stepJSON = [
-          {
-            "step_num": 1,
-            "title": "Warning Signs",
-            "description": "Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:",
-            "fields": ["warning sign"],
-            "strategies": []
-          }, {
-            "step_num": 2,
-            "title": "Coping Strategies",
-            "description": "Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):",
-            "fields": ["coping strategy"],
-            "strategies": []
-          }, {
-            "step_num": 3,
-            "title": "People",
-            "description": "People that provide distraction:",
-            "fields": ["name", "phone number"],
-            "strategies": []
-          }, {
-            "step_num": 4,
-            "title": "Settings",
-            "description": "Social settings that provide distraction:",
-            "fields": ["place"],
-            "strategies": []
-          }, {
-            "step_num": 5,
-            "title": "Professionals",
-            "description": "Professionals or agencies I can contact during a crisis:",
-            "fields": ["name", "phone number"],
-            "strategies": []
-          }, {
-            "step_num": 6,
-            "title": "Environment",
-            "description": "Ways to make the environment safe:",
-            "fields": ["way"],
-            "strategies": []
-          }, {
-            "step_num": 7,
-            "title": "One Thing",
-            "description": "The one thing that is most important to me and worth living for is:",
-            "fields": ["thing"],
-            "strategies": []
-          }
-        ];
+        stepJSON = this.getMyJSON("js/json/steps.json");
         window.localStorage["user"] = Parse.User.current().get("username");
         window.localStorage["steplist"] = JSON.stringify(stepJSON);
         currentUser = Parse.User.current();

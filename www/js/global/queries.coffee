@@ -7,6 +7,18 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps', 'view
 		initialize: ->	
 			console.log "queries"
 			_.bindAll @
+		getMyJSON: (file)->
+			#asynchronous
+			#exception: doesn't actually return a parse promise
+			console.log 'calling get json'
+			myjson = null
+			$.ajax
+				url: file
+				async: false
+				dataType: 'json'
+				success: (json) ->
+					myjson = JSON.stringify(json)
+			return JSON.parse myjson
 		logInUser: (name, pass)->
 			#it isn't returning the parse promise anyways
 			if window.uploader.getMode() != "online"
@@ -34,7 +46,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'models/mysteps', 'view
 				return Parse.Promise.error("not online")
 						
 			#add all the steps to the list
-			stepJSON = [{"step_num":1,"title":"Warning Signs","description":"Warning signs (thoughts, images, mood, situation, behavior) that a crisis may be developing:","fields":["warning sign"],"strategies":[]},{"step_num":2,"title":"Coping Strategies","description":"Internal coping strategies: things I can do to take my mind off my problems without contacting another person (relaxation technique, physical activity):","fields":["coping strategy"],"strategies":[]},{"step_num":3,"title":"People","description":"People that provide distraction:","fields":["name","phone number"],"strategies":[]},{"step_num":4,"title":"Settings","description":"Social settings that provide distraction:","fields":["place"],"strategies":[]},{"step_num":5,"title":"Professionals","description":"Professionals or agencies I can contact during a crisis:","fields":["name","phone number"],"strategies":[]},{"step_num":6,"title":"Environment","description":"Ways to make the environment safe:","fields":["way"],"strategies":[]},{"step_num":7,"title":"One Thing","description":"The one thing that is most important to me and worth living for is:","fields":["thing"],"strategies":[]}]
+			stepJSON = @getMyJSON("js/json/steps.json")
+			
 			#save user to localstorage
 			window.localStorage["user"] = Parse.User.current().get("username")
 			
