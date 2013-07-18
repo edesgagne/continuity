@@ -20,8 +20,8 @@
       ActivityListView.prototype.events = {
         'click #prev': 'prev',
         'click #next': 'next',
-        'swipeleft #activity': 'prev',
-        'swiperight #activity': 'next'
+        'swiperight #activity': 'prev',
+        'swipeleft #activity': 'next'
       };
 
       ActivityListView.prototype.initialize = function() {
