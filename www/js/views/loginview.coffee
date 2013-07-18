@@ -27,15 +27,16 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/loginte
 				window.location.reload()
 			), (error) ->
 				console.error error.message
-				setTimeout ( ->
-					popup = new PopupView
-						text: 'There was an error logging in: ' + error.message
-					popup.open()
-				), 500 #waits until page is reloaded
-				
-				setTimeout (->
-					window.location.reload()
-				), 3000
+				alert("There was an error logging in " + error.message)
+				# setTimeout ( ->
+				# 	popup = new PopupView
+				# 		text: 'There was an error logging in: ' + error.message
+				# 	popup.open()
+				# ), 500 #waits until page is reloaded
+				# 
+				# setTimeout (->
+				# 	window.location.reload()
+				# ), 3000
 				
 		signUp: (e)->
 			e.preventDefault()

@@ -39,16 +39,7 @@
           return window.location.reload();
         }), function(error) {
           console.error(error.message);
-          setTimeout((function() {
-            var popup;
-            popup = new PopupView({
-              text: 'There was an error logging in: ' + error.message
-            });
-            return popup.open();
-          }), 500);
-          return setTimeout((function() {
-            return window.location.reload();
-          }), 3000);
+          return alert("There was an error logging in " + error.message);
         });
       };
 
