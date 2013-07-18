@@ -1,7 +1,6 @@
 Quiz. Take the screening test.
 Write. Fill out as much as you can of the Safety Planning portion of this app.
-Write.  Jot down something you appreciate about someone else.
-Focus.  Eat something and focus on it.
+Act.  Eat something nutritious and enjoy it without multitasking.
 Write.  Jot down what makes you happy.
 Interact.  Call or write to a friend.
 Write.  Catch a bad thought.  Then write it down, name the distortion (personalization, overgeneralization, magnification, arbitrary inference), and find a more accurate way of thinking.
@@ -23,11 +22,12 @@ Volunteer.  Look through local programs and sign up for something.
 Write.  Jot down what you're looking forward to in the next week/month/year.
 Write.  Jot down your goals for the next week/month/year.
 Interact.  Smile to a neighbor.
-Interact.  Say hello to 3 people.
 Act.  Read a part of the newspaper that interests you.
+Write.  Jot down something you appreciate about someone else.
 Act.  Play with a child.
 Act.  Take an afternoon nap.
-Act.  Water  a potted plant.
+Interact.  Say hello to 3 people.
+Act.  Water a potted plant.
 Act.  If needed, call a hotline or schedule an appointment with a psychologist.
 Quiz.  Retake the screening test to see how far you've come.
 Congratulations!  You've completed all activities!

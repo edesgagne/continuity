@@ -1,5 +1,5 @@
 f = open("activities.txt")
-out = open("json.txt", "w")
+out = open("../../js/json/activities.json", "w")
 out.write("[")
 
 content = f.readlines()

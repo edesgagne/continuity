@@ -6,8 +6,10 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 		events:
 			'click #prev': 'prev'
 			'click #next': 'next'
+			'swipeleft #activity': 'prev'
+			'swiperight #activity': 'next'
 		initialize: ->
-			_.bindAll @, 'render', 'rerender'
+			_.bindAll @, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay'
 			@collection.on 'change:isCompleted', @rerender, @
 			@render(true)
 		getCurrentId: ->
@@ -25,11 +27,17 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 			@changeScreen()
 			
 		prev: ->
+			#should only work if enabled (in case of swipe)
+			if $('#prev').attr("disabled") == "disabled"
+				return
 			console.log 'prev'
 			@viewpointer--
 			@changeScreen()
 			
 		next: ->
+			#should only work if enabled (in case of swipe)
+			if $('#next').attr("disabled")
+				return
 			console.log 'next'
 			@viewpointer++
 			@changeScreen()

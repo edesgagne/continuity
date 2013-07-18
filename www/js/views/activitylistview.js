@@ -19,11 +19,13 @@
 
       ActivityListView.prototype.events = {
         'click #prev': 'prev',
-        'click #next': 'next'
+        'click #next': 'next',
+        'swipeleft #activity': 'prev',
+        'swiperight #activity': 'next'
       };
 
       ActivityListView.prototype.initialize = function() {
-        _.bindAll(this, 'render', 'rerender');
+        _.bindAll(this, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay');
         this.collection.on('change:isCompleted', this.rerender, this);
         return this.render(true);
       };
@@ -50,12 +52,18 @@
       };
 
       ActivityListView.prototype.prev = function() {
+        if ($('#prev').attr("disabled") === "disabled") {
+          return;
+        }
         console.log('prev');
         this.viewpointer--;
         return this.changeScreen();
       };
 
       ActivityListView.prototype.next = function() {
+        if ($('#next').attr("disabled")) {
+          return;
+        }
         console.log('next');
         this.viewpointer++;
         return this.changeScreen();
