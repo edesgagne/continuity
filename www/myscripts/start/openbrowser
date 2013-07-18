@@ -4,5 +4,4 @@ open /Applications/Google\ Chrome.app/ http://localhost:8000/spec.html
 
 open /Applications/Google\ Chrome.app/ http://localhost:8000
 
-python -m SimpleHTTPServer 8000
-
+exit 0

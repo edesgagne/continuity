@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /Users/anshulagandhi/Code/Cordova/continuity/www
+
+python -m SimpleHTTPServer 8000
+

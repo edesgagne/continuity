@@ -83,16 +83,11 @@
         var cur, curid, next;
         console.log('rerender activitylistview');
         curid = this.getCurrentId();
-        if (curid === this.collection.models.length) {
-          console.log('finished list');
-          this.changeScreen();
-        } else {
-          cur = this.collection.get(curid);
-          next = this.collection.get(curid + 1);
-          cur.notCurrent();
-          next.current();
-          return this.render();
-        }
+        cur = this.collection.get(curid);
+        next = this.collection.get(curid + 1);
+        cur.notCurrent();
+        next.current();
+        return this.changeScreen();
       };
 
       ActivityListView.prototype.jqdisplay = function() {

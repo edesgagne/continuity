@@ -6,6 +6,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 			description: ""
 			isCompleted: false
 			isCurrent: false
+			isLast: false
 		complete: ->
 			@set
 				isCompleted: true

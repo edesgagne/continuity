@@ -1,0 +1,5 @@
+open -a Terminal.app /Users/anshulagandhi/Code/Cordova/continuity/www/myscripts/start/startcoffee
+open -a Terminal.app /Users/anshulagandhi/Code/Cordova/continuity/www/myscripts/start/startserver
+open -a Terminal.app /Users/anshulagandhi/Code/Cordova/continuity/www/myscripts/start/openbrowser
+
+exit 0

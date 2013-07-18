@@ -39,7 +39,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 			newscreen = @collection.get(@viewpointer)
 			console.log @viewpointer
 			av = new ActivityView {model: newscreen}
-			
 			#append to actual view and add buttons
 			$(@el).html @template()
 			$(@el).append av.el
@@ -56,19 +55,22 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 		rerender: (changedmodel) ->
 			console.log 'rerender activitylistview' #, changedmodel
 			curid = @getCurrentId()
-			if curid == @collection.models.length
-				console.log 'finished list'
-				#still make the check green
-				@changeScreen()
-				return
-			else
-				cur = @collection.get(curid)
-				next = @collection.get(curid + 1)
-				#make it the current one
-				cur.notCurrent()
-				next.current()
-				#render
-				@render()
+
+				
+			cur = @collection.get(curid)
+			next = @collection.get(curid + 1)
+			#make it the current one
+			cur.notCurrent()
+			next.current()
+			#render
+			@changeScreen()
+			# console.log curid, @collection.models.length
+			# if curid == @collection.models.length
+			# 	console.log 'finished list'
+			# 	#still make the check green
+			# 	@changeScreen(true)
+			# else 
+			# 	@changeScreen()
 		jqdisplay: ->
 			$('[data-role="button"]').button()
 			

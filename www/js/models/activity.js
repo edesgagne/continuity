@@ -19,7 +19,8 @@
         id: 0,
         description: "",
         isCompleted: false,
-        isCurrent: false
+        isCurrent: false,
+        isLast: false
       };
 
       Activity.prototype.complete = function() {

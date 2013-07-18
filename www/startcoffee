@@ -1,6 +1,0 @@
-#!/bin/bash
-
-mate open .
-
-cake assets:watch
-
