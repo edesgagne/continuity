@@ -1,5 +1,5 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
-	class window.RouteHandler extends Parse.Object
+	class RouteHandler extends Parse.Object
 		showView: (view) ->
 			console.log "next view", view
 			
