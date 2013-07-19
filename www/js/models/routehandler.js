@@ -20,8 +20,6 @@
           this.currentView.el.remove();
           delete this.currentView;
         }
-        $('[data-role="content"]').children().remove();
-        $('[data-role="content"]').empty();
         console.log("next view", view);
         this.currentView = view;
         this.currentView.render();

@@ -7,10 +7,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) 
 				@currentView.el.remove()
 				delete @currentView
 			
-			$('[data-role="content"]').children().remove()
-			$('[data-role="content"]').empty()
-			
-			
 			console.log "next view", view
 			@currentView = view
 			@currentView.render()
