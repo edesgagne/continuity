@@ -35,7 +35,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'view
 			console.log "show " + title
 			
 			#clear everything
-			$('[data-role="content"]').html title + " page"
+			#$('[data-role="content"]').empty()
 			
 			#change header
 			$('[data-role="header"] > h3').html title
@@ -43,20 +43,28 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'view
 		showHome: ->
 			title = "Home"
 			@basics title
-			@routeHandler.showView(new HomeView)
+			@routeHandler.showView new HomeView
+			
+			
 		
 		showActivities: ->
 			title = "Activities"
 			@basics title
-			@routeHandler.showView(new ActivityListView)
+			@routeHandler.showView new ActivityListView
+			
+			
 		
 		showSafety: ->
 			title = "Safety Planning"
 			@basics title
-			@routeHandler.showView(new StepListView)
+			@routeHandler.showView new StepListView
+			
+			
 			
 		showHelp: ->
 			title = "Get Help"
 			@basics title
-			@routeHandler.showView(new HelpView)
+			@routeHandler.showView new HelpView
+			
+			
 			

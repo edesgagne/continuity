@@ -16,10 +16,12 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview', 'coll
 			@subviews = []
 
 		render: ->
+			$(@el).empty()
+			
 			#if you already had subviews
 			if @subviews.length > 0
-				console.log 'removing old subviews'
 				for view in @subviews
+					console.log 'removing old subviews'
 					view.close()
 					
 			@collection.each @renderEach, @
@@ -35,7 +37,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview', 'coll
 			
 			console.log 'called rerender'
 			
-			$(@el).html ""
 			@render()
 			
 			#open up the collapsible
@@ -55,8 +56,6 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview', 'coll
 			$('[data-role="button"]').button();	
 			
 		renderEach: (step) ->
-			
-			
 			stepView = new StepView {model: step}
 			
 			@subviews.push stepView
@@ -69,10 +68,14 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview', 'coll
 				console.log 'removing old subviews final'
 				view.close()
 				
-			@collection.off 'change', @rerender
+			@collection.unbind 'change', @rerender
+			
+			$(@el).empty()
 			
 			@undelegateEvents()
 			$(@el).removeData().unbind()
-			@remove() #removes view from dom, should also undelegateEvents
 			@unbind() #unbinds anytime we called this.trigger()
+			@remove() #removes view from dom, should also undelegateEvents
 			Parse.View.prototype.remove.call(this)
+			
+			delete this

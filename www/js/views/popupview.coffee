@@ -25,3 +25,5 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse'],
 			@remove() #removes view from dom, should also undelegateEvents
 			@unbind() #unbinds anytime we called this.trigger()
 			Parse.View.prototype.remove.call(this)
+			
+			delete this

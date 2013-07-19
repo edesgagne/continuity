@@ -19,14 +19,20 @@
     }
   });
 
-  require(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/startview', 'global/app', 'global/queries', 'global/uploader'], function($, Mobile, _, Parse, StartView, App, Queries, Uploader) {
+  require(['jquery', 'jquerymobile', 'underscore', 'parse', 'global/app', 'global/queries', 'global/uploader', 'views/appview', 'routers/myrouter', 'views/loginview', 'models/routehandler'], function($, Mobile, _, Parse, App, Queries, Uploader, AppView, MyRouter, LoginView, RouteHandler) {
     return $(document).ready(function() {
       console.log('start');
       Parse.initialize("pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx");
       window.queries = new Queries;
       window.uploader = new Uploader;
       window.app = new App;
-      return new StartView;
+      if (Parse.User.current()) {
+        new AppView;
+        new MyRouter(new RouteHandler);
+        return Parse.history.start();
+      } else {
+        return new LoginView;
+      }
     });
   });
 

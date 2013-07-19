@@ -58,6 +58,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/activityli
 			@changeScreen()
 			
 		changeScreen: ->
+			$(@el).empty()
+			
 			console.log 'changescreen'
 			if @subview #already a subview
 				console.log 'closing a subview', @subview
@@ -73,10 +75,8 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/activityli
 						
 			@jqdisplay()
 			
-
-				
-			
 		rerender: (changedmodel) ->
+			
 			console.error 'rerender activitylistview' #, changedmodel
 			curid = @getCurrentId()
 			cur = @collection.get(curid)
@@ -85,34 +85,41 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/activityli
 			cur.notCurrent()
 			next.current()
 			#render
-			@changeScreen()
+			#@changeScreen()
+			@jqdisplay() #should enable prev
 		jqdisplay: ->
 			console.log 'jq display of activitylistview'
 			$('[data-role="button"]').button()
 			
-			console.log 'about to disable'
-			console.log @viewpointer, @getCurrentId()
 			#disables/enables buttons accordingly
 			if @viewpointer == 1
-				console.log 'disabling prev'
 				$('#prev').button("disable")
+			else
+				$('#prev').button("enable")
 			if @viewpointer == @getCurrentId()
 				#whatever is next is locked
-				console.log 'disabling next'
 				$('#next').button("disable")
+			else
+				$('#next').button("enable")
 		close: ->
 			
 			if @subview
 				console.log 'closing subview final'
 				@subview.close()
 				
-			@collection.off 'change:isCompleted', @rerender, @
-			$(window).off("swipeleft")
-			$(window).off("swiperight")
+			@collection.unbind 'change:isCompleted', @rerender, @
+			
+			$(window).unbind "swipeleft"
+			$(window).unbind "swiperight"
+			
 			
 			#for all backbone views
+			$(@el).empty()
+			
 			@undelegateEvents()
 			$(@el).removeData().unbind()
 			@remove() #removes view from dom, should also undelegateEvents
 			@unbind() #unbinds anytime we called this.trigger()
 			Parse.View.prototype.remove.call(this)
+			
+			delete this

@@ -17,7 +17,11 @@
         if (this.currentView) {
           console.log('closing the current view...', this.currentView);
           this.currentView.close();
+          this.currentView.el.remove();
+          delete this.currentView;
         }
+        $('[data-role="content"]').children().remove();
+        $('[data-role="content"]').empty();
         console.log("next view", view);
         this.currentView = view;
         this.currentView.render();

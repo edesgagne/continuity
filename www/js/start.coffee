@@ -21,25 +21,33 @@ require.config
 			exports: "Parse"
 
 require ['jquery', 'jquerymobile', 'underscore', 'parse', 
-'views/startview', 'global/app', 'global/queries', 'global/uploader'], 
-($, Mobile, _, Parse, StartView, App, Queries, Uploader) ->
+ 'global/app', 'global/queries', 'global/uploader',
+'views/appview', 'routers/myrouter', 'views/loginview', 'models/routehandler'], 
+($, Mobile, _, Parse, 
+App, Queries, Uploader,
+AppView, MyRouter, LoginView, RouteHandler) ->
 	#temporary until wrapped in "on device ready"
 	$(document).ready ->
 		console.log 'start'
-
+		
 		#alert "starting app"
-
+		
 		Parse.initialize "pxBn6DIgzMNAtUuG6N08MdPqqGywblo9JPkMwdUe", "CUsQapRcahYD2ztJAAeDMiLhPKxddG0reZFVn6fx"
-
+		
 		#requires parse
 		window.queries = new Queries
 		window.uploader = new Uploader
-
+		
 		#binds online/offline events
 		#requires uploader
 		window.app = new App
-
+		
 		#requires app
 		#so it will know if user is online/offline
 		#so it will know whether to let them login/signup
-		new StartView
+		if Parse.User.current()
+			new AppView
+			new MyRouter(new RouteHandler)
+			Parse.history.start() #({pushState: true}) 
+		else
+			new LoginView

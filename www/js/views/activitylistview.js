@@ -81,6 +81,7 @@
 
       ActivityListView.prototype.changeScreen = function() {
         var av, newscreen;
+        $(this.el).empty();
         console.log('changescreen');
         if (this.subview) {
           console.log('closing a subview', this.subview);
@@ -105,21 +106,21 @@
         next = this.collection.get(curid + 1);
         cur.notCurrent();
         next.current();
-        return this.changeScreen();
+        return this.jqdisplay();
       };
 
       ActivityListView.prototype.jqdisplay = function() {
         console.log('jq display of activitylistview');
         $('[data-role="button"]').button();
-        console.log('about to disable');
-        console.log(this.viewpointer, this.getCurrentId());
         if (this.viewpointer === 1) {
-          console.log('disabling prev');
           $('#prev').button("disable");
+        } else {
+          $('#prev').button("enable");
         }
         if (this.viewpointer === this.getCurrentId()) {
-          console.log('disabling next');
           return $('#next').button("disable");
+        } else {
+          return $('#next').button("enable");
         }
       };
 
@@ -128,14 +129,16 @@
           console.log('closing subview final');
           this.subview.close();
         }
-        this.collection.off('change:isCompleted', this.rerender, this);
-        $(window).off("swipeleft");
-        $(window).off("swiperight");
+        this.collection.unbind('change:isCompleted', this.rerender, this);
+        $(window).unbind("swipeleft");
+        $(window).unbind("swiperight");
+        $(this.el).empty();
         this.undelegateEvents();
         $(this.el).removeData().unbind();
         this.remove();
         this.unbind();
-        return Parse.View.prototype.remove.call(this);
+        Parse.View.prototype.remove.call(this);
+        return delete this;
       };
 
       return ActivityListView;

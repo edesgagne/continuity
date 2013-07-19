@@ -28,10 +28,8 @@
       };
 
       StepView.prototype.initialize = function() {
-        var id;
         _.bindAll(this, 'render', 'add', 'del');
-        id = this.model.get('step_num');
-        return $(this.el).attr('id', id);
+        return $(this.el).attr('id', this.model.get('step_num'));
       };
 
       StepView.prototype.render = function() {
@@ -69,11 +67,13 @@
       };
 
       StepView.prototype.close = function() {
+        $(this.el).empty();
         this.undelegateEvents();
         $(this.el).removeData().unbind();
         this.remove();
         this.unbind();
-        return Parse.View.prototype.remove.call(this);
+        Parse.View.prototype.remove.call(this);
+        return delete this;
       };
 
       return StepView;

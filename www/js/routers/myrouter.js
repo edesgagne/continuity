@@ -46,7 +46,6 @@
 
       MyRouter.prototype.basics = function(title) {
         console.log("show " + title);
-        $('[data-role="content"]').html(title + " page");
         return $('[data-role="header"] > h3').html(title);
       };
 

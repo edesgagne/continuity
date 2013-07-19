@@ -22,10 +22,12 @@
       };
 
       ActivityView.prototype.initialize = function() {
-        return _.bindAll(this, 'render', 'checked');
+        _.bindAll(this, 'render', 'checked');
+        return this.model.on('change:isCompleted', this.makeChecked, this);
       };
 
       ActivityView.prototype.render = function() {
+        $(this.el).empty();
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
       };
@@ -36,11 +38,19 @@
       };
 
       ActivityView.prototype.close = function() {
+        this.model.unbind('change:isCompleted', this.makeChecked);
+        $(this.el).empty();
         this.undelegateEvents();
         $(this.el).removeData().unbind();
         this.remove();
         this.unbind();
-        return Parse.View.prototype.remove.call(this);
+        Parse.View.prototype.remove.call(this);
+        return delete this;
+      };
+
+      ActivityView.prototype.makeChecked = function() {
+        console.log('making checked');
+        return this.render();
       };
 
       return ActivityView;

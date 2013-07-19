@@ -35,11 +35,12 @@
 
       StepListView.prototype.render = function() {
         var view, _i, _len, _ref1;
+        $(this.el).empty();
         if (this.subviews.length > 0) {
-          console.log('removing old subviews');
           _ref1 = this.subviews;
           for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
             view = _ref1[_i];
+            console.log('removing old subviews');
             view.close();
           }
         }
@@ -51,7 +52,6 @@
       StepListView.prototype.rerender = function(changedmodel) {
         var step_num;
         console.log('called rerender');
-        $(this.el).html("");
         this.render();
         step_num = changedmodel.get("step_num");
         $("#" + step_num).attr('data-collapsed', 'false');
@@ -85,12 +85,14 @@
           console.log('removing old subviews final');
           view.close();
         }
-        this.collection.off('change', this.rerender);
+        this.collection.unbind('change', this.rerender);
+        $(this.el).empty();
         this.undelegateEvents();
         $(this.el).removeData().unbind();
-        this.remove();
         this.unbind();
-        return Parse.View.prototype.remove.call(this);
+        this.remove();
+        Parse.View.prototype.remove.call(this);
+        return delete this;
       };
 
       return StepListView;

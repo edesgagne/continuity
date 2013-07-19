@@ -43,7 +43,8 @@
         $(this.el).removeData().unbind();
         this.remove();
         this.unbind();
-        return Parse.View.prototype.remove.call(this);
+        Parse.View.prototype.remove.call(this);
+        return delete this;
       };
 
       return PopupView;
