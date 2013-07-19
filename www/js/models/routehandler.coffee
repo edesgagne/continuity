@@ -1,13 +1,13 @@
 define ['jquery', 'jquerymobile', 'underscore', 'parse'], ($, Mobile, _, Parse) ->
-	class RouteHandler extends Parse.Object
+	class window.RouteHandler extends Parse.Object
 		showView: (view) ->
+			console.log "next view", view
+			
 			if @currentView
 				console.log 'closing the current view...', @currentView
 				@currentView.close()
-				@currentView.el.remove()
 				delete @currentView
-			
-			console.log "next view", view
+			console.log 'here'
 			@currentView = view
 			@currentView.render()
 			$('[data-role="content"]').html @currentView.el

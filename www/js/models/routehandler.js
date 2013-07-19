@@ -4,8 +4,8 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(['jquery', 'jquerymobile', 'underscore', 'parse'], function($, Mobile, _, Parse) {
-    var RouteHandler, _ref;
-    return RouteHandler = (function(_super) {
+    var _ref;
+    return window.RouteHandler = (function(_super) {
       __extends(RouteHandler, _super);
 
       function RouteHandler() {
@@ -14,13 +14,13 @@
       }
 
       RouteHandler.prototype.showView = function(view) {
+        console.log("next view", view);
         if (this.currentView) {
           console.log('closing the current view...', this.currentView);
           this.currentView.close();
-          this.currentView.el.remove();
           delete this.currentView;
         }
-        console.log("next view", view);
+        console.log('here');
         this.currentView = view;
         this.currentView.render();
         $('[data-role="content"]').html(this.currentView.el);
