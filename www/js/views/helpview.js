@@ -13,14 +13,12 @@
         return _ref;
       }
 
-      HelpView.prototype.el = '[data-role="content"]';
+      HelpView.prototype.tagName = "div";
 
       HelpView.prototype.template = _.template(helptemplate);
 
       HelpView.prototype.initialize = function() {
-        _.bindAll(this, 'render', 'jqdisplay');
-        this.render();
-        return this.jqdisplay();
+        return _.bindAll(this, 'render', 'jqdisplay');
       };
 
       HelpView.prototype.render = function() {
@@ -29,6 +27,14 @@
 
       HelpView.prototype.jqdisplay = function() {
         return $('[data-role="button"]').button();
+      };
+
+      HelpView.prototype.close = function() {
+        this.undelegateEvents();
+        $(this.el).removeData().unbind();
+        this.remove();
+        this.unbind();
+        return Parse.View.prototype.remove.call(this);
       };
 
       return HelpView;

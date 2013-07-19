@@ -8,10 +8,10 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/steptem
 			'data-collapsed': 'true'
 		events:
 			"click .submit": "add"
-			"click .delete": "remove"
+			"click .delete": "del"
 			
 		initialize: ->
-			_.bindAll @, 'render', 'add', 'remove'
+			_.bindAll @, 'render', 'add', 'del'
 			
 			id = @model.get('step_num')
 			#console.log id
@@ -38,7 +38,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/steptem
 
 			#then the collection will re render it
 			console.log 'added strategies', @model.get('strategies')
-		remove: (e) ->
+		del: (e) ->
 			e.preventDefault()
 			
 			#get the id of the list element
@@ -60,3 +60,10 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'text!templates/steptem
 			#then the collection will rerender it
 			
 			#remove it from localstorage and parse using uplaoder
+		close: ->
+			#for all backbone views
+			@undelegateEvents()
+			$(@el).removeData().unbind()
+			@remove() #removes view from dom, should also undelegateEvents
+			@unbind() #unbinds anytime we called this.trigger()
+			Parse.View.prototype.remove.call(this)

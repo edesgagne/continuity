@@ -1,7 +1,7 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', 'text!templates/activitylisttemplate.html'], 
-($, Mobile, _, Parse, ActivityView, activitylisttemplate) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/activitylist', 'views/activityview', 'text!templates/activitylisttemplate.html'], 
+($, Mobile, _, Parse, ActivityList, ActivityView, activitylisttemplate) ->
 	class ActivityListView extends Parse.View
-		el: '[data-role="content"]'
+		tagName: 'div'
 		template: _.template activitylisttemplate
 		events:
 			'click #prev': 'prev'
@@ -9,11 +9,18 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 			#'swiperight window': 'prev'
 			#'swipeleft window': 'next'
 		initialize: ->
-			_.bindAll @, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'destroy'
+			myjson = window.queries.getMyJSON("js/json/activities.json")
+			console.log myjson
+			@al = new ActivityList myjson
+			@collection = @al
+			
+			_.bindAll @, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'close'
 			@collection.on 'change:isCompleted', @rerender, @
-			@render(true)
 			$(window).bind "swiperight", _.bind(@prev, @)
 			$(window).bind "swipeleft", _.bind(@next, @)
+			@subview = null
+			
+			@firstcall = true
 		getCurrentId: ->
 			arr = @collection.pluck("isCurrent")
 			curid = arr.indexOf(true) + 1 #because arrays are 0 based
@@ -22,10 +29,11 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 			curid = @getCurrentId()
 			cur = @collection.get(curid)
 			return cur
-		render: (firstcall)->
-			if firstcall
+		render: ->
+			if @firstcall
 				#initialize viewpointer
 				@viewpointer = @getCurrentId()
+				@firstcall = false
 			@changeScreen()
 			
 		prev: ->
@@ -50,22 +58,23 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 			@changeScreen()
 			
 		changeScreen: ->
+			console.log 'changescreen'
+			if @subview #already a subview
+				console.log 'closing a subview', @subview
+				@subview.close()
 			#changes screen to where the viewpointer is
 			newscreen = @collection.get(@viewpointer)
-			console.log @viewpointer
 			av = new ActivityView {model: newscreen}
+			@subview = av
+			console.log av.render().el
 			#append to actual view and add buttons
 			$(@el).html @template()
 			$(@el).append av.el
-			
+						
 			@jqdisplay()
 			
-			#disables/enables buttons accordingly
-			if @viewpointer == 1
-				$('#prev').button("disable")
-			if @viewpointer == @getCurrentId()
-				#whatever is next is locked
-				$('#next').button("disable")
+
+				
 			
 		rerender: (changedmodel) ->
 			console.error 'rerender activitylistview' #, changedmodel
@@ -78,11 +87,32 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 			#render
 			@changeScreen()
 		jqdisplay: ->
+			console.log 'jq display of activitylistview'
 			$('[data-role="button"]').button()
-		destroy: ->
+			
+			console.log 'about to disable'
+			console.log @viewpointer, @getCurrentId()
+			#disables/enables buttons accordingly
+			if @viewpointer == 1
+				console.log 'disabling prev'
+				$('#prev').button("disable")
+			if @viewpointer == @getCurrentId()
+				#whatever is next is locked
+				console.log 'disabling next'
+				$('#next').button("disable")
+		close: ->
+			
+			if @subview
+				console.log 'closing subview final'
+				@subview.close()
+				
+			@collection.off 'change:isCompleted', @rerender, @
 			$(window).off("swipeleft")
 			$(window).off("swiperight")
+			
+			#for all backbone views
 			@undelegateEvents()
 			$(@el).removeData().unbind()
-			@remove() #removes view from dom
-			Backbone.View.prototype.remove.call(this)
+			@remove() #removes view from dom, should also undelegateEvents
+			@unbind() #unbinds anytime we called this.trigger()
+			Parse.View.prototype.remove.call(this)

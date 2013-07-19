@@ -13,19 +13,26 @@
         return _ref;
       }
 
-      HomeView.prototype.el = '[data-role="content"]';
+      HomeView.prototype.tagName = "div";
 
       HomeView.prototype.template = _.template(hometemplate);
 
       HomeView.prototype.initialize = function() {
-        _.bindAll(this, 'render');
-        return this.render();
+        return _.bindAll(this, 'render', 'close');
       };
 
       HomeView.prototype.render = function() {
         return $(this.el).html(this.template({
           user: window.localStorage["user"]
         }));
+      };
+
+      HomeView.prototype.close = function() {
+        this.undelegateEvents();
+        $(this.el).removeData().unbind();
+        this.remove();
+        this.unbind();
+        return Parse.View.prototype.remove.call(this);
       };
 
       return HomeView;

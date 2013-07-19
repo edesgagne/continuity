@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview'], function($, Mobile, _, Parse, StepView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/stepview', 'collections/steplist'], function($, Mobile, _, Parse, StepView, StepList) {
     var StepListView, _ref;
     return StepListView = (function(_super) {
       __extends(StepListView, _super);
@@ -20,12 +20,31 @@
       };
 
       StepListView.prototype.initialize = function() {
-        _.bindAll(this, 'render', 'rerender', 'jqdisplay', 'renderEach');
-        return this.collection.on('change', this.rerender);
+        var list, step, steps_array, _i, _len;
+        list = new StepList;
+        steps_array = JSON.parse(window.localStorage["steplist"]);
+        for (_i = 0, _len = steps_array.length; _i < _len; _i++) {
+          step = steps_array[_i];
+          list.add(step);
+        }
+        this.collection = list;
+        _.bindAll(this, 'render', 'rerender', 'jqdisplay', 'renderEach', 'close');
+        this.collection.on('change', this.rerender);
+        return this.subviews = [];
       };
 
       StepListView.prototype.render = function() {
+        var view, _i, _len, _ref1;
+        if (this.subviews.length > 0) {
+          console.log('removing old subviews');
+          _ref1 = this.subviews;
+          for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+            view = _ref1[_i];
+            view.close();
+          }
+        }
         this.collection.each(this.renderEach, this);
+        $(this.el).append("\n<span style=\"font-size: 12px; margin-top: 10px\">\nAdapted from the Safety Plan Template developed by Barbara Stanley and Gregory K. Brown\n<span>\n");
         return this;
       };
 
@@ -53,8 +72,25 @@
         stepView = new StepView({
           model: step
         });
+        this.subviews.push(stepView);
         element = stepView.render().el;
         return $(this.el).append(element);
+      };
+
+      StepListView.prototype.close = function() {
+        var view, _i, _len, _ref1;
+        _ref1 = this.subviews;
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          view = _ref1[_i];
+          console.log('removing old subviews final');
+          view.close();
+        }
+        this.collection.off('change', this.rerender);
+        this.undelegateEvents();
+        $(this.el).removeData().unbind();
+        this.remove();
+        this.unbind();
+        return Parse.View.prototype.remove.call(this);
       };
 
       return StepListView;

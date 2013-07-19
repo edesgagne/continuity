@@ -38,6 +38,14 @@
         return $(this.el).popup("open");
       };
 
+      PopupView.prototype.close = function() {
+        this.undelegateEvents();
+        $(this.el).removeData().unbind();
+        this.remove();
+        this.unbind();
+        return Parse.View.prototype.remove.call(this);
+      };
+
       return PopupView;
 
     })(Parse.View);

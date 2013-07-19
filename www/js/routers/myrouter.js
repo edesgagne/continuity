@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'views/safetyview', 'views/helpview', 'views/activitiesview'], function($, Mobile, _, Parse, HomeView, SafetyView, HelpView, ActivitiesView) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'views/steplistview', 'views/helpview', 'views/activitylistview'], function($, Mobile, _, Parse, HomeView, StepListView, HelpView, ActivityListView) {
     var MyRouter, _ref;
     return MyRouter = (function(_super) {
       __extends(MyRouter, _super);
@@ -20,8 +20,9 @@
         "activities": "showActivities"
       };
 
-      MyRouter.prototype.initialize = function() {
+      MyRouter.prototype.initialize = function(routeHandler) {
         console.log("router");
+        this.routeHandler = routeHandler;
         return this.bindMenu();
       };
 
@@ -53,28 +54,28 @@
         var title;
         title = "Home";
         this.basics(title);
-        return new HomeView;
+        return this.routeHandler.showView(new HomeView);
       };
 
       MyRouter.prototype.showActivities = function() {
         var title;
         title = "Activities";
         this.basics(title);
-        return new ActivitiesView;
+        return this.routeHandler.showView(new ActivityListView);
       };
 
       MyRouter.prototype.showSafety = function() {
         var title;
         title = "Safety Planning";
         this.basics(title);
-        return new SafetyView;
+        return this.routeHandler.showView(new StepListView);
       };
 
       MyRouter.prototype.showHelp = function() {
         var title;
         title = "Get Help";
         this.basics(title);
-        return new HelpView;
+        return this.routeHandler.showView(new HelpView);
       };
 
       return MyRouter;

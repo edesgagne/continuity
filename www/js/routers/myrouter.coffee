@@ -1,5 +1,5 @@
-define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'views/safetyview', 'views/helpview', 'views/activitiesview'], 
-($, Mobile, _, Parse, HomeView, SafetyView, HelpView, ActivitiesView) ->
+define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'views/steplistview', 'views/helpview', 'views/activitylistview'], 
+($, Mobile, _, Parse, HomeView, StepListView, HelpView, ActivityListView) ->
 	class MyRouter extends Parse.Router
 		
 		routes:
@@ -8,8 +8,9 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'view
 			"help": "showHelp"
 			"activities": "showActivities"
 		
-		initialize: ->
+		initialize: (routeHandler)->
 			console.log "router"
+			@routeHandler = routeHandler
 			@bindMenu()
 			
 		bindMenu: ->
@@ -42,20 +43,20 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/homeview', 'view
 		showHome: ->
 			title = "Home"
 			@basics title
-			new HomeView
+			@routeHandler.showView(new HomeView)
 		
 		showActivities: ->
 			title = "Activities"
 			@basics title
-			new ActivitiesView
+			@routeHandler.showView(new ActivityListView)
 		
 		showSafety: ->
 			title = "Safety Planning"
 			@basics title
-			new SafetyView
+			@routeHandler.showView(new StepListView)
 			
 		showHelp: ->
 			title = "Get Help"
 			@basics title
-			new HelpView
+			@routeHandler.showView(new HelpView)
 			

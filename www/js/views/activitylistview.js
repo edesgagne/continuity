@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', 'text!templates/activitylisttemplate.html'], function($, Mobile, _, Parse, ActivityView, activitylisttemplate) {
+  define(['jquery', 'jquerymobile', 'underscore', 'parse', 'collections/activitylist', 'views/activityview', 'text!templates/activitylisttemplate.html'], function($, Mobile, _, Parse, ActivityList, ActivityView, activitylisttemplate) {
     var ActivityListView, _ref;
     return ActivityListView = (function(_super) {
       __extends(ActivityListView, _super);
@@ -13,7 +13,7 @@
         return _ref;
       }
 
-      ActivityListView.prototype.el = '[data-role="content"]';
+      ActivityListView.prototype.tagName = 'div';
 
       ActivityListView.prototype.template = _.template(activitylisttemplate);
 
@@ -23,11 +23,17 @@
       };
 
       ActivityListView.prototype.initialize = function() {
-        _.bindAll(this, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'destroy');
+        var myjson;
+        myjson = window.queries.getMyJSON("js/json/activities.json");
+        console.log(myjson);
+        this.al = new ActivityList(myjson);
+        this.collection = this.al;
+        _.bindAll(this, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'close');
         this.collection.on('change:isCompleted', this.rerender, this);
-        this.render(true);
         $(window).bind("swiperight", _.bind(this.prev, this));
-        return $(window).bind("swipeleft", _.bind(this.next, this));
+        $(window).bind("swipeleft", _.bind(this.next, this));
+        this.subview = null;
+        return this.firstcall = true;
       };
 
       ActivityListView.prototype.getCurrentId = function() {
@@ -44,9 +50,10 @@
         return cur;
       };
 
-      ActivityListView.prototype.render = function(firstcall) {
-        if (firstcall) {
+      ActivityListView.prototype.render = function() {
+        if (this.firstcall) {
           this.viewpointer = this.getCurrentId();
+          this.firstcall = false;
         }
         return this.changeScreen();
       };
@@ -74,20 +81,20 @@
 
       ActivityListView.prototype.changeScreen = function() {
         var av, newscreen;
+        console.log('changescreen');
+        if (this.subview) {
+          console.log('closing a subview', this.subview);
+          this.subview.close();
+        }
         newscreen = this.collection.get(this.viewpointer);
-        console.log(this.viewpointer);
         av = new ActivityView({
           model: newscreen
         });
+        this.subview = av;
+        console.log(av.render().el);
         $(this.el).html(this.template());
         $(this.el).append(av.el);
-        this.jqdisplay();
-        if (this.viewpointer === 1) {
-          $('#prev').button("disable");
-        }
-        if (this.viewpointer === this.getCurrentId()) {
-          return $('#next').button("disable");
-        }
+        return this.jqdisplay();
       };
 
       ActivityListView.prototype.rerender = function(changedmodel) {
@@ -102,16 +109,33 @@
       };
 
       ActivityListView.prototype.jqdisplay = function() {
-        return $('[data-role="button"]').button();
+        console.log('jq display of activitylistview');
+        $('[data-role="button"]').button();
+        console.log('about to disable');
+        console.log(this.viewpointer, this.getCurrentId());
+        if (this.viewpointer === 1) {
+          console.log('disabling prev');
+          $('#prev').button("disable");
+        }
+        if (this.viewpointer === this.getCurrentId()) {
+          console.log('disabling next');
+          return $('#next').button("disable");
+        }
       };
 
-      ActivityListView.prototype.destroy = function() {
+      ActivityListView.prototype.close = function() {
+        if (this.subview) {
+          console.log('closing subview final');
+          this.subview.close();
+        }
+        this.collection.off('change:isCompleted', this.rerender, this);
         $(window).off("swipeleft");
         $(window).off("swiperight");
         this.undelegateEvents();
         $(this.el).removeData().unbind();
         this.remove();
-        return Backbone.View.prototype.remove.call(this);
+        this.unbind();
+        return Parse.View.prototype.remove.call(this);
       };
 
       return ActivityListView;

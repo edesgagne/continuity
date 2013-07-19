@@ -24,12 +24,12 @@
 
       StepView.prototype.events = {
         "click .submit": "add",
-        "click .delete": "remove"
+        "click .delete": "del"
       };
 
       StepView.prototype.initialize = function() {
         var id;
-        _.bindAll(this, 'render', 'add', 'remove');
+        _.bindAll(this, 'render', 'add', 'del');
         id = this.model.get('step_num');
         return $(this.el).attr('id', id);
       };
@@ -54,7 +54,7 @@
         return console.log('added strategies', this.model.get('strategies'));
       };
 
-      StepView.prototype.remove = function(e) {
+      StepView.prototype.del = function(e) {
         var arr, id, num, todelete;
         e.preventDefault();
         todelete = $(e.currentTarget).parent();
@@ -66,6 +66,14 @@
           strategies: arr
         });
         return console.log('updated strategies', this.model.get('strategies'));
+      };
+
+      StepView.prototype.close = function() {
+        this.undelegateEvents();
+        $(this.el).removeData().unbind();
+        this.remove();
+        this.unbind();
+        return Parse.View.prototype.remove.call(this);
       };
 
       return StepView;

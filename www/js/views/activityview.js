@@ -22,8 +22,7 @@
       };
 
       ActivityView.prototype.initialize = function() {
-        _.bindAll(this, 'render', 'checked');
-        return this.render();
+        return _.bindAll(this, 'render', 'checked');
       };
 
       ActivityView.prototype.render = function() {
@@ -34,6 +33,14 @@
       ActivityView.prototype.checked = function() {
         console.log('checked');
         return this.model.complete();
+      };
+
+      ActivityView.prototype.close = function() {
+        this.undelegateEvents();
+        $(this.el).removeData().unbind();
+        this.remove();
+        this.unbind();
+        return Parse.View.prototype.remove.call(this);
       };
 
       return ActivityView;
