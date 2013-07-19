@@ -23,7 +23,7 @@
       };
 
       ActivityListView.prototype.initialize = function() {
-        _.bindAll(this, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'remove');
+        _.bindAll(this, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'destroy');
         this.collection.on('change:isCompleted', this.rerender, this);
         this.render(true);
         $(window).bind("swiperight", _.bind(this.prev, this));

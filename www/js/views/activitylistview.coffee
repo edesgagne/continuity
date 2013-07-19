@@ -9,7 +9,7 @@ define ['jquery', 'jquerymobile', 'underscore', 'parse', 'views/activityview', '
 			#'swiperight window': 'prev'
 			#'swipeleft window': 'next'
 		initialize: ->
-			_.bindAll @, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'remove'
+			_.bindAll @, 'render', 'rerender', 'getCurrentId', 'getCurrent', 'prev', 'next', 'changeScreen', 'jqdisplay', 'destroy'
 			@collection.on 'change:isCompleted', @rerender, @
 			@render(true)
 			$(window).bind "swiperight", _.bind(@prev, @)
